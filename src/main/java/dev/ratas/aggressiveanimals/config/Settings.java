@@ -1,5 +1,7 @@
 package dev.ratas.aggressiveanimals.config;
 
+import org.bukkit.configuration.ConfigurationSection;
+
 public class Settings {
     private final CustomConfigHandler config;
 
@@ -17,6 +19,10 @@ public class Settings {
 
     public boolean checkForUpdates() {
         return config.getConfig().getBoolean("check-for-updates", false);
+    }
+
+    public ConfigurationSection getMobSection() {
+        return config.getConfig().getConfigurationSection("mobs");
     }
 
 }
