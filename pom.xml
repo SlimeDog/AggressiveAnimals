@@ -7,7 +7,7 @@
     <name>AggressiveAnimals</name>
     <groupId>dev.ratas</groupId>
     <artifactId>aggressiveanimals</artifactId>
-    <version>2.7.8-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <description>Those cute little animals can kill you!</description>
 
     <properties>
