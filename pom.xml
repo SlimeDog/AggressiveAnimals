@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>AggressiveAnimals</name>
-    <groupId>com.gabrielhd</groupId>
+    <groupId>dev.ratas</groupId>
     <artifactId>aggressiveanimals</artifactId>
     <version>2.7.8-SNAPSHOT</version>
     <description>Those cute little animals can kill you!</description>
