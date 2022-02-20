@@ -17,3 +17,6 @@ permissions:
   aggressiveanimals.command:
     description: Allows using the command
     default: op
+  aggressiveanimals.reload:
+    description: Allows reloading the plugin
+    default: op
