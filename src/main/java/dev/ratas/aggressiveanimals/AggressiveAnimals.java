@@ -46,6 +46,24 @@ public class AggressiveAnimals extends JavaPlugin {
         return config.getConfig();
     }
 
+    public void reload() {
+        ConfigLoadIssueResolver issues = ConfigLoadIssueResolver.atReload();
+        try {
+            config.reloadConfig();
+        } catch (InvalidConfigurationException e) {
+            issues.logIssue("INVALID CONFIGURATION", "Invalid configuration - disabling", e);
+            disableMe(issues);
+            return;
+        }
+        try {
+            messages.reloadConfig();
+        } catch (InvalidConfigurationException e) {
+            issues.logIssue("INVALID CONFIGURATION", "Invalid configuration - disabling", e);
+            disableMe(issues);
+            return;
+        }
+    }
+
     public Messages getMessages() {
         return messages;
     }
