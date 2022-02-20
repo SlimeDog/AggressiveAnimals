@@ -1,0 +1,92 @@
+# AggressiveAnimals configuration
+#
+# Note that this configuration is significantly different from the one provided by Michielcx in the
+# first AggressiveAnimals. This version does not rewrite the configuration files if they exist, so
+# changes must be made manually. Note that undefined configuration nodes default to the values found
+# in the original comments (for sanity, it would be wise not to edit them). The default values will
+# be adequate in many cases, so configuration for additional mob-types can be very simple -- for
+# example:
+# --------------------
+# axolotl:
+#   enabled: true
+# --------------------
+# is all that is required; the remaining configuration options will use the default values.
+
+# ========== PER MOB ATTACK PROFILES ===============================================================
+# An attack profile must be created for each mob-type that you want to stage revenge attacks.
+# Only the enabled node is required. Undefined nodes will use default values.
+#
+# mob-type:
+#   enabled: true                      Should revenge attacks by this mob-type be enabled?
+#   speed-multiplier: 1.0              How fast can the mob move? (for example: 1.0 is regular speed, 0.5 is half speed and 2.0 is double speed)
+#   attack-damage: 1                   How much damage will the mob supposed to inflict per attack? (in half-hearts)
+#   attack-unto-death: false           Should the mob kill the player if enough damage is inflicted? If false, the attack will stop at 1 heart
+#   attack-speed: 10                   How often can the mob damage the player? (in ticks)
+#   attack-range: 1                    From how many blocks away can the mob hit the player? (in blocks)
+#   attack-chance: 50                  Chance that the mob will attack the player, per chance-duration? (in percentage)
+#   chance-duration: 100               How often should the attack chance be calculated? (in ticks)
+#   acquisition-range: 12              How close will mobs acquire a player and start an attack?
+#   deacquisition-range: 20            How far away must the player run to stop an attack?
+#   health-percentage: 100             Should the mob attack only if healthy? (in percentage)
+#   age:                               Should adult mobs and/or baby mobs attack the player?
+#     adult: true                      Adult mobs should attack
+#     baby: false                      Baby mobs should attack
+#   ignore-npcs: true                  Ignore NPCs created by Citizens, EliteMobs, InfernalMobs, and Shopkeepers
+#   named-mobs-only: false             Should mobs attack only if they are named?
+#   retaliate-only: true               Should mobs retaliate only if attacked by the player?
+#   override-targeting: false          If true, remove vanilla targeting behavior and only use attack-conditions
+#   group-aggression-distance: 10      If other mobs of the same type are close enough, they should join the attack (in blocks)
+#   player-movement:                   Mob should attack only if the player is
+#     standing: true
+#     sneaking: true
+#     walking: true
+#     sprinting: true
+#     looking: true                    Like Enderman
+#   enabled-worlds: []                 Worlds in which this mob-type is enabled; if empty, it is enabled in all worlds
+#   disabled-worlds:                   Worlds in which this mob-type is disabled; must be set explicitly
+#     - "world_example"
+
+mobs:
+  chicken:
+    enabled: true
+    speed-multiplier: 1.5
+    attack-damage: 1
+    attack-unto-death: false
+    attack-speed: 10
+    attack-range: 1
+    attack-chance: 50
+    chance-duration: 100
+    acquisition-range: 12
+    deacquisition-range: 20
+    health-percentage: 100
+    age:
+      adult: true
+      baby: false
+    ignore-npcs: true
+    named-mobs-only: false
+    retaliate-only: true
+    override-targeting: false
+    group-aggression-distance: 10
+    player-movement:
+      standing: true
+      sneaking: true
+      walking: true
+      sprinting: true
+      looking: true
+    enabled-worlds: []
+    disabled-worlds:
+      - "world_example"
+
+# Copy the above and adjust appropriately for additional mob-types.
+
+# ========== CHECK FOR UPDATES =====================================================================
+# If you do not want notification of available updates in the console log, you may disable it here.
+check-for-updates: true
+
+# ========== BSTATS METRICS ========================================================================
+# By default, the plugin collects and transmits anonymous statistics to bstats.org.
+# Data collection may be disabled here, or generally in the bStats/config.yml.
+#
+enable-metrics: true
+
+debug: false

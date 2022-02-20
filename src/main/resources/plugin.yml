@@ -1,0 +1,19 @@
+name: ${project.name}
+version: ${project.version}
+api-version: 1.18
+main: ${project.groupId}.${project.artifactId}.Main
+description: ${project,description}
+softdepend: [Citizens, EliteMobs, InfernalMobs, Shopkeepers]
+authors:
+  - drives_a_ford
+  - SlimeDog
+commands:
+  aggressiveanimals:
+    usage: /<command>
+    description: Main command for plugin (allowing one to reload its state)
+    permissions: aggressiveanimals.command
+
+permissions:
+  aggressiveanimals.command:
+    description: Allows using the command
+    default: op

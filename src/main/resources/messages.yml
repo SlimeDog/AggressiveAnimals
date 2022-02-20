@@ -1,0 +1,6 @@
+# Message text may be localized to suit.
+# Undefined messages default to internal values (ie., US English).
+
+reloaded-config: "Plugin was successfully reloaded"
+problem-reloading-config: "There was an issue while reloading the config - check the console log"
+list-format: "&6%mob-type% &f- %status%"
