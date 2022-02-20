@@ -8,11 +8,13 @@ import dev.ratas.aggressiveanimals.config.ConfigLoadIssueResolver;
 import dev.ratas.aggressiveanimals.config.CustomConfigHandler;
 import dev.ratas.aggressiveanimals.config.Settings;
 import dev.ratas.aggressiveanimals.config.messaging.Messages;
+import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 
 public class AggressiveAnimals extends JavaPlugin {
     private CustomConfigHandler config;
     private Messages messages;
     private Settings settings;
+    private NPCHookManager npcHookManager;
 
     private void loadDataFromFile() {
         ConfigLoadIssueResolver issues = ConfigLoadIssueResolver.atLoad();
@@ -36,6 +38,7 @@ public class AggressiveAnimals extends JavaPlugin {
     @Override
     public void onEnable() {
         loadDataFromFile();
+        npcHookManager = new NPCHookManager();
     }
 
     @Override
@@ -49,6 +52,10 @@ public class AggressiveAnimals extends JavaPlugin {
 
     public Settings getSettings() {
         return settings;
+    }
+
+    public NPCHookManager getNPCHookManager() {
+        return npcHookManager;
     }
 
     private void disableMe(ConfigLoadIssueResolver issues) {
