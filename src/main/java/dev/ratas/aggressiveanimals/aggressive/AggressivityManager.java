@@ -32,12 +32,26 @@ public class AggressivityManager {
         return mobTypeManager.isManaged(entity.getType());
     }
 
-    public boolean shouldBeAggressive(LivingEntity entity) {
+    public boolean shouldBeAggressiveAtSpawn(LivingEntity entity) {
         MobTypeSettings settings = mobTypeManager.getSettings(entity.getType());
         if (settings == null) {
             return false;
         }
-        return settings.shouldApplyTo(entity, npcHooks);
+        if (!settings.shouldApplyTo(entity, npcHooks)) {
+            return false;
+        }
+        return !settings.retaliateOnly();
+    }
+
+    public boolean shouldBeAggressiveOnAttack(LivingEntity entity) {
+        MobTypeSettings settings = mobTypeManager.getSettings(entity.getType());
+        if (settings == null) {
+            return false;
+        }
+        if (!settings.shouldApplyTo(entity, npcHooks)) {
+            return false;
+        }
+        return true;
     }
 
 }
