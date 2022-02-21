@@ -35,6 +35,9 @@ public class MobTypeManager {
                 plugin.getLogger().warning("Unable to load mob type settings for " + key + ": " + e.getMessage());
                 continue;
             }
+            if (!typeSettings.enabled()) {
+                continue; // ignoring since not enabled
+            }
             types.put(typeSettings.entityType(), typeSettings);
         }
     }
