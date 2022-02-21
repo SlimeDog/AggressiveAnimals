@@ -76,9 +76,10 @@ public class NMSAggressivitySetter implements AggressivitySetter {
     }
 
     private static class NMSResolver {
+        private static final String PACKAGE_BASE = "org.bukkit.craftbukkit";
         private static final String VERSION = org.bukkit.Bukkit.getServer().getClass().getPackage().getName()
                 .split("\\.")[3];
-        private static final String PACKAGE_BASE = "org.bukkit.craftbukkit";
+        private static final String MIDDLE_PACKAGE = "entity";
         private static final String CRAFT_LIVING_ENTITY_CLASS_NAME = "CraftLivingEntity";
         private Class<?> craftLivingEntityClass;
         private Method getHandleMethod;
@@ -86,7 +87,8 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         private NMSResolver() {
             try {
                 craftLivingEntityClass = Class
-                        .forName(String.format("%s.%s.%s", PACKAGE_BASE, VERSION, CRAFT_LIVING_ENTITY_CLASS_NAME));
+                        .forName(String.format("%s.%s.%s.%s", PACKAGE_BASE, VERSION, MIDDLE_PACKAGE,
+                                CRAFT_LIVING_ENTITY_CLASS_NAME));
                 getHandleMethod = craftLivingEntityClass.getMethod("getHandler");
             } catch (ClassNotFoundException | NoSuchMethodException | SecurityException e) {
                 throw new RuntimeException(e);
