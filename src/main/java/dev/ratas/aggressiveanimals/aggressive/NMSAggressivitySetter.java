@@ -89,7 +89,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
                 craftLivingEntityClass = Class
                         .forName(String.format("%s.%s.%s.%s", PACKAGE_BASE, VERSION, MIDDLE_PACKAGE,
                                 CRAFT_LIVING_ENTITY_CLASS_NAME));
-                getHandleMethod = craftLivingEntityClass.getMethod("getHandler");
+                getHandleMethod = craftLivingEntityClass.getMethod("getHandle");
             } catch (ClassNotFoundException | NoSuchMethodException | SecurityException e) {
                 throw new RuntimeException(e);
             }
