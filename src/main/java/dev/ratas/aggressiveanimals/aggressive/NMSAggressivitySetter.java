@@ -1,6 +1,8 @@
 package dev.ratas.aggressiveanimals.aggressive;
 
-import org.bukkit.craftbukkit.v1_18_R1.entity.CraftLivingEntity;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import org.bukkit.metadata.FixedMetadataValue;
 
 import dev.ratas.aggressiveanimals.AggressiveAnimals;
@@ -19,7 +21,8 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 
 public class NMSAggressivitySetter implements AggressivitySetter {
-    private static final String AGGRESSIVE_ANIMAL = "AgressiveAnimal";
+    private static final NMSResolver NMS_RESOLVER = new NMSResolver();
+    private static final String AGGRESSIVE_ANIMAL_METADATA_TOKEN = "AgressiveAnimal";
     private final AggressiveAnimals plugin;
 
     public NMSAggressivitySetter(AggressiveAnimals plugin) {
@@ -30,9 +33,9 @@ public class NMSAggressivitySetter implements AggressivitySetter {
     public void setFor(MobTypeSettings settings, org.bukkit.entity.LivingEntity entity) {
         // TODO - manage metadata elsewhere since it needs to be set regardless of
         // aggressivity setter implementation
-        entity.setMetadata(AGGRESSIVE_ANIMAL, new FixedMetadataValue(this.plugin, true));
+        entity.setMetadata(AGGRESSIVE_ANIMAL_METADATA_TOKEN, new FixedMetadataValue(this.plugin, true));
 
-        LivingEntity livingEntity = ((CraftLivingEntity) entity).getHandle();
+        LivingEntity livingEntity = NMS_RESOLVER.getNMSEntity(entity);
         Mob mob = (Mob) livingEntity;
 
         float range = (float) settings.acquisitionSettings().acquisitionRange();
@@ -69,6 +72,33 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         AttributeInstance speedAttribute = livingEntity.getAttribute(Attributes.ATTACK_SPEED);
         if (speedAttribute != null) {
             speedAttribute.setBaseValue(speedAttribute.getBaseValue() * settings.attackSettings().speed());
+        }
+    }
+
+    private static class NMSResolver {
+        private static final String VERSION = org.bukkit.Bukkit.getServer().getClass().getPackage().getName()
+                .split("\\.")[3];
+        private static final String PACKAGE_BASE = "org.bukkit.craftbukkit";
+        private static final String CRAFT_LIVING_ENTITY_CLASS_NAME = "CraftLivingEntity";
+        private Class<?> craftLivingEntityClass;
+        private Method getHandleMethod;
+
+        private NMSResolver() {
+            try {
+                craftLivingEntityClass = Class
+                        .forName(String.format("%s.%s.%s", PACKAGE_BASE, VERSION, CRAFT_LIVING_ENTITY_CLASS_NAME));
+                getHandleMethod = craftLivingEntityClass.getMethod("getHandler");
+            } catch (ClassNotFoundException | NoSuchMethodException | SecurityException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        private LivingEntity getNMSEntity(org.bukkit.entity.LivingEntity bukkit) {
+            try {
+                return (LivingEntity) getHandleMethod.invoke(bukkit);
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
