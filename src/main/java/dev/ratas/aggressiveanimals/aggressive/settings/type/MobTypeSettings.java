@@ -9,7 +9,7 @@ import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 
 public record MobTypeSettings(EntityType entityType, boolean enabled, double speedMultiplier,
         MobAttackSettings attackSettings, MobAcquisationSettings acquisitionSettings, double healthPercentAtLeast,
-        MobAgeSettings ageSettings, MobMiscSettings miscSettings, boolean overrideTargets,
+        MobAgeSettings ageSettings, MobMiscSettings miscSettings, boolean retaliateOnly, boolean overrideTargets,
         double groupAgressionDistance, PlayerStateSettings playerStateSettings, MobWorldSettings worldSettings) {
 
     private static final double LEAVE_HEALTH_AT = 1.0D;

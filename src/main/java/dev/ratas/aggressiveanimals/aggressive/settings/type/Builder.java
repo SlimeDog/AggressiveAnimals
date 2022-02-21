@@ -49,6 +49,7 @@ public class Builder {
     private double groupAgressionDistance;
     private PlayerStateSettings playerStateSettings;
     private MobWorldSettings worldSettings;
+    private boolean retaliateOnly;
 
     public Builder(ConfigurationSection section) {
         this.section = section;
@@ -103,6 +104,10 @@ public class Builder {
         miscSettings = new MobMiscSettings(ignoreNpcs, targetAsNamedOnly);
     }
 
+    private void loadRetalitateOnly() {
+        retaliateOnly = section.getBoolean("retaliate-only", true);
+    }
+
     private void loadOverrideTargets() {
         overrideTargets = section.getBoolean("override-targeting", false);
     }
@@ -138,6 +143,7 @@ public class Builder {
         loadHealthPercentAtLeast();
         loadMobAgeSettings();
         loadMiscSettings();
+        loadRetalitateOnly();
         loadOverrideTargets();
         loadGroupAgrewssionDistance();
         loadPlayerStateSettings();
@@ -146,7 +152,7 @@ public class Builder {
         loadPlayerStateSettings();
         loadWorldSettings();
         return new MobTypeSettings(type, enabled, speedMultiplier, attackSettings, acquisitionSettings,
-                healthPercentAtLeast, ageSettings, miscSettings, overrideTargets, groupAgressionDistance,
+                healthPercentAtLeast, ageSettings, miscSettings, retaliateOnly, overrideTargets, groupAgressionDistance,
                 playerStateSettings, worldSettings);
     }
 
