@@ -4,17 +4,20 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
 import dev.ratas.aggressiveanimals.config.ConfigLoadIssueResolver;
 import dev.ratas.aggressiveanimals.config.CustomConfigHandler;
 import dev.ratas.aggressiveanimals.config.Settings;
 import dev.ratas.aggressiveanimals.config.messaging.Messages;
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
+import dev.ratas.aggressiveanimals.listeners.MobSpawnListener;
 
 public class AggressiveAnimals extends JavaPlugin {
     private CustomConfigHandler config;
     private Messages messages;
     private Settings settings;
     private NPCHookManager npcHookManager;
+    private AggressivityManager aggressivityManager;
 
     private void loadDataFromFile() {
         ConfigLoadIssueResolver issues = ConfigLoadIssueResolver.atLoad();
@@ -33,6 +36,8 @@ public class AggressiveAnimals extends JavaPlugin {
             return;
         }
         settings = new Settings(this.config);
+        aggressivityManager = new AggressivityManager(this);
+        getServer().getPluginManager().registerEvents(new MobSpawnListener(aggressivityManager), this);
     }
 
     @Override
