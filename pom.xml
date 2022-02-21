@@ -78,7 +78,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.3.1-SNAPSHOT</version><!-- Locally compiled version taht supports ASM8+-->
+                <version>3.3.1-SNAPSHOT</version><!-- Locally compiled version that supports ASM8+ which is needed for record types -->
                 <executions>
                     <execution>
                         <phase>package</phase>
