@@ -1,7 +1,9 @@
 package dev.ratas.aggressiveanimals.aggressive;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -10,7 +12,9 @@ import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
@@ -65,7 +69,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         if (livingEntity.getAttribute(Attributes.ATTACK_DAMAGE) != null) {
             livingEntity.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(settings.attackSettings().damage());
         } else {
-            livingEntity.getAttributes().getSyncableAttributes().add(new AttributeInstance(Attributes.ATTACK_DAMAGE,
+            NMS_RESOLVER.setAttribute(livingEntity, new AttributeInstance(Attributes.ATTACK_DAMAGE,
                     attr -> attr.setBaseValue(settings.attackSettings().damage())));
         }
 
@@ -81,8 +85,10 @@ public class NMSAggressivitySetter implements AggressivitySetter {
                 .split("\\.")[3];
         private static final String MIDDLE_PACKAGE = "entity";
         private static final String CRAFT_LIVING_ENTITY_CLASS_NAME = "CraftLivingEntity";
-        private Class<?> craftLivingEntityClass;
-        private Method getHandleMethod;
+        private final Class<?> craftLivingEntityClass;
+        private final Method getHandleMethod;
+        private final Field attributeMapField; // field in NMS LivingEntity class of type AttributeMap
+        private final Field attributesField; // field in NMS AttributeMap class of type Map
 
         private NMSResolver() {
             try {
@@ -90,7 +96,11 @@ public class NMSAggressivitySetter implements AggressivitySetter {
                         .forName(String.format("%s.%s.%s.%s", PACKAGE_BASE, VERSION, MIDDLE_PACKAGE,
                                 CRAFT_LIVING_ENTITY_CLASS_NAME));
                 getHandleMethod = craftLivingEntityClass.getMethod("getHandle");
-            } catch (ClassNotFoundException | NoSuchMethodException | SecurityException e) {
+                attributeMapField = LivingEntity.class.getDeclaredField("bQ"); // mojang-mapped as "attributes"
+                attributesField = AttributeMap.class.getDeclaredField("b"); // mojang-mapped as "attributes"
+                attributeMapField.setAccessible(true);
+                attributesField.setAccessible(true);
+            } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | NoSuchFieldException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -101,6 +111,17 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
+        }
+
+        @SuppressWarnings("unchecked")
+        private void setAttribute(LivingEntity nms, AttributeInstance instance) {
+            Map<Attribute, AttributeInstance> attributes;
+            try {
+                attributes = (Map<Attribute, AttributeInstance>) attributesField.get(attributeMapField.get(nms)); // unchecked
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+            attributes.put(instance.getAttribute(), instance);
         }
     }
 
