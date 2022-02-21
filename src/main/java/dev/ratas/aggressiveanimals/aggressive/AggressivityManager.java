@@ -5,12 +5,15 @@ import org.bukkit.entity.LivingEntity;
 import dev.ratas.aggressiveanimals.AggressiveAnimals;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobTypeManager;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
+import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 
 public class AggressivityManager {
+    private final NPCHookManager npcHooks;
     private final MobTypeManager mobTypeManager;
     private final AggressivitySetter setter;
 
     public AggressivityManager(AggressiveAnimals plugin) {
+        npcHooks = plugin.getNPCHookManager();
         mobTypeManager = new MobTypeManager(plugin, plugin.getSettings());
         setter = new NMSAggressivitySetter(plugin);
     }
@@ -26,6 +29,14 @@ public class AggressivityManager {
 
     public boolean isManaged(LivingEntity entity) {
         return mobTypeManager.isManaged(entity.getType());
+    }
+
+    public boolean shouldBeAggressive(LivingEntity entity) {
+        MobTypeSettings settings = mobTypeManager.getSettings(entity.getType());
+        if (settings == null) {
+            return false;
+        }
+        return settings.shouldApplyTo(entity, npcHooks);
     }
 
 }

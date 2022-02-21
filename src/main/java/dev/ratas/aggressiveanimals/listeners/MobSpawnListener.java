@@ -17,7 +17,7 @@ public class MobSpawnListener implements Listener {
     @EventHandler
     public void onSpawn(CreatureSpawnEvent event) {
         LivingEntity entity = event.getEntity();
-        if (!aggressivityManager.isManaged(entity)) {
+        if (!aggressivityManager.shouldBeAggressive(entity)) {
             return;
         }
         aggressivityManager.setAppropriateAggressivity(entity);
