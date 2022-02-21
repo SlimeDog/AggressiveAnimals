@@ -36,14 +36,14 @@ public class AggressiveAnimals extends JavaPlugin {
             return;
         }
         settings = new Settings(this.config);
-        aggressivityManager = new AggressivityManager(this);
-        getServer().getPluginManager().registerEvents(new MobSpawnListener(aggressivityManager), this);
     }
 
     @Override
     public void onEnable() {
         loadDataFromFile();
         npcHookManager = new NPCHookManager();
+        aggressivityManager = new AggressivityManager(this, settings, npcHookManager);
+        getServer().getPluginManager().registerEvents(new MobSpawnListener(aggressivityManager), this);
     }
 
     @Override
