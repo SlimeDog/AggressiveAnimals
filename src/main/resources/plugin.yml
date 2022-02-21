@@ -1,7 +1,7 @@
 name: ${project.name}
 version: ${project.version}
 api-version: 1.18
-main: ${project.groupId}.${project.artifactId}.Main
+main: ${project.groupId}.${project.artifactId}.${project.name}
 description: ${project.description}
 softdepend: [Citizens, EliteMobs, InfernalMobs, Shopkeepers]
 authors:
