@@ -50,4 +50,9 @@ public class MobTypeManager {
         return types.get(type);
     }
 
+    public void reload(Settings settings) {
+        types.clear();
+        loadMobs(settings);
+    }
+
 }
