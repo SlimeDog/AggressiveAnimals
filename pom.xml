@@ -45,6 +45,12 @@
             <classifier>remapped-mojang</classifier>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>3.0.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -79,6 +85,14 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.3.1-SNAPSHOT</version><!-- Locally compiled version that supports ASM8+ which is needed for record types -->
+                <configuration>
+                  <relocations>
+                    <relocation>
+                      <pattern>org.bstats</pattern>
+                      <shadedPattern>${project.groupId}.${project.artifactId}.metrics</shadedPattern>
+                    </relocation>
+                  </relocations>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>package</phase>

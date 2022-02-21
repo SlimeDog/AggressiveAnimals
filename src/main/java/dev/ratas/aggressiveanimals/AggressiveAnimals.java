@@ -1,5 +1,6 @@
 package dev.ratas.aggressiveanimals;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,6 +14,7 @@ import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 import dev.ratas.aggressiveanimals.listeners.MobSpawnListener;
 
 public class AggressiveAnimals extends JavaPlugin {
+    private static final int BSTATS_ID = 14423;
     private CustomConfigHandler config;
     private Messages messages;
     private Settings settings;
@@ -44,6 +46,10 @@ public class AggressiveAnimals extends JavaPlugin {
         npcHookManager = new NPCHookManager();
         aggressivityManager = new AggressivityManager(this, settings, npcHookManager);
         getServer().getPluginManager().registerEvents(new MobSpawnListener(aggressivityManager), this);
+        // bstats
+        if (settings.enableMetrics()) {
+            new Metrics(this, BSTATS_ID);
+        }
     }
 
     @Override
