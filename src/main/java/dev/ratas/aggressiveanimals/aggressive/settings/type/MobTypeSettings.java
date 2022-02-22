@@ -5,6 +5,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 
+import dev.ratas.aggressiveanimals.aggressive.ChangeReason;
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 
 public record MobTypeSettings(EntityType entityType, boolean enabled, double speedMultiplier,
@@ -62,13 +63,23 @@ public record MobTypeSettings(EntityType entityType, boolean enabled, double spe
         return true;
     }
 
-    public boolean shouldBePassified(Mob mob) {
+    /**
+     * Checks if a mob should be passified. Returns a ChangeReason if that is the
+     * case and null otherwise.
+     *
+     * @param mob the mob in question
+     * @return the ChangeReason if mob should be passified, null otherwise
+     */
+    public ChangeReason shouldBePassified(Mob mob) {
         LivingEntity target = mob.getTarget();
         if (!(target instanceof Player)) {
-            return true;
+            return ChangeReason.NO_TARGET;
         }
         Player player = (Player) target;
-        return !acquisitionSettings.isInRange(mob, player);
+        if (!acquisitionSettings.isInRange(mob, player)) {
+            return ChangeReason.OUT_OF_RANGE;
+        }
+        return null;
     }
 
 }

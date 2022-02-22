@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
+import dev.ratas.aggressiveanimals.aggressive.ChangeReason;
 import dev.ratas.aggressiveanimals.aggressive.MobWrapper;
 
 public class Passifier implements Runnable {
@@ -23,8 +24,9 @@ public class Passifier implements Runnable {
     @Override
     public void run() {
         for (MobWrapper mob : new HashSet<>(checkableMobs)) {
-            if (mob.getSettings().shouldBePassified(mob.getBukkitEntity())) {
-                aggressivityManager.setPassive(mob);
+            ChangeReason reason = mob.getSettings().shouldBePassified(mob.getBukkitEntity());
+            if (reason != null) {
+                aggressivityManager.setPassive(mob, reason);
                 checkableMobs.remove(mob);
             }
             if (!mob.isLoaded()) {

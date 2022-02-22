@@ -68,7 +68,7 @@ public class AggressivityManager {
         trackedMobs.remove(mob.getBukkitEntity());
     }
 
-    public void setPassive(MobWrapper mob) {
+    public void setPassive(MobWrapper mob, ChangeReason reason) {
         plugin.debug("Setting passive: " + mob.getBukkitEntity());
         setter.setPassive(mob);
     }
