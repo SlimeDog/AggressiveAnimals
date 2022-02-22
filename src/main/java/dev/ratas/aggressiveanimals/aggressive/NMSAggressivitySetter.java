@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -40,10 +41,10 @@ public class NMSAggressivitySetter implements AggressivitySetter {
 
     @Override
     public void setAggressivityAttributes(MobWrapper wrapper) {
-        plugin.debug("[NMS Setter] Setting aggressivivity attributes");
+        MobTypeSettings settings = wrapper.getSettings();
+        plugin.debug("[NMS Setter] Setting aggressivivity attributes to: " + settings);
         org.bukkit.entity.Mob entity = wrapper.getBukkitEntity();
         Mob mob = NMS_RESOLVER.getNMSEntity(entity);
-        MobTypeSettings settings = wrapper.getSettings();
         MobAttributes savedAttributes = new MobAttributes();
         AttributeInstance moveSpeedAttr = mob.getAttribute(Attributes.MOVEMENT_SPEED);
         if (moveSpeedAttr != null) {
@@ -53,26 +54,27 @@ public class NMSAggressivitySetter implements AggressivitySetter {
 
         AttributeInstance followRangeAttr = mob.getAttribute(Attributes.FOLLOW_RANGE);
         if (followRangeAttr != null) {
-            savedAttributes.prevValues.put(Attributes.FOLLOW_RANGE, moveSpeedAttr.getBaseValue());
+            savedAttributes.prevValues.put(Attributes.FOLLOW_RANGE, followRangeAttr.getBaseValue());
             followRangeAttr.setBaseValue(settings.attackSettings().range());
         }
 
         AttributeInstance attackDamageAttr = mob.getAttribute(Attributes.ATTACK_DAMAGE);
         if (attackDamageAttr != null) {
-            savedAttributes.prevValues.put(Attributes.ATTACK_DAMAGE, moveSpeedAttr.getBaseValue());
+            savedAttributes.prevValues.put(Attributes.ATTACK_DAMAGE, attackDamageAttr.getBaseValue());
             attackDamageAttr.setBaseValue(settings.attackSettings().damage());
         } else {
-            savedAttributes.prevValues.put(Attributes.ATTACK_DAMAGE, moveSpeedAttr.getBaseValue());
+            savedAttributes.prevValues.put(Attributes.ATTACK_DAMAGE, 0.0);
             NMS_RESOLVER.setAttribute(mob, new AttributeInstance(Attributes.ATTACK_DAMAGE,
                     attr -> attr.setBaseValue(settings.attackSettings().damage())));
         }
 
         AttributeInstance attackSpeedAttribute = mob.getAttribute(Attributes.ATTACK_SPEED);
         if (attackSpeedAttribute != null) {
-            savedAttributes.prevValues.put(Attributes.ATTACK_SPEED, moveSpeedAttr.getBaseValue());
+            savedAttributes.prevValues.put(Attributes.ATTACK_SPEED, attackSpeedAttribute.getBaseValue());
             attackSpeedAttribute.setBaseValue(attackSpeedAttribute.getBaseValue() * settings.attackSettings().speed());
         }
         wrapper.setAttributes(savedAttributes);
+        plugin.debug("[NMS Setter] Previous attributes: " + savedAttributes);
     }
 
     @Override
@@ -124,6 +126,14 @@ public class NMSAggressivitySetter implements AggressivitySetter {
 
     private class MobAttributes {
         private final Map<Attribute, Double> prevValues = new HashMap<>();
+
+        @Override
+        public String toString() {
+            return String.format("{MobAttributes: %s}",
+                    prevValues.entrySet().stream().map(e -> e.getKey().getDescriptionId() + ": " + e.getValue())
+                            .collect(Collectors.toList()));
+        }
+
     }
 
     private static class NMSResolver {
