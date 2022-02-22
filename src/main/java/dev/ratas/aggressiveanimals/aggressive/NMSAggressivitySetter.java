@@ -82,7 +82,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
 
         float range = (float) settings.attackSettings().range();
         plugin.debug("[NMS Setter] Setting aggressive/attacking goals");
-        this.markAsAggressive(wrapper);
+        this.markAsAttacking(wrapper);
         mob.targetSelector.getAvailableGoals().removeIf(goal -> {
             return goal.getGoal() instanceof PanicGoal;
         });
