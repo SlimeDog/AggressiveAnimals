@@ -100,4 +100,10 @@ public class AggressivityManager {
         return true;
     }
 
+    public void reload(Settings settings) {
+        trackedMobs.clear();
+        mobTypeManager.reload(settings);
+        passifier.reload();
+    }
+
 }

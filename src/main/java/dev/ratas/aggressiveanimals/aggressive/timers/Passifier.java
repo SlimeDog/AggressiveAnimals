@@ -36,4 +36,8 @@ public class Passifier implements Runnable {
         }
     }
 
+    public void reload() {
+        checkableMobs.clear();
+    }
+
 }

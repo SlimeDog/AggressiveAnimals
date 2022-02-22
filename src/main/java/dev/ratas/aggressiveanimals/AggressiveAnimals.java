@@ -76,6 +76,7 @@ public class AggressiveAnimals extends JavaPlugin {
             disableMe(issues);
             return issues;
         }
+        aggressivityManager.reload(settings);
         return issues;
     }
 
