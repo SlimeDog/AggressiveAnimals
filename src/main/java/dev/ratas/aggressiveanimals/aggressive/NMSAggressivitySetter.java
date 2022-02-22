@@ -61,6 +61,10 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             // mob.targetSelector.addGoal(2, new NearestAttackableTargetGoal<Npc>(mob,
             // Npc.class, true));
         }
+        AttributeInstance speedAttr = mob.getAttribute(Attributes.MOVEMENT_SPEED);
+        if (speedAttr != null) {
+            speedAttr.setBaseValue(speedAttr.getBaseValue() * settings.speedMultiplier());
+        }
 
         if (livingEntity.getAttribute(Attributes.FOLLOW_RANGE) != null) {
             livingEntity.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(settings.attackSettings().range());
