@@ -40,6 +40,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
 
     @Override
     public void setAggressivityAttributes(MobWrapper wrapper) {
+        plugin.debug("[NMS Setter] Setting aggressivivity attributes");
         org.bukkit.entity.Mob entity = wrapper.getBukkitEntity();
         Mob mob = NMS_RESOLVER.getNMSEntity(entity);
         MobTypeSettings settings = wrapper.getSettings();
