@@ -1,6 +1,6 @@
 package dev.ratas.aggressiveanimals.config.messaging;
 
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 public class Message {
     private final MessagesBase config;
@@ -17,11 +17,11 @@ public class Message {
         return config.getConfig().getString(path, def);
     }
 
-    public void sendTo(Player player) {
+    public void sendTo(CommandSender player) {
         sendTo(player, null);
     }
 
-    public void sendTo(Player player, Context context) {
+    public void sendTo(CommandSender player, Context context) {
         String msg = getRaw();
         if (context != null) {
             msg = context.fill(msg);
