@@ -24,7 +24,7 @@ public class Passifier implements Runnable {
     @Override
     public void run() {
         for (MobWrapper mob : new HashSet<>(checkableMobs)) {
-            ChangeReason reason = mob.getSettings().shouldBePassified(mob.getBukkitEntity());
+            ChangeReason reason = mob.getSettings().shouldBePassified(mob);
             if (reason != null) {
                 aggressivityManager.setPassive(mob, reason);
                 checkableMobs.remove(mob);
