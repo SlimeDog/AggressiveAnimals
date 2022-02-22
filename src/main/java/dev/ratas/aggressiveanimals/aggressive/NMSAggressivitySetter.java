@@ -16,6 +16,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
@@ -52,13 +53,19 @@ public class NMSAggressivitySetter implements AggressivitySetter {
                 return goal.getGoal() instanceof PanicGoal;
             });
 
+            Goal cur;
             mob.targetSelector.addGoal(2,
-                    new MeleeAttackGoal((PathfinderMob) livingEntity, settings.attackSettings().speed(), false));
-            mob.targetSelector.addGoal(8, new LookAtPlayerGoal(mob, Player.class, range));
-            mob.targetSelector.addGoal(8, new RandomLookAroundGoal(mob));
+                    cur = new MeleeAttackGoal((PathfinderMob) livingEntity, settings.attackSettings().speed(), false));
+            wrapper.getGoals().add(cur);
+            mob.targetSelector.addGoal(8, cur = new LookAtPlayerGoal(mob, Player.class, range));
+            wrapper.getGoals().add(cur);
+            mob.targetSelector.addGoal(8, cur = new RandomLookAroundGoal(mob));
+            wrapper.getGoals().add(cur);
 
-            mob.targetSelector.addGoal(1, new HurtByTargetGoal((PathfinderMob) livingEntity));
-            mob.targetSelector.addGoal(2, new NearestAttackableTargetGoal<Player>(mob, Player.class, true));
+            mob.targetSelector.addGoal(1, cur = new HurtByTargetGoal((PathfinderMob) livingEntity));
+            wrapper.getGoals().add(cur);
+            mob.targetSelector.addGoal(2, cur = new NearestAttackableTargetGoal<Player>(mob, Player.class, true));
+            wrapper.getGoals().add(cur);
         }
         AttributeInstance speedAttr = mob.getAttribute(Attributes.MOVEMENT_SPEED);
         if (speedAttr != null) {

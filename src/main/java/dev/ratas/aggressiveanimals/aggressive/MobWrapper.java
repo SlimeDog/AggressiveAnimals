@@ -1,6 +1,8 @@
 package dev.ratas.aggressiveanimals.aggressive;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import org.bukkit.entity.Mob;
 
@@ -10,6 +12,7 @@ public class MobWrapper {
     private final Mob bukkitEntity;
     private final MobTypeSettings settings;
     private boolean isAggressive = false;
+    private final Set<Object> goals = new HashSet<>();
 
     public MobWrapper(Mob bukkitEntity, MobTypeSettings settings) {
         this.bukkitEntity = bukkitEntity;
@@ -39,6 +42,10 @@ public class MobWrapper {
     public boolean isLoaded() {
         return bukkitEntity.isValid() && !bukkitEntity.isDead()
                 && bukkitEntity.getLocation().getChunk().isLoaded();
+    }
+
+    Set<Object> getGoals() {
+        return goals;
     }
 
     @Override
