@@ -40,9 +40,8 @@ public class NMSAggressivitySetter implements AggressivitySetter {
     @Override
     public void setAggressive(MobWrapper wrapper) {
         org.bukkit.entity.Mob entity = wrapper.getBukkitEntity();
-        LivingEntity livingEntity = NMS_RESOLVER.getNMSEntity(entity);
+        Mob mob = NMS_RESOLVER.getNMSEntity(entity);
         MobTypeSettings settings = wrapper.getSettings();
-        Mob mob = (Mob) livingEntity;
 
         float range = (float) settings.attackSettings().range();
 
@@ -55,14 +54,14 @@ public class NMSAggressivitySetter implements AggressivitySetter {
 
             Goal cur;
             mob.targetSelector.addGoal(2,
-                    cur = new MeleeAttackGoal((PathfinderMob) livingEntity, settings.attackSettings().speed(), false));
+                    cur = new MeleeAttackGoal((PathfinderMob) mob, settings.attackSettings().speed(), false));
             wrapper.getGoals().add(cur);
             mob.targetSelector.addGoal(8, cur = new LookAtPlayerGoal(mob, Player.class, range));
             wrapper.getGoals().add(cur);
             mob.targetSelector.addGoal(8, cur = new RandomLookAroundGoal(mob));
             wrapper.getGoals().add(cur);
 
-            mob.targetSelector.addGoal(1, cur = new HurtByTargetGoal((PathfinderMob) livingEntity));
+            mob.targetSelector.addGoal(1, cur = new HurtByTargetGoal((PathfinderMob) mob));
             wrapper.getGoals().add(cur);
             mob.targetSelector.addGoal(2, cur = new NearestAttackableTargetGoal<Player>(mob, Player.class, true));
             wrapper.getGoals().add(cur);
@@ -72,18 +71,18 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             speedAttr.setBaseValue(speedAttr.getBaseValue() * settings.speedMultiplier());
         }
 
-        if (livingEntity.getAttribute(Attributes.FOLLOW_RANGE) != null) {
-            livingEntity.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(settings.attackSettings().range());
+        if (mob.getAttribute(Attributes.FOLLOW_RANGE) != null) {
+            mob.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(settings.attackSettings().range());
         }
 
-        if (livingEntity.getAttribute(Attributes.ATTACK_DAMAGE) != null) {
-            livingEntity.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(settings.attackSettings().damage());
+        if (mob.getAttribute(Attributes.ATTACK_DAMAGE) != null) {
+            mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(settings.attackSettings().damage());
         } else {
-            NMS_RESOLVER.setAttribute(livingEntity, new AttributeInstance(Attributes.ATTACK_DAMAGE,
+            NMS_RESOLVER.setAttribute(mob, new AttributeInstance(Attributes.ATTACK_DAMAGE,
                     attr -> attr.setBaseValue(settings.attackSettings().damage())));
         }
 
-        AttributeInstance speedAttribute = livingEntity.getAttribute(Attributes.ATTACK_SPEED);
+        AttributeInstance speedAttribute = mob.getAttribute(Attributes.ATTACK_SPEED);
         if (speedAttribute != null) {
             speedAttribute.setBaseValue(speedAttribute.getBaseValue() * settings.attackSettings().speed());
         }
@@ -115,9 +114,9 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             }
         }
 
-        private LivingEntity getNMSEntity(org.bukkit.entity.Mob bukkit) {
+        private Mob getNMSEntity(org.bukkit.entity.Mob bukkit) {
             try {
-                return (LivingEntity) getHandleMethod.invoke(bukkit);
+                return (Mob) getHandleMethod.invoke(bukkit);
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
