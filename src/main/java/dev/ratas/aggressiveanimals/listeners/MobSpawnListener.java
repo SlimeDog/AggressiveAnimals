@@ -57,7 +57,7 @@ public class MobSpawnListener implements Listener {
         if (damagingPlayer == null) {
             return;
         }
-        if (aggressivityManager.shouldBeAggressiveOnAttack(target)) {
+        if (aggressivityManager.shouldBeAggressiveOnAttack(target, damagingPlayer)) {
             aggressivityManager.setAppropriateAggressivity(target);
         }
     }

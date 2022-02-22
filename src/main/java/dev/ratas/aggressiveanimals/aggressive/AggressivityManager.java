@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
 import dev.ratas.aggressiveanimals.AggressiveAnimals;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobTypeManager;
@@ -45,18 +46,18 @@ public class AggressivityManager {
         if (settings == null) {
             return false;
         }
-        if (!settings.shouldApplyTo(entity, npcHooks)) {
+        if (!settings.shouldApplyTo(entity, null, npcHooks)) {
             return false;
         }
         return !settings.retaliateOnly();
     }
 
-    public boolean shouldBeAggressiveOnAttack(LivingEntity entity) {
+    public boolean shouldBeAggressiveOnAttack(LivingEntity entity, Player target) {
         MobTypeSettings settings = mobTypeManager.getSettings(entity.getType());
         if (settings == null) {
             return false;
         }
-        if (!settings.shouldApplyTo(entity, npcHooks)) {
+        if (!settings.shouldApplyTo(entity, target, npcHooks)) {
             return false;
         }
         return true;

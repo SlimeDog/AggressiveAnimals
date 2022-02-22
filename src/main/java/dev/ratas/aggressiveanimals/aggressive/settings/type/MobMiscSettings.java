@@ -1,6 +1,6 @@
 package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 
@@ -9,8 +9,8 @@ import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 
 public record MobMiscSettings(boolean ignoreNpcs, boolean targetAsNamedOnly) {
 
-    public boolean shouldBeAggressive(NPCHookManager npcHooks, Entity mob) {
-        if (ignoreNpcs && npcHooks.isNPC(mob)) {
+    public boolean shouldBeAggressive(NPCHookManager npcHooks, LivingEntity mob, LivingEntity target) {
+        if (ignoreNpcs && npcHooks.isNPC(target)) {
             return false;
         }
         if (targetAsNamedOnly && mob.getCustomName() == null) {

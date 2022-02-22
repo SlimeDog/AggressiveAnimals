@@ -2,6 +2,7 @@ package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
@@ -13,7 +14,7 @@ public record MobTypeSettings(EntityType entityType, boolean enabled, double spe
 
     private static final double LEAVE_HEALTH_AT = 1.0D;
 
-    public boolean shouldApplyTo(Entity mob, NPCHookManager npcHooks) {
+    public boolean shouldApplyTo(LivingEntity mob, Player target, NPCHookManager npcHooks) {
         if (mob.getType() != entityType) {
             throw new IllegalArgumentException(
                     "Mob is of wrong type (at application time). Expected " + entityType.name() + " and got "
@@ -25,7 +26,7 @@ public record MobTypeSettings(EntityType entityType, boolean enabled, double spe
         if (!worldSettings.isEnabledInWorld(mob.getWorld())) {
             return false;
         }
-        if (!miscSettings.shouldBeAggressive(npcHooks, mob)) {
+        if (!miscSettings.shouldBeAggressive(npcHooks, mob, target)) {
             return false;
         }
         return true;
