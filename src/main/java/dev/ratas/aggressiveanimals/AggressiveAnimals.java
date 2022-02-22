@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
+import dev.ratas.aggressiveanimals.commands.AggressiveAnimalsCommand;
 import dev.ratas.aggressiveanimals.config.ConfigLoadIssueResolver;
 import dev.ratas.aggressiveanimals.config.CustomConfigHandler;
 import dev.ratas.aggressiveanimals.config.Settings;
@@ -50,6 +51,8 @@ public class AggressiveAnimals extends JavaPlugin {
         if (settings.enableMetrics()) {
             new Metrics(this, BSTATS_ID);
         }
+        // commands
+        getCommand("aggressiveanimals").setExecutor(new AggressiveAnimalsCommand(this, messages));
     }
 
     @Override
