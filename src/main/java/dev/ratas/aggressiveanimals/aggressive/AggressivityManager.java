@@ -55,10 +55,11 @@ public class AggressivityManager {
             setAggressivityAttributes(entity);
             wrapper = trackedMobs.get(entity);
         }
-        plugin.debug("Attempting to set aggressive: " + entity);
+        plugin.debug("Attempting to set attacking: " + entity);
         if (settings.shouldAttack(entity, target)) {
             setter.setAttackingGoals(wrapper);
-            plugin.debug("The mob is now aggressive: " + entity);
+            entity.setTarget(target);
+            plugin.debug("The mob is now attacking: " + entity);
             passifier.addTrackableMob(wrapper);
         }
     }
