@@ -12,6 +12,7 @@ commands:
     usage: /<command>
     description: Main command for plugin (allowing one to reload its state)
     permissions: aggressiveanimals.command
+    aliases: [aggro]
 
 permissions:
   aggressiveanimals.command:
