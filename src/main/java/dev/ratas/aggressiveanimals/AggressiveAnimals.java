@@ -92,4 +92,10 @@ public class AggressiveAnimals extends JavaPlugin {
         getServer().getPluginManager().disablePlugin(this);
     }
 
+    public void debug(String msg) {
+        if (settings.isOnDebug()) {
+            getLogger().warning("DEBUG: " + msg);
+        }
+    }
+
 }
