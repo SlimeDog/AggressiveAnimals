@@ -22,7 +22,7 @@ import org.bukkit.entity.EntityType;
 // #     baby: false                      Baby mobs should attack
 // #   ignore-npcs: true                  Ignore NPCs created by Citizens, EliteMobs, InfernalMobs, and Shopkeepers
 // #   named-mobs-only: false             Should mobs attack only if they are named?
-// #   retaliate-only: true               Should mobs retaliate only if attacked by the player?
+// #   retribution-only: true             Should mobs retaliate only if attacked by the player?
 // #   override-targeting: false          If true, remove vanilla targeting behavior and only use attack-conditions
 // #   group-aggression-distance: 10      If other mobs of the same type are close enough, they should join the attack (in blocks)
 // #   player-movement:                   Mob should attack only if the player is
@@ -105,7 +105,7 @@ public class Builder {
     }
 
     private void loadRetalitateOnly() {
-        retaliateOnly = section.getBoolean("retaliate-only", true);
+        retaliateOnly = section.getBoolean("retribution-only", true);
     }
 
     private void loadOverrideTargets() {
