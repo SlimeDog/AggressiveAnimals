@@ -45,7 +45,7 @@ public class AggressivityManager {
     }
 
     public void setPassive(MobWrapper mob) {
-        setter.markAsPassive(mob);
+        setter.setPassive(mob);
         aggressiveMobs.remove(mob);
     }
 
