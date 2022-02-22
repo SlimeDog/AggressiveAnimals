@@ -64,7 +64,7 @@ mobs:
       baby: false
     ignore-npcs: true
     named-mobs-only: false
-    retribution-only: true: true
+    retribution-only: true
     override-targeting: false
     group-aggression-distance: 10
     player-movement:
