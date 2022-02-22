@@ -3,7 +3,7 @@ package dev.ratas.aggressiveanimals.aggressive;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 
 import dev.ratas.aggressiveanimals.AggressiveAnimals;
@@ -24,7 +24,7 @@ public class AggressivityManager {
         setter = new NMSAggressivitySetter(plugin);
     }
 
-    public void setAppropriateAggressivity(LivingEntity entity) {
+    public void setAppropriateAggressivity(Mob entity) {
         MobTypeSettings settings = mobTypeManager.getSettings(entity.getType());
         if (settings == null) {
             throw new IllegalArgumentException(
@@ -37,11 +37,11 @@ public class AggressivityManager {
         }
     }
 
-    public boolean isManaged(LivingEntity entity) {
+    public boolean isManaged(Mob entity) {
         return mobTypeManager.isManaged(entity.getType());
     }
 
-    public boolean shouldBeAggressiveAtSpawn(LivingEntity entity) {
+    public boolean shouldBeAggressiveAtSpawn(Mob entity) {
         MobTypeSettings settings = mobTypeManager.getSettings(entity.getType());
         if (settings == null) {
             return false;
@@ -52,7 +52,7 @@ public class AggressivityManager {
         return !settings.retaliateOnly();
     }
 
-    public boolean shouldBeAggressiveOnAttack(LivingEntity entity, Player target) {
+    public boolean shouldBeAggressiveOnAttack(Mob entity, Player target) {
         MobTypeSettings settings = mobTypeManager.getSettings(entity.getType());
         if (settings == null) {
             return false;

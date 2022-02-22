@@ -2,6 +2,7 @@ package dev.ratas.aggressiveanimals.listeners;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -22,10 +23,14 @@ public class MobSpawnListener implements Listener {
     @EventHandler
     public void onSpawn(CreatureSpawnEvent event) {
         LivingEntity entity = event.getEntity();
-        if (!aggressivityManager.shouldBeAggressiveAtSpawn(entity)) {
+        if (!(entity instanceof Mob)) {
             return;
         }
-        aggressivityManager.setAppropriateAggressivity(entity);
+        Mob mob = (Mob) entity;
+        if (!aggressivityManager.shouldBeAggressiveAtSpawn(mob)) {
+            return;
+        }
+        aggressivityManager.setAppropriateAggressivity(mob);
     }
 
     private Player getDamagingPlayer(Entity entity) {
@@ -46,10 +51,10 @@ public class MobSpawnListener implements Listener {
     @EventHandler
     public void onAttack(EntityDamageByEntityEvent event) {
         Entity targetEntity = event.getEntity();
-        if (!(targetEntity instanceof LivingEntity)) {
+        if (!(targetEntity instanceof Mob)) {
             return; // currently only managing living entities
         }
-        LivingEntity target = (LivingEntity) targetEntity;
+        Mob target = (Mob) targetEntity;
         if (!aggressivityManager.isManaged(target)) {
             return;
         }
