@@ -31,7 +31,7 @@ public class AggressivityManager {
                     "Entity of type " + entity.getType() + " is not currently managed by the plugin.");
         }
         MobWrapper wrapper = new MobWrapper(entity, settings);
-        setter.setFor(wrapper);
+        setter.setAggressive(wrapper);
         if (wrapper.isAggressive()) {
             aggressiveMobs.add(wrapper);
         }
