@@ -88,5 +88,3 @@ check-for-updates: true
 # Data collection may be disabled here, or generally in the bStats/config.yml.
 #
 enable-metrics: true
-
-debug: false
