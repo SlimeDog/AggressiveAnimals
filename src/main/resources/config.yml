@@ -27,7 +27,7 @@
 #   chance-duration: 100               How often should the attack chance be calculated? (in ticks)
 #   acquisition-range: 12              How close will mobs acquire a player and start an attack?
 #   deacquisition-range: 20            How far away must the player run to stop an attack?
-#   health-percentage: 100             Should the mob attack only if healthy? (in percentage)
+#   attacker-health-threshold: 5       The attack should stop when the mob health falls below the threshold (in half-hearts)
 #   age:                               Should adult mobs and/or baby mobs attack the player?
 #     adult: true                      Adult mobs should attack
 #     baby: false                      Baby mobs should attack
@@ -58,7 +58,7 @@ mobs:
     chance-duration: 100
     acquisition-range: 12
     deacquisition-range: 20
-    health-percentage: 100
+    attacker-health-threshold: 5
     age:
       adult: true
       baby: false

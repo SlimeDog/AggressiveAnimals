@@ -1,6 +1,5 @@
 package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -8,7 +7,7 @@ import org.bukkit.entity.Player;
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 
 public record MobTypeSettings(EntityType entityType, boolean enabled, double speedMultiplier,
-        MobAttackSettings attackSettings, MobAcquisationSettings acquisitionSettings, double healthPercentAtLeast,
+        MobAttackSettings attackSettings, MobAcquisationSettings acquisitionSettings, double minAttackHealth,
         MobAgeSettings ageSettings, MobMiscSettings miscSettings, boolean retaliateOnly, boolean overrideTargets,
         double groupAgressionDistance, PlayerStateSettings playerStateSettings, MobWorldSettings worldSettings) {
 
@@ -47,8 +46,7 @@ public record MobTypeSettings(EntityType entityType, boolean enabled, double spe
         if (!acquisitionSettings.isInRange(mob, target)) {
             return false;
         }
-        double relHealth = target.getHealth() / target.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-        if (relHealth < healthPercentAtLeast / 100) {
+        if (target.getHealth() < minAttackHealth) {
             return false;
         }
         if (!ageSettings.shouldAttack(mob)) {

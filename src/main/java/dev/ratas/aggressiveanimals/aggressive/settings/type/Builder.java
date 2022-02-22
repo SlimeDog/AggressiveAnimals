@@ -16,7 +16,7 @@ import org.bukkit.entity.EntityType;
 // #   chance-duration: 100               How often should the attack chance be calculated? (in ticks)
 // #   acquisition-range: 12              How close will mobs acquire a player and start an attack?
 // #   deacquisition-range: 20            How far away must the player run to stop an attack?
-// #   health-percentage: 100             Should the mob attack only if healthy? (in percentage)
+// #   attacker-health-threshold: 5       The attack should stop when the mob health falls below the threshold (in half-hearts)
 // #   age:                               Should adult mobs and/or baby mobs attack the player?
 // #     adult: true                      Adult mobs should attack
 // #     baby: false                      Baby mobs should attack
@@ -42,7 +42,7 @@ public class Builder {
     private double speedMultiplier;
     private MobAttackSettings attackSettings;
     private MobAcquisationSettings acquisitionSettings;
-    private double healthPercentAtLeast;
+    private double minAttackHealth;
     private MobAgeSettings ageSettings;
     private MobMiscSettings miscSettings;
     private boolean overrideTargets;
@@ -88,8 +88,8 @@ public class Builder {
         acquisitionSettings = new MobAcquisationSettings(acquisitionRange, deacquisitionRange);
     }
 
-    private void loadHealthPercentAtLeast() {
-        healthPercentAtLeast = section.getDouble("health-percentage", 100);
+    private void loadMinAttackHealth() {
+        minAttackHealth = section.getDouble("attacker-health-threshold", 5);
     }
 
     private void loadMobAgeSettings() {
@@ -140,7 +140,7 @@ public class Builder {
         loadSpeed();
         loadAttackSettings();
         loadAcquisitionSettings();
-        loadHealthPercentAtLeast();
+        loadMinAttackHealth();
         loadMobAgeSettings();
         loadMiscSettings();
         loadRetalitateOnly();
@@ -152,7 +152,7 @@ public class Builder {
         loadPlayerStateSettings();
         loadWorldSettings();
         return new MobTypeSettings(type, enabled, speedMultiplier, attackSettings, acquisitionSettings,
-                healthPercentAtLeast, ageSettings, miscSettings, retaliateOnly, overrideTargets, groupAgressionDistance,
+                minAttackHealth, ageSettings, miscSettings, retaliateOnly, overrideTargets, groupAgressionDistance,
                 playerStateSettings, worldSettings);
     }
 
