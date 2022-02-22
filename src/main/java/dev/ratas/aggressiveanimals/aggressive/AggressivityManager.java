@@ -69,7 +69,7 @@ public class AggressivityManager {
     }
 
     public void setPassive(MobWrapper mob, ChangeReason reason) {
-        plugin.debug("Setting passive: " + mob.getBukkitEntity());
+        plugin.debug("Setting passive: " + mob.getBukkitEntity() + " because of " + reason);
         setter.setPassive(mob);
     }
 
