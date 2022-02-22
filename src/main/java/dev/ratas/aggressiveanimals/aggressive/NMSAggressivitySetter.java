@@ -76,12 +76,12 @@ public class NMSAggressivitySetter implements AggressivitySetter {
 
     @Override
     public void setAttackingGoals(MobWrapper wrapper) {
+        plugin.debug("[NMS Setter] Setting aggressive/attacking goals");
         org.bukkit.entity.Mob entity = wrapper.getBukkitEntity();
         Mob mob = NMS_RESOLVER.getNMSEntity(entity);
         MobTypeSettings settings = wrapper.getSettings();
 
         float range = (float) settings.attackSettings().range();
-        plugin.debug("[NMS Setter] Setting aggressive/attacking goals");
         this.markAsAttacking(wrapper);
         mob.targetSelector.getAvailableGoals().removeIf(goal -> {
             return goal.getGoal() instanceof PanicGoal;
@@ -104,9 +104,9 @@ public class NMSAggressivitySetter implements AggressivitySetter {
 
     @Override
     public void setPassive(MobWrapper wrapper) {
+        plugin.debug("[NMS Setter] Removing previous goals and resetting attributes");
         markAsPassive(wrapper);
         Mob mob = NMS_RESOLVER.getNMSEntity(wrapper.getBukkitEntity());
-        plugin.debug("[NMS Setter] Removing previous goals and resetting attributes");
         for (Object goal : wrapper.getGoals()) {
             mob.targetSelector.removeGoal((Goal) goal);
         }
