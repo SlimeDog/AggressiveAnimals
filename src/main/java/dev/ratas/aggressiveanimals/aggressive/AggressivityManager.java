@@ -56,7 +56,6 @@ public class AggressivityManager {
             wrapper = trackedMobs.get(entity);
         }
         plugin.debug("Attempting to set aggressive: " + entity);
-        setter.setAggressivityAttributes(wrapper);
         if (settings.shouldAttack(entity, target)) {
             setter.setAttackingGoals(wrapper);
             plugin.debug("The mob is now aggressive: " + entity);
