@@ -59,7 +59,7 @@ public class AggressivityManager {
         if (settings.shouldAttack(entity, target)) {
             setter.setAttackingGoals(wrapper);
             entity.setTarget(target);
-            plugin.debug("The mob is now attacking: " + entity);
+            plugin.debug("The mob is now attacking: " + entity + " -> " + entity.getTarget());
             passifier.addTrackableMob(wrapper);
         }
     }
