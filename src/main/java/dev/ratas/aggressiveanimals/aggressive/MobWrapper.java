@@ -2,21 +2,21 @@ package dev.ratas.aggressiveanimals.aggressive;
 
 import java.util.Objects;
 
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 
 public class MobWrapper {
-    private final LivingEntity bukkitEntity;
+    private final Mob bukkitEntity;
     private final MobTypeSettings settings;
     private boolean isAggressive = false;
 
-    public MobWrapper(LivingEntity bukkitEntity, MobTypeSettings settings) {
+    public MobWrapper(Mob bukkitEntity, MobTypeSettings settings) {
         this.bukkitEntity = bukkitEntity;
         this.settings = settings;
     }
 
-    public LivingEntity getBukkitEntity() {
+    public Mob getBukkitEntity() {
         return bukkitEntity;
     }
 
