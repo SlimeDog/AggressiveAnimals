@@ -3,6 +3,7 @@ package dev.ratas.aggressiveanimals.aggressive;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -66,26 +67,35 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             mob.targetSelector.addGoal(2, cur = new NearestAttackableTargetGoal<Player>(mob, Player.class, true));
             wrapper.getGoals().add(cur);
         }
-        AttributeInstance speedAttr = mob.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (speedAttr != null) {
-            speedAttr.setBaseValue(speedAttr.getBaseValue() * settings.speedMultiplier());
+        MobAttributes savedAttributes = new MobAttributes();
+        AttributeInstance moveSpeedAttr = mob.getAttribute(Attributes.MOVEMENT_SPEED);
+        if (moveSpeedAttr != null) {
+            savedAttributes.prevValues.put(Attributes.MOVEMENT_SPEED, moveSpeedAttr.getBaseValue());
+            moveSpeedAttr.setBaseValue(moveSpeedAttr.getBaseValue() * settings.speedMultiplier());
         }
 
-        if (mob.getAttribute(Attributes.FOLLOW_RANGE) != null) {
-            mob.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(settings.attackSettings().range());
+        AttributeInstance followRangeAttr = mob.getAttribute(Attributes.FOLLOW_RANGE);
+        if (followRangeAttr != null) {
+            savedAttributes.prevValues.put(Attributes.FOLLOW_RANGE, moveSpeedAttr.getBaseValue());
+            followRangeAttr.setBaseValue(settings.attackSettings().range());
         }
 
-        if (mob.getAttribute(Attributes.ATTACK_DAMAGE) != null) {
-            mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(settings.attackSettings().damage());
+        AttributeInstance attackDamageAttr = mob.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (attackDamageAttr != null) {
+            savedAttributes.prevValues.put(Attributes.ATTACK_DAMAGE, moveSpeedAttr.getBaseValue());
+            attackDamageAttr.setBaseValue(settings.attackSettings().damage());
         } else {
+            savedAttributes.prevValues.put(Attributes.ATTACK_DAMAGE, moveSpeedAttr.getBaseValue());
             NMS_RESOLVER.setAttribute(mob, new AttributeInstance(Attributes.ATTACK_DAMAGE,
                     attr -> attr.setBaseValue(settings.attackSettings().damage())));
         }
 
-        AttributeInstance speedAttribute = mob.getAttribute(Attributes.ATTACK_SPEED);
-        if (speedAttribute != null) {
-            speedAttribute.setBaseValue(speedAttribute.getBaseValue() * settings.attackSettings().speed());
+        AttributeInstance attackSpeedAttribute = mob.getAttribute(Attributes.ATTACK_SPEED);
+        if (attackSpeedAttribute != null) {
+            savedAttributes.prevValues.put(Attributes.ATTACK_SPEED, moveSpeedAttr.getBaseValue());
+            attackSpeedAttribute.setBaseValue(attackSpeedAttribute.getBaseValue() * settings.attackSettings().speed());
         }
+        wrapper.setAttributes(savedAttributes);
     }
 
     @Override
@@ -95,7 +105,19 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         for (Object goal : wrapper.getGoals()) {
             mob.targetSelector.removeGoal((Goal) goal);
         }
-        // TODO - save and reuse attribute values as well
+        MobAttributes saved = (MobAttributes) wrapper.getSavedAttributes();
+        if (saved == null) {
+            plugin.getLogger().warning("No previously saved attributes for mob  " + wrapper.getBukkitEntity()
+                    + " - cannot properly passify");
+            return;
+        }
+        for (Map.Entry<Attribute, Double> entry : saved.prevValues.entrySet()) {
+            mob.getAttribute(entry.getKey()).setBaseValue(entry.getValue());
+        }
+    }
+
+    private class MobAttributes {
+        private final Map<Attribute, Double> prevValues = new HashMap<>();
     }
 
     private static class NMSResolver {

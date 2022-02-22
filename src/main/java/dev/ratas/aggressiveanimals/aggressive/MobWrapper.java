@@ -13,6 +13,7 @@ public class MobWrapper {
     private final MobTypeSettings settings;
     private boolean isAggressive = false;
     private final Set<Object> goals = new HashSet<>();
+    private Object savedAttributes;
 
     public MobWrapper(Mob bukkitEntity, MobTypeSettings settings) {
         this.bukkitEntity = bukkitEntity;
@@ -46,6 +47,14 @@ public class MobWrapper {
 
     Set<Object> getGoals() {
         return goals;
+    }
+
+    void setAttributes(Object attributes) {
+        savedAttributes = attributes;
+    }
+
+    Object getSavedAttributes() {
+        return savedAttributes;
     }
 
     @Override
