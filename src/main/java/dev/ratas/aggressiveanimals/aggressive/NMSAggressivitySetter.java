@@ -8,6 +8,7 @@ import java.util.Map;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.ratas.aggressiveanimals.AggressiveAnimals;
+import dev.ratas.aggressiveanimals.aggressive.settings.MobWrapper;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -37,9 +38,10 @@ public class NMSAggressivitySetter implements AggressivitySetter {
     }
 
     @Override
-    public void setFor(MobTypeSettings settings, org.bukkit.entity.LivingEntity entity) {
-
+    public void setFor(MobWrapper wrapper) {
+        org.bukkit.entity.LivingEntity entity = wrapper.getBukkitEntity();
         LivingEntity livingEntity = NMS_RESOLVER.getNMSEntity(entity);
+        MobTypeSettings settings = wrapper.getSettings();
         Mob mob = (Mob) livingEntity;
 
         float range = (float) settings.acquisitionSettings().acquisitionRange();

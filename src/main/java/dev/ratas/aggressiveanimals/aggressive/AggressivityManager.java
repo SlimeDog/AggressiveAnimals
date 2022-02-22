@@ -1,9 +1,13 @@
 package dev.ratas.aggressiveanimals.aggressive;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.bukkit.entity.LivingEntity;
 
 import dev.ratas.aggressiveanimals.AggressiveAnimals;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobTypeManager;
+import dev.ratas.aggressiveanimals.aggressive.settings.MobWrapper;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.aggressiveanimals.config.Settings;
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
@@ -12,6 +16,7 @@ public class AggressivityManager {
     private final NPCHookManager npcHooks;
     private final MobTypeManager mobTypeManager;
     private final AggressivitySetter setter;
+    private final Set<MobWrapper> aggressiveMobs = new HashSet<>();
 
     public AggressivityManager(AggressiveAnimals plugin, Settings settings, NPCHookManager npcHooks) {
         this.npcHooks = npcHooks;
@@ -25,7 +30,11 @@ public class AggressivityManager {
             throw new IllegalArgumentException(
                     "Entity of type " + entity.getType() + " is not currently managed by the plugin.");
         }
-        setter.setFor(settings, entity);
+        MobWrapper wrapper = new MobWrapper(entity, settings);
+        setter.setFor(wrapper);
+        if (wrapper.isAggressive()) {
+            aggressiveMobs.add(wrapper);
+        }
     }
 
     public boolean isManaged(LivingEntity entity) {
