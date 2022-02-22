@@ -36,7 +36,7 @@
 #   retribution-only: true             Should mobs retaliate only if attacked by the player?
 #   override-targeting: false          If true, remove vanilla targeting behavior and only use attack-conditions
 #   group-aggression-distance: 10      If other mobs of the same type are close enough, they should join the attack (in blocks)
-#   player-movement:                   Mob should attack only if the player is
+#   player-movement:                   Mob should attack if the player is
 #     standing: true
 #     sneaking: true
 #     walking: true
