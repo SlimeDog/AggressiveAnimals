@@ -1,10 +1,7 @@
 package dev.ratas.aggressiveanimals.aggressive;
 
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import dev.ratas.aggressiveanimals.aggressive.settings.MobWrapper;
 
 public interface AggressivitySetter {
     public static final String AGGRESSIVE_ANIMAL_METADATA_TOKEN = "AgressiveAnimal";
@@ -13,8 +10,10 @@ public interface AggressivitySetter {
 
     JavaPlugin getPlugin();
 
-    default void markAsAggressive(LivingEntity entity) {
-        entity.setMetadata(AGGRESSIVE_ANIMAL_METADATA_TOKEN, new FixedMetadataValue(getPlugin(), true));
+    default void markAsAggressive(MobWrapper wrapper) {
+        wrapper.markAggressive();
+        wrapper.getBukkitEntity().setMetadata(AGGRESSIVE_ANIMAL_METADATA_TOKEN,
+                new FixedMetadataValue(getPlugin(), true));
     }
 
 }

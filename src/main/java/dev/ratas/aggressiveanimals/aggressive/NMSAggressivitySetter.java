@@ -8,7 +8,6 @@ import java.util.Map;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.ratas.aggressiveanimals.AggressiveAnimals;
-import dev.ratas.aggressiveanimals.aggressive.settings.MobWrapper;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -48,7 +47,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
 
         if (settings.ageSettings().shouldAttack(entity)) { // not ageable -> attack, otherwise depends on baby/adult
                                                            // state
-            this.markAsAggressive(entity);
+            this.markAsAggressive(wrapper);
             mob.targetSelector.getAvailableGoals().removeIf(goal -> {
                 return goal.getGoal() instanceof PanicGoal;
             });
@@ -60,9 +59,6 @@ public class NMSAggressivitySetter implements AggressivitySetter {
 
             mob.targetSelector.addGoal(1, new HurtByTargetGoal((PathfinderMob) livingEntity));
             mob.targetSelector.addGoal(2, new NearestAttackableTargetGoal<Player>(mob, Player.class, true));
-            // no idea what that was referring to
-            // mob.targetSelector.addGoal(2, new NearestAttackableTargetGoal<Npc>(mob,
-            // Npc.class, true));
         }
         AttributeInstance speedAttr = mob.getAttribute(Attributes.MOVEMENT_SPEED);
         if (speedAttr != null) {
