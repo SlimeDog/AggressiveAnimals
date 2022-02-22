@@ -1,4 +1,4 @@
-package dev.ratas.aggressiveanimals.aggressive.settings;
+package dev.ratas.aggressiveanimals.aggressive;
 
 import java.util.Objects;
 
