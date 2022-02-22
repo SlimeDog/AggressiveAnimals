@@ -38,12 +38,12 @@ public class NMSAggressivitySetter implements AggressivitySetter {
 
     @Override
     public void setAggressive(MobWrapper wrapper) {
-        org.bukkit.entity.LivingEntity entity = wrapper.getBukkitEntity();
+        org.bukkit.entity.Mob entity = wrapper.getBukkitEntity();
         LivingEntity livingEntity = NMS_RESOLVER.getNMSEntity(entity);
         MobTypeSettings settings = wrapper.getSettings();
         Mob mob = (Mob) livingEntity;
 
-        float range = (float) settings.acquisitionSettings().acquisitionRange();
+        float range = (float) settings.attackSettings().range();
 
         if (settings.ageSettings().shouldAttack(entity)) { // not ageable -> attack, otherwise depends on baby/adult
                                                            // state
@@ -108,7 +108,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             }
         }
 
-        private LivingEntity getNMSEntity(org.bukkit.entity.LivingEntity bukkit) {
+        private LivingEntity getNMSEntity(org.bukkit.entity.Mob bukkit) {
             try {
                 return (LivingEntity) getHandleMethod.invoke(bukkit);
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
