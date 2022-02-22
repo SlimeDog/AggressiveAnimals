@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.ratas.aggressiveanimals.AggressiveAnimals;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
@@ -26,18 +26,20 @@ import net.minecraft.world.entity.player.Player;
 
 public class NMSAggressivitySetter implements AggressivitySetter {
     private static final NMSResolver NMS_RESOLVER = new NMSResolver();
-    private static final String AGGRESSIVE_ANIMAL_METADATA_TOKEN = "AgressiveAnimal";
     private final AggressiveAnimals plugin;
 
     public NMSAggressivitySetter(AggressiveAnimals plugin) {
         this.plugin = plugin;
     }
 
+    public JavaPlugin getPlugin() {
+        return plugin;
+    }
+
     @Override
     public void setFor(MobTypeSettings settings, org.bukkit.entity.LivingEntity entity) {
         // TODO - manage metadata elsewhere since it needs to be set regardless of
         // aggressivity setter implementation
-        entity.setMetadata(AGGRESSIVE_ANIMAL_METADATA_TOKEN, new FixedMetadataValue(this.plugin, true));
 
         LivingEntity livingEntity = NMS_RESOLVER.getNMSEntity(entity);
         Mob mob = (Mob) livingEntity;
@@ -46,6 +48,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
 
         if (settings.ageSettings().shouldAttack(entity)) { // not ageable -> attack, otherwise depends on baby/adult
                                                            // state
+            this.markAsAggressive(entity);
             mob.targetSelector.getAvailableGoals().removeIf(goal -> {
                 return goal.getGoal() instanceof PanicGoal;
             });
