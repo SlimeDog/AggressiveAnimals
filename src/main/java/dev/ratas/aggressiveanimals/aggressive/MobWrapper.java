@@ -9,11 +9,13 @@ import org.bukkit.entity.Mob;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 
 public class MobWrapper {
+    private static final long MIN_ATTACK_MS = 10 * 1000L; // aggressive for at least 10 seconds // TODO - configurable
     private final Mob bukkitEntity;
     private final MobTypeSettings settings;
     private boolean isAttacking = false;
     private final Set<Object> goals = new HashSet<>();
     private Object savedAttributes;
+    private long startedAttacking = 0L;
 
     public MobWrapper(Mob bukkitEntity, MobTypeSettings settings) {
         this.bukkitEntity = bukkitEntity;
@@ -34,6 +36,11 @@ public class MobWrapper {
 
     public void markAttacking() {
         isAttacking = true;
+        startedAttacking = System.currentTimeMillis();
+    }
+
+    public boolean hasOutlivedAggression() {
+        return System.currentTimeMillis() > startedAttacking + MIN_ATTACK_MS;
     }
 
     public void markPassive() {

@@ -74,6 +74,9 @@ public record MobTypeSettings(EntityType entityType, boolean enabled, double spe
     public ChangeReason shouldBePassified(MobWrapper wrapper) {
         Mob mob = wrapper.getBukkitEntity();
         LivingEntity target = mob.getTarget();
+        if (!wrapper.hasOutlivedAggression()) {
+            return null;
+        }
         if (!(target instanceof Player)) {
             return ChangeReason.NO_TARGET;
         }
