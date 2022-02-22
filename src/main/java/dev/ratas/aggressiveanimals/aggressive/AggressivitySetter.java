@@ -16,4 +16,10 @@ public interface AggressivitySetter {
                 new FixedMetadataValue(getPlugin(), true));
     }
 
+    default void markAsPassive(MobWrapper wrapper) {
+        wrapper.markPassive();
+        wrapper.getBukkitEntity().setMetadata(AGGRESSIVE_ANIMAL_METADATA_TOKEN,
+                new FixedMetadataValue(getPlugin(), false));
+    }
+
 }
