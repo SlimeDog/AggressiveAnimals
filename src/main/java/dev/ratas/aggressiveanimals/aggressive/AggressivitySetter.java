@@ -8,6 +8,8 @@ public interface AggressivitySetter {
 
     void setAggressive(MobWrapper mob);
 
+    void setPassive(MobWrapper mob);
+
     JavaPlugin getPlugin();
 
     default void markAsAggressive(MobWrapper wrapper) {

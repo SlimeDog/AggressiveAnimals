@@ -88,6 +88,16 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         }
     }
 
+    @Override
+    public void setPassive(MobWrapper wrapper) {
+        markAsPassive(wrapper);
+        Mob mob = NMS_RESOLVER.getNMSEntity(wrapper.getBukkitEntity());
+        for (Object goal : wrapper.getGoals()) {
+            mob.targetSelector.removeGoal((Goal) goal);
+        }
+        // TODO - save and reuse attribute values as well
+    }
+
     private static class NMSResolver {
         private static final String PACKAGE_BASE = "org.bukkit.craftbukkit";
         private static final String VERSION = org.bukkit.Bukkit.getServer().getClass().getPackage().getName()
