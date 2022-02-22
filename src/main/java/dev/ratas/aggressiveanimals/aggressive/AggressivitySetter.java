@@ -15,7 +15,7 @@ public interface AggressivitySetter {
     JavaPlugin getPlugin();
 
     default void markAsAggressive(MobWrapper wrapper) {
-        wrapper.markAggressive();
+        wrapper.markAttacking();
         wrapper.getBukkitEntity().setMetadata(AGGRESSIVE_ANIMAL_METADATA_TOKEN,
                 new FixedMetadataValue(getPlugin(), true));
     }

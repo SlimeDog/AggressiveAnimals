@@ -11,7 +11,7 @@ import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 public class MobWrapper {
     private final Mob bukkitEntity;
     private final MobTypeSettings settings;
-    private boolean isAggressive = false;
+    private boolean isAttacking = false;
     private final Set<Object> goals = new HashSet<>();
     private Object savedAttributes;
 
@@ -28,16 +28,16 @@ public class MobWrapper {
         return settings;
     }
 
-    public boolean isAggressive() {
-        return isAggressive;
+    public boolean isAttacking() {
+        return isAttacking;
     }
 
-    public void markAggressive() {
-        isAggressive = true;
+    public void markAttacking() {
+        isAttacking = true;
     }
 
     public void markPassive() {
-        isAggressive = false;
+        isAttacking = false;
     }
 
     public boolean isLoaded() {
