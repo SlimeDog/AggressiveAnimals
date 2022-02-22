@@ -27,10 +27,14 @@ public class MobSpawnListener implements Listener {
             return;
         }
         Mob mob = (Mob) entity;
+        if (!aggressivityManager.isManaged(mob)) {
+            return;
+        }
+        aggressivityManager.setAggressivityAttributes(mob);
         if (!aggressivityManager.shouldBeAggressiveAtSpawn(mob)) {
             return;
         }
-        aggressivityManager.setAppropriateAggressivity(mob);
+        aggressivityManager.setAggressivityAttributes(mob);
     }
 
     private Player getDamagingPlayer(Entity entity) {
@@ -62,9 +66,10 @@ public class MobSpawnListener implements Listener {
         if (damagingPlayer == null) {
             return;
         }
-        if (aggressivityManager.shouldBeAggressiveOnAttack(target, damagingPlayer)) {
-            aggressivityManager.setAppropriateAggressivity(target);
+        if (!aggressivityManager.shouldBeAggressiveOnAttack(target, damagingPlayer)) {
+            return;
         }
+        aggressivityManager.attemptAttacking(target, damagingPlayer);
     }
 
 }

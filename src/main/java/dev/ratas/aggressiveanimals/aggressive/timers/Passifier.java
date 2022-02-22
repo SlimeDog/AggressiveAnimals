@@ -23,22 +23,14 @@ public class Passifier implements Runnable {
     @Override
     public void run() {
         for (MobWrapper mob : new HashSet<>(checkableMobs)) {
-            if (shouldBePassified(mob)) {
-                passify(mob);
+            if (mob.getSettings().shouldBePassified(mob.getBukkitEntity())) {
+                aggressivityManager.setPassive(mob);
                 checkableMobs.remove(mob);
             }
+            if (!mob.isLoaded()) {
+                aggressivityManager.stopTracking(mob);
+            }
         }
-    }
-
-    private boolean shouldBePassified(MobWrapper mob) {
-        if (!mob.isLoaded()) {
-            return true;
-        }
-        return mob.getSettings().shouldBePassified(mob.getBukkitEntity());
-    }
-
-    private void passify(MobWrapper mob) {
-        aggressivityManager.setPassive(mob);
     }
 
 }

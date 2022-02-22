@@ -39,37 +39,10 @@ public class NMSAggressivitySetter implements AggressivitySetter {
     }
 
     @Override
-    public void setAggressive(MobWrapper wrapper) {
+    public void setAggressivityAttributes(MobWrapper wrapper) {
         org.bukkit.entity.Mob entity = wrapper.getBukkitEntity();
         Mob mob = NMS_RESOLVER.getNMSEntity(entity);
         MobTypeSettings settings = wrapper.getSettings();
-
-        float range = (float) settings.attackSettings().range();
-
-        if (settings.ageSettings().shouldAttack(entity)) { // not ageable -> attack, otherwise depends on baby/adult
-                                                           // state
-            plugin.debug("[NMS Setter] Setting aggressive right now");
-            this.markAsAggressive(wrapper);
-            mob.targetSelector.getAvailableGoals().removeIf(goal -> {
-                return goal.getGoal() instanceof PanicGoal;
-            });
-
-            Goal cur;
-            mob.targetSelector.addGoal(2,
-                    cur = new MeleeAttackGoal((PathfinderMob) mob, settings.attackSettings().speed(), false));
-            wrapper.getGoals().add(cur);
-            mob.targetSelector.addGoal(8, cur = new LookAtPlayerGoal(mob, Player.class, range));
-            wrapper.getGoals().add(cur);
-            mob.targetSelector.addGoal(8, cur = new RandomLookAroundGoal(mob));
-            wrapper.getGoals().add(cur);
-
-            mob.targetSelector.addGoal(1, cur = new HurtByTargetGoal((PathfinderMob) mob));
-            wrapper.getGoals().add(cur);
-            mob.targetSelector.addGoal(2, cur = new NearestAttackableTargetGoal<Player>(mob, Player.class, true));
-            wrapper.getGoals().add(cur);
-        } else {
-            plugin.debug("[NMS Setter] Setting attributes but not aggressive right now");
-        }
         MobAttributes savedAttributes = new MobAttributes();
         AttributeInstance moveSpeedAttr = mob.getAttribute(Attributes.MOVEMENT_SPEED);
         if (moveSpeedAttr != null) {
@@ -99,6 +72,34 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             attackSpeedAttribute.setBaseValue(attackSpeedAttribute.getBaseValue() * settings.attackSettings().speed());
         }
         wrapper.setAttributes(savedAttributes);
+    }
+
+    @Override
+    public void setAttackingGoals(MobWrapper wrapper) {
+        org.bukkit.entity.Mob entity = wrapper.getBukkitEntity();
+        Mob mob = NMS_RESOLVER.getNMSEntity(entity);
+        MobTypeSettings settings = wrapper.getSettings();
+
+        float range = (float) settings.attackSettings().range();
+        plugin.debug("[NMS Setter] Setting aggressive/attacking goals");
+        this.markAsAggressive(wrapper);
+        mob.targetSelector.getAvailableGoals().removeIf(goal -> {
+            return goal.getGoal() instanceof PanicGoal;
+        });
+
+        Goal cur;
+        mob.targetSelector.addGoal(2,
+                cur = new MeleeAttackGoal((PathfinderMob) mob, settings.attackSettings().speed(), false));
+        wrapper.getGoals().add(cur);
+        mob.targetSelector.addGoal(8, cur = new LookAtPlayerGoal(mob, Player.class, range));
+        wrapper.getGoals().add(cur);
+        mob.targetSelector.addGoal(8, cur = new RandomLookAroundGoal(mob));
+        wrapper.getGoals().add(cur);
+
+        mob.targetSelector.addGoal(1, cur = new HurtByTargetGoal((PathfinderMob) mob));
+        wrapper.getGoals().add(cur);
+        mob.targetSelector.addGoal(2, cur = new NearestAttackableTargetGoal<Player>(mob, Player.class, true));
+        wrapper.getGoals().add(cur);
     }
 
     @Override

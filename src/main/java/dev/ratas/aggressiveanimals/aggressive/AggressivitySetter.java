@@ -6,7 +6,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public interface AggressivitySetter {
     public static final String AGGRESSIVE_ANIMAL_METADATA_TOKEN = "AgressiveAnimal";
 
-    void setAggressive(MobWrapper mob);
+    void setAggressivityAttributes(MobWrapper mob);
+
+    void setAttackingGoals(MobWrapper mob);
 
     void setPassive(MobWrapper mob);
 

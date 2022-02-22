@@ -1,8 +1,8 @@
 package dev.ratas.aggressiveanimals.aggressive;
 
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ public class AggressivityManager {
     private final NPCHookManager npcHooks;
     private final MobTypeManager mobTypeManager;
     private final AggressivitySetter setter;
-    private final Set<MobWrapper> aggressiveMobs = new HashSet<>();
+    private final Map<Mob, MobWrapper> trackedMobs = new HashMap<>();
     private final Passifier passifier;
 
     public AggressivityManager(AggressiveAnimals plugin, Settings settings, NPCHookManager npcHooks) {
@@ -32,26 +32,46 @@ public class AggressivityManager {
         plugin.getServer().getScheduler().runTaskTimer(plugin, passifier, PASSIFIER_PERIOD, PASSIFIER_PERIOD);
     }
 
-    public void setAppropriateAggressivity(Mob entity) {
+    public void setAggressivityAttributes(Mob entity) {
         MobTypeSettings settings = mobTypeManager.getSettings(entity.getType());
         if (settings == null) {
             throw new IllegalArgumentException(
                     "Entity of type " + entity.getType() + " is not currently managed by the plugin.");
         }
-        MobWrapper wrapper = new MobWrapper(entity, settings);
+        MobWrapper wrapper = trackedMobs.computeIfAbsent(entity, e -> new MobWrapper(e, settings));
+        plugin.debug("Setting aggressivity attributes for: " + entity);
+        setter.setAggressivityAttributes(wrapper);
+    }
+
+    public void attemptAttacking(Mob entity, Player target) {
+        MobTypeSettings settings = mobTypeManager.getSettings(entity.getType());
+        if (settings == null) {
+            throw new IllegalArgumentException(
+                    "Entity of type " + entity.getType() + " is not currently managed by the plugin.");
+        }
+        MobWrapper wrapper = trackedMobs.get(entity);
+        if (wrapper == null) {
+            plugin.debug("No wrapper when attempting to attack: " + entity);
+            setAggressivityAttributes(entity);
+            wrapper = trackedMobs.get(entity);
+        }
         plugin.debug("Attempting to set aggressive: " + entity);
-        setter.setAggressive(wrapper);
-        if (wrapper.isAggressive()) {
+        setter.setAggressivityAttributes(wrapper);
+        if (settings.shouldAttack(entity, target)) {
+            setter.setAttackingGoals(wrapper);
             plugin.debug("The mob is now aggressive: " + entity);
             passifier.addTrackableMob(wrapper);
-            aggressiveMobs.add(wrapper);
         }
+    }
+
+    public void stopTracking(MobWrapper mob) {
+        plugin.debug("Stopping tracking: " + mob.getBukkitEntity());
+        trackedMobs.remove(mob.getBukkitEntity());
     }
 
     public void setPassive(MobWrapper mob) {
         plugin.debug("Setting passive: " + mob.getBukkitEntity());
         setter.setPassive(mob);
-        aggressiveMobs.remove(mob);
     }
 
     public boolean isManaged(Mob entity) {
