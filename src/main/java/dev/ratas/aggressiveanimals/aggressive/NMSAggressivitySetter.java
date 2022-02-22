@@ -38,8 +38,6 @@ public class NMSAggressivitySetter implements AggressivitySetter {
 
     @Override
     public void setFor(MobTypeSettings settings, org.bukkit.entity.LivingEntity entity) {
-        // TODO - manage metadata elsewhere since it needs to be set regardless of
-        // aggressivity setter implementation
 
         LivingEntity livingEntity = NMS_RESOLVER.getNMSEntity(entity);
         Mob mob = (Mob) livingEntity;
