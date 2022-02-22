@@ -1,6 +1,7 @@
 package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 
@@ -59,6 +60,15 @@ public record MobTypeSettings(EntityType entityType, boolean enabled, double spe
             return false;
         }
         return true;
+    }
+
+    public boolean shouldBePassified(Mob mob) {
+        LivingEntity target = mob.getTarget();
+        if (!(target instanceof Player)) {
+            return true;
+        }
+        Player player = (Player) target;
+        return !acquisitionSettings.isInRange(mob, player);
     }
 
 }

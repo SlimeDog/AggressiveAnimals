@@ -37,6 +37,11 @@ public class AggressivityManager {
         }
     }
 
+    public void setPassive(MobWrapper mob) {
+        setter.markAsPassive(mob);
+        aggressiveMobs.remove(mob);
+    }
+
     public boolean isManaged(Mob entity) {
         return mobTypeManager.isManaged(entity.getType());
     }
