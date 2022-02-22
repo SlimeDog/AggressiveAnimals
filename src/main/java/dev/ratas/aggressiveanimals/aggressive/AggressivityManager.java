@@ -7,7 +7,6 @@ import org.bukkit.entity.LivingEntity;
 
 import dev.ratas.aggressiveanimals.AggressiveAnimals;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobTypeManager;
-import dev.ratas.aggressiveanimals.aggressive.settings.MobWrapper;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.aggressiveanimals.config.Settings;
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
