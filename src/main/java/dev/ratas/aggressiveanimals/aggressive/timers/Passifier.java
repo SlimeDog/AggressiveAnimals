@@ -31,6 +31,7 @@ public class Passifier implements Runnable {
             }
             if (!mob.isLoaded()) {
                 aggressivityManager.stopTracking(mob);
+                checkableMobs.remove(mob);
             }
         }
     }
