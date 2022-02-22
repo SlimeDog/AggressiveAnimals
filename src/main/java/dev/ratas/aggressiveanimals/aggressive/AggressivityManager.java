@@ -16,6 +16,7 @@ import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 
 public class AggressivityManager {
     private static final long PASSIFIER_PERIOD = 10L; // TODO - make configurable?
+    private final AggressiveAnimals plugin;
     private final NPCHookManager npcHooks;
     private final MobTypeManager mobTypeManager;
     private final AggressivitySetter setter;
@@ -24,6 +25,7 @@ public class AggressivityManager {
 
     public AggressivityManager(AggressiveAnimals plugin, Settings settings, NPCHookManager npcHooks) {
         this.npcHooks = npcHooks;
+        this.plugin = plugin;
         mobTypeManager = new MobTypeManager(plugin, settings);
         setter = new NMSAggressivitySetter(plugin);
         this.passifier = new Passifier(this, Collections.emptyList());
@@ -37,14 +39,17 @@ public class AggressivityManager {
                     "Entity of type " + entity.getType() + " is not currently managed by the plugin.");
         }
         MobWrapper wrapper = new MobWrapper(entity, settings);
+        plugin.debug("Attempting to set aggressive: " + entity);
         setter.setAggressive(wrapper);
         if (wrapper.isAggressive()) {
+            plugin.debug("The mob is now aggressive: " + entity);
             passifier.addTrackableMob(wrapper);
             aggressiveMobs.add(wrapper);
         }
     }
 
     public void setPassive(MobWrapper mob) {
+        plugin.debug("Setting passive: " + mob.getBukkitEntity());
         setter.setPassive(mob);
         aggressiveMobs.remove(mob);
     }

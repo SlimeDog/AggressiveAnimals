@@ -48,6 +48,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
 
         if (settings.ageSettings().shouldAttack(entity)) { // not ageable -> attack, otherwise depends on baby/adult
                                                            // state
+            plugin.debug("[NMS Setter] Setting aggressive right now");
             this.markAsAggressive(wrapper);
             mob.targetSelector.getAvailableGoals().removeIf(goal -> {
                 return goal.getGoal() instanceof PanicGoal;
@@ -66,6 +67,8 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             wrapper.getGoals().add(cur);
             mob.targetSelector.addGoal(2, cur = new NearestAttackableTargetGoal<Player>(mob, Player.class, true));
             wrapper.getGoals().add(cur);
+        } else {
+            plugin.debug("[NMS Setter] Setting attributes but not aggressive right now");
         }
         MobAttributes savedAttributes = new MobAttributes();
         AttributeInstance moveSpeedAttr = mob.getAttribute(Attributes.MOVEMENT_SPEED);
@@ -102,6 +105,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
     public void setPassive(MobWrapper wrapper) {
         markAsPassive(wrapper);
         Mob mob = NMS_RESOLVER.getNMSEntity(wrapper.getBukkitEntity());
+        plugin.debug("[NMS Setter] Removing previous goals and resetting attributes");
         for (Object goal : wrapper.getGoals()) {
             mob.targetSelector.removeGoal((Goal) goal);
         }
