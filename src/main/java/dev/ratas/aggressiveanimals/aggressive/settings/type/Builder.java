@@ -12,8 +12,6 @@ import org.bukkit.entity.EntityType;
 // #   attack-unto-death: false           Should the mob kill the player if enough damage is inflicted? If false, the attack will stop at 1 heart
 // #   attack-speed: 10                   How often can the mob damage the player? (in ticks)
 // #   attack-range: 1                    From how many blocks away can the mob hit the player? (in blocks)
-// #   attack-chance: 50                  Chance that the mob will attack the player, per chance-duration? (in percentage)
-// #   chance-duration: 100               How often should the attack chance be calculated? (in ticks)
 // #   acquisition-range: 12              How close will mobs acquire a player and start an attack?
 // #   deacquisition-range: 20            How far away must the player run to stop an attack?
 // #   attacker-health-threshold: 5       The attack should stop when the mob health falls below the threshold (in half-hearts)
@@ -77,11 +75,8 @@ public class Builder {
         boolean canKill = section.getBoolean("attack-unto-death", false);
         double speed = section.getDouble("attack-speed", 10);
         double range = section.getDouble("attack-range", 1.0D);
-        double chance = section.getDouble("attack-chance", 50.0D);
-        long chanceRecalcTicks = section.getLong("chance-duration", 100);
         float attackLeapHeight = (float) section.getDouble("attack-leap-height", 0.0F);
-        attackSettings = new MobAttackSettings(damage, canKill, speed, range, chance, chanceRecalcTicks,
-                attackLeapHeight);
+        attackSettings = new MobAttackSettings(damage, canKill, speed, range, attackLeapHeight);
     }
 
     private void loadAcquisitionSettings() {
