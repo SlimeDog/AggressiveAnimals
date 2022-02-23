@@ -1,5 +1,7 @@
 package dev.ratas.aggressiveanimals.aggressive.settings;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +55,10 @@ public class MobTypeManager {
     public void reload(Settings settings) {
         types.clear();
         loadMobs(settings);
+    }
+
+    public Collection<MobTypeSettings> getUsedSettings() {
+        return Collections.unmodifiableCollection(types.values());
     }
 
 }
