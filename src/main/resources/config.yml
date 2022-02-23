@@ -12,51 +12,61 @@
 # --------------------
 # is all that is required; the remaining configuration options will use the default values.
 
+# ========== CHECK FOR UPDATES =====================================================================
+# If you do not want notification of available updates in the console log, you may disable it here.
+check-for-updates: true
+
+# ========== BSTATS METRICS ========================================================================
+# By default, the plugin collects and transmits anonymous statistics to bstats.org.
+# Data collection may be disabled here, or generally in the bStats/config.yml.
+#
+enable-metrics: true
+
 # ========== PER MOB ATTACK PROFILES ===============================================================
 # An attack profile must be created for each mob-type that you want to stage revenge attacks.
 # Only the enabled node is required. Undefined nodes will use default values.
 #
 # mob-type:
-#   enabled: true                      Should revenge attacks by this mob-type be enabled?
-#   speed-multiplier: 1.0              How fast can the mob move? (for example: 1.0 is regular speed, 0.5 is half speed and 2.0 is double speed)
-#   attack-damage: 1                   How much damage will the mob inflict per attack? (in half-hearts)
-#   attack-unto-death: false           Should the mob kill the player if enough damage is inflicted? If false, the attack will stop at 1 heart
-#   attack-speed: 10                   How often can the mob damage the player? (in ticks)
+#   enabled: true                      If true, this mob-type should engage in attacks against players
+#   speed-multiplier: 1.0              Multiple of vanilla movement speed (examples: 1.0 is regular speed, 0.5 is half speed, 2.0 is double speed)
+#   attack-damage: 1.0                 Damage inflicted on the target on each attack (in half-hearts)
+#   attack-unto-death: false           If true, attacker can kill the player; if false, the attack will stop at 1 heart
+#   attack-speed: 10                   How often a mob can attack the player (in ticks)
 #   attack-range: 1                    From how many blocks away can the mob hit the player? (in blocks)
 #   attack-chance: 50                  Chance that the mob will attack the player, per chance-duration? (in percentage)
 #   chance-duration: 100               How often should the attack chance be calculated? (in ticks)
-#   acquisition-range: 12              How close will mobs acquire a player and start an attack?
-#   deacquisition-range: 20            How far away must the player run to stop an attack?
-#   attacker-health-threshold: 5       The attack should stop when the mob health falls below the threshold (in half-hearts)
-#   age:                               Should adult mobs and/or baby mobs attack the player?
-#     adult: true                      Adult mobs should attack
-#     baby: false                      Baby mobs should attack
-#   ignore-npcs: true                  Ignore NPCs created by Citizens, EliteMobs, InfernalMobs, and Shopkeepers
-#   named-mobs-only: false             Should mobs attack only if they are named?
-#   retribution-only: true             Should mobs retaliate only if attacked by the player?
+#   acquisition-range: 16              Distance at which the attaker can detect a target
+#   deacquisition-range: 20            Distance at which the victim can escape attack
+#   attacker-health-threshold: 5       The attack should stop when the health of the attacker falls below the threshold (in half-hearts)
+#   age:                               Attacks may be waged by adults and/or babies
+#     adult: true                      If true, adult mobs should attack
+#     baby: false                      If true, baby mobs should attack
+#   ignore-npcs: true                  If true, ignore NPCs created by NPC managers, such as Citizens, EliteMobs, InfernalMobs, and Shopkeepers
+#   named-mobs-only: false             If true, only named mobs may attack
+#   retribution-only: true             If true, mobs should attack only in retaliation for player attack
 #   override-targeting: false          If true, remove vanilla targeting behavior and only use attack-conditions
-#   group-aggression-distance: 10      If other mobs of the same type are close enough, they should join the attack (in blocks)
+#   group-aggression-range: 20         If other mobs of the same type are within range of the attacker, they should join the attack (in blocks)
 #   player-movement:                   Mob should attack if the player is
 #     standing: true
 #     sneaking: true
 #     walking: true
 #     sprinting: true
 #     looking: true                    Like Enderman
-#   enabled-worlds: []                 Worlds in which this mob-type is enabled; if empty, it is enabled in all worlds
-#   disabled-worlds:                   Worlds in which this mob-type is disabled; must be set explicitly
+#   enabled-worlds: []                 Worlds in which attacks by this mob-type is enabled; if empty, it is enabled in all worlds
+#   disabled-worlds:                   Worlds in which attacks by this mob-type is disabled; must be set explicitly; takes precedence over enabled_worlds
 #     - "world_example"
 
 mobs:
   chicken:
     enabled: true
     speed-multiplier: 1.5
-    attack-damage: 1
+    attack-damage: 1.0
     attack-unto-death: false
     attack-speed: 10
     attack-range: 1
     attack-chance: 50
     chance-duration: 100
-    acquisition-range: 12
+    acquisition-range: 16
     deacquisition-range: 20
     attacker-health-threshold: 5
     age:
@@ -66,7 +76,7 @@ mobs:
     named-mobs-only: false
     retribution-only: true
     override-targeting: false
-    group-aggression-distance: 10
+    group-aggression-range: 20
     player-movement:
       standing: true
       sneaking: true
@@ -77,14 +87,60 @@ mobs:
     disabled-worlds:
       - "world_example"
 
-# Copy the above and adjust appropriately for additional mob-types.
-
-# ========== CHECK FOR UPDATES =====================================================================
-# If you do not want notification of available updates in the console log, you may disable it here.
-check-for-updates: true
-
-# ========== BSTATS METRICS ========================================================================
-# By default, the plugin collects and transmits anonymous statistics to bstats.org.
-# Data collection may be disabled here, or generally in the bStats/config.yml.
-#
-enable-metrics: true
+# Additional passive mob-types. Missing parameters will use  defaults.
+  axolotl               
+    enabled: false
+  bat                   
+    enabled: false
+  cat                   
+    enabled: false
+  cod                   
+    enabled: false
+  cow                   
+    enabled: false
+  donkey                
+    enabled: false
+  fox                   
+    enabled: false
+  frog          
+    enabled: false
+  glow_squid            
+    enabled: false
+  horse         
+    enabled: false
+  mooshroom             
+    enabled: false
+  mule          
+    enabled: false
+  ocelot                
+    enabled: false      
+  parrot                
+    enabled: false
+  pig                   
+    enabled: false
+  pufferfish            
+    enabled: false
+  rabbit                
+    enabled: false
+  salmon                
+    enabled: false
+  sheep         
+    enabled: false
+  skeleton_horse        
+    enabled: false
+  snow_golem            
+    enabled: false
+  squid         
+    enabled: false
+  strider               
+    enabled: false
+  tadpole               
+    enabled: false
+  tropical_fish 
+    enabled: false
+  turtle                
+    enabled: false
+  villager              
+    enabled: false
+  wandering_trader      
+    enabled: false
