@@ -4,15 +4,17 @@ import org.bukkit.entity.Player;
 
 public class Context {
     private static final String TARGET_PLACEHOLDER = "{target}";
+    private final String placeholder;
     private final Player namedTarget;
 
-    private Context(Player namedTarget) {
+    private Context(String placeholder, Player namedTarget) {
+        this.placeholder = placeholder;
         this.namedTarget = namedTarget;
     }
 
     public String fill(String msg) {
         if (namedTarget != null) {
-            msg = replaceWith(msg, TARGET_PLACEHOLDER, namedTarget.getName());
+            msg = replaceWith(msg, placeholder, namedTarget.getName());
         }
         return msg;
     }
@@ -21,17 +23,12 @@ public class Context {
         return msg.replace(target, replacement);
     }
 
-    public static class Builder {
-        private Player namedTarget;
+    public static Context playerTarget(String placeholder, Player player) {
+        return new Context(placeholder, player);
+    }
 
-        public Builder withNamedTarget(Player namedTarget) {
-            this.namedTarget = namedTarget;
-            return this;
-        }
-
-        public Context build() {
-            return new Context(namedTarget);
-        }
+    public static Context defaultPlayerTarget(Player player) {
+        return playerTarget(TARGET_PLACEHOLDER, player);
     }
 
 }
