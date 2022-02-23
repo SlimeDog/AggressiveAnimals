@@ -19,7 +19,7 @@
 # mob-type:
 #   enabled: true                      Should revenge attacks by this mob-type be enabled?
 #   speed-multiplier: 1.0              How fast can the mob move? (for example: 1.0 is regular speed, 0.5 is half speed and 2.0 is double speed)
-#   attack-damage: 1                   How much damage will the mob inflict per attack? (in half-hearts)
+#   attack-damage: 1.0                 How much damage will the mob inflict per attack? (in half-hearts)
 #   attack-unto-death: false           Should the mob kill the player if enough damage is inflicted? If false, the attack will stop at 1 heart
 #   attack-speed: 10                   How often can the mob damage the player? (in ticks)
 #   attack-range: 1                    From how many blocks away can the mob hit the player? (in blocks)
@@ -50,7 +50,7 @@ mobs:
   chicken:
     enabled: true
     speed-multiplier: 1.5
-    attack-damage: 1
+    attack-damage: 1.0
     attack-unto-death: false
     attack-speed: 10
     attack-range: 1
