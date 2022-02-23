@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobTypeManager;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.aggressiveanimals.commands.SubCommand;
-import dev.ratas.aggressiveanimals.config.messaging.Context;
+import dev.ratas.aggressiveanimals.config.messaging.DefinedContexts;
 import dev.ratas.aggressiveanimals.config.messaging.Messages;
 
 public class ListSub extends SubCommand {
@@ -34,7 +34,7 @@ public class ListSub extends SubCommand {
         messages.getListHeaderMessage().sendTo(sender);
         for (MobTypeSettings settings : manager.getUsedSettings()) {
             messages.getListItemMessage().sendTo(sender,
-                    Context.TYPE_SETTINGS.context(settings.entityType(), settings.enabled()));
+                    DefinedContexts.TYPE_SETTINGS.context(settings.entityType(), settings.enabled()));
         }
         return true;
     }
