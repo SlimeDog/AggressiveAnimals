@@ -1,8 +1,9 @@
 package dev.ratas.aggressiveanimals.aggressive.settings;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.configuration.ConfigurationSection;
@@ -59,7 +60,9 @@ public class MobTypeManager {
     }
 
     public Collection<MobTypeSettings> getUsedSettings() {
-        return Collections.unmodifiableCollection(types.values());
+        List<MobTypeSettings> sorted = new ArrayList<>(types.values());
+        sorted.sort((mts1, mts2) -> mts1.entityType().name().compareTo(mts2.entityType().name()));
+        return sorted;
     }
 
 }
