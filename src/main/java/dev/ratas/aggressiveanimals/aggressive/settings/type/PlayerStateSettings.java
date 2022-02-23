@@ -11,9 +11,11 @@ import org.bukkit.util.Vector;
 // #     walking: true
 // #     sprinting: true
 // #     looking: true                    Like Enderman
+// #     sleeping: true
+// #     gliding: true
 
 public record PlayerStateSettings(boolean attackStanding, boolean attackSneaking, boolean attackWalking,
-        boolean attackSprinting, boolean attackLooking) {
+        boolean attackSprinting, boolean attackLooking, boolean attackSleeping, boolean attackGliding) {
 
     private static final double MAX_DISTANCE = 20; // TODO - read from data?
     private static final double MIN_ALLOWED_DOT_PRODUCT = 0.99D;
@@ -29,6 +31,12 @@ public record PlayerStateSettings(boolean attackStanding, boolean attackSneaking
             return true;
         }
         if (target.isSprinting() && attackSprinting) {
+            return true;
+        }
+        if (target.isSleeping() && attackSleeping) {
+            return true;
+        }
+        if (target.isGliding() && attackGliding) {
             return true;
         }
         if (isLookingAt(target, mob, MAX_DISTANCE, MIN_ALLOWED_DOT_PRODUCT) && attackLooking) {

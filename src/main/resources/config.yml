@@ -53,6 +53,8 @@ enable-metrics: true
 #     walking: true
 #     sprinting: true
 #     looking: true                    Like Enderman
+#     sleeping: true
+#     gliding: true
 #   enabled-worlds: []                 Worlds in which attacks by this mob-type is enabled; if empty, it is enabled in all worlds
 #   disabled-worlds:                   Worlds in which attacks by this mob-type is disabled; must be set explicitly; takes precedence over enabled_worlds
 #     - "world_example"
@@ -85,6 +87,8 @@ mobs:
       walking: true
       sprinting: true
       looking: true
+      sleeping: true
+      gliding: true
     enabled-worlds: []
     disabled-worlds:
       - "world_example"

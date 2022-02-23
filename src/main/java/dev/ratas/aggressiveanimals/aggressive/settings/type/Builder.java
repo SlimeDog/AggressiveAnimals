@@ -124,8 +124,10 @@ public class Builder {
         boolean attackWalking = section.getBoolean("walking", true);
         boolean attackSprinting = section.getBoolean("sprinting", true);
         boolean attackLooking = section.getBoolean("looking", true);
+        boolean attackSleeping = section.getBoolean("sleeping", true);
+        boolean attackGliding = section.getBoolean("guiding", true);
         playerStateSettings = new PlayerStateSettings(attackStanding, attackSneaking, attackWalking, attackSprinting,
-                attackLooking);
+                attackLooking, attackSleeping, attackGliding);
     }
 
     private void loadWorldSettings() {
