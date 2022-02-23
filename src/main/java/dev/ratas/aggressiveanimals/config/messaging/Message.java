@@ -17,16 +17,16 @@ public class Message {
         return config.getConfig().getString(path, def);
     }
 
-    public void sendTo(CommandSender player) {
-        sendTo(player, null);
+    public void sendTo(CommandSender sender) {
+        sendTo(sender, null);
     }
 
-    public void sendTo(CommandSender player, Context context) {
+    public void sendTo(CommandSender sender, Context context) {
         String msg = getRaw();
         if (context != null) {
             msg = context.fill(msg);
         }
-        player.sendMessage(msg);
+        sender.sendMessage(msg);
     }
     
 }
