@@ -37,19 +37,20 @@ public class MobTypeManager {
                 plugin.getLogger().warning("Unable to load mob type settings for " + key + ": " + e.getMessage());
                 continue;
             }
-            if (!typeSettings.enabled()) {
-                continue; // ignoring since not enabled
-            }
             types.put(typeSettings.entityType(), typeSettings);
         }
     }
 
     public boolean isManaged(EntityType type) {
-        return getSettings(type) != null;
+        return getEnabledSettings(type) != null;
     }
 
-    public MobTypeSettings getSettings(EntityType type) {
-        return types.get(type);
+    public MobTypeSettings getEnabledSettings(EntityType type) {
+        MobTypeSettings settings = types.get(type);
+        if (settings == null) {
+            return null;
+        }
+        return settings.enabled() ? settings : null;
     }
 
     public void reload(Settings settings) {

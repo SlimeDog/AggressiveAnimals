@@ -33,7 +33,7 @@ public class AggressivityManager {
     }
 
     public void setAggressivityAttributes(Mob entity) {
-        MobTypeSettings settings = mobTypeManager.getSettings(entity.getType());
+        MobTypeSettings settings = mobTypeManager.getEnabledSettings(entity.getType());
         if (settings == null) {
             throw new IllegalArgumentException(
                     "Entity of type " + entity.getType() + " is not currently managed by the plugin.");
@@ -44,7 +44,7 @@ public class AggressivityManager {
     }
 
     public void attemptAttacking(Mob entity, Player target) {
-        MobTypeSettings settings = mobTypeManager.getSettings(entity.getType());
+        MobTypeSettings settings = mobTypeManager.getEnabledSettings(entity.getType());
         if (settings == null) {
             throw new IllegalArgumentException(
                     "Entity of type " + entity.getType() + " is not currently managed by the plugin.");
@@ -79,7 +79,7 @@ public class AggressivityManager {
     }
 
     public boolean shouldBeAggressiveAtSpawn(Mob entity) {
-        MobTypeSettings settings = mobTypeManager.getSettings(entity.getType());
+        MobTypeSettings settings = mobTypeManager.getEnabledSettings(entity.getType());
         if (settings == null) {
             return false;
         }
@@ -90,7 +90,7 @@ public class AggressivityManager {
     }
 
     public boolean shouldBeAggressiveOnAttack(Mob entity, Player target) {
-        MobTypeSettings settings = mobTypeManager.getSettings(entity.getType());
+        MobTypeSettings settings = mobTypeManager.getEnabledSettings(entity.getType());
         if (settings == null) {
             return false;
         }
