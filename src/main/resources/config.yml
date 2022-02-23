@@ -25,7 +25,7 @@
 #   attack-range: 1                    From how many blocks away can the mob hit the player? (in blocks)
 #   attack-chance: 50                  Chance that the mob will attack the player, per chance-duration? (in percentage)
 #   chance-duration: 100               How often should the attack chance be calculated? (in ticks)
-#   acquisition-range: 12              How close will mobs acquire a player and start an attack?
+#   acquisition-range: 16              How close will mobs acquire a player and start an attack?
 #   deacquisition-range: 20            How far away must the player run to stop an attack?
 #   attacker-health-threshold: 5       The attack should stop when the mob health falls below the threshold (in half-hearts)
 #   age:                               Should adult mobs and/or baby mobs attack the player?
@@ -35,7 +35,7 @@
 #   named-mobs-only: false             Should mobs attack only if they are named?
 #   retribution-only: true             Should mobs retaliate only if attacked by the player?
 #   override-targeting: false          If true, remove vanilla targeting behavior and only use attack-conditions
-#   group-aggression-distance: 10      If other mobs of the same type are close enough, they should join the attack (in blocks)
+#   group-aggression-range: 20         If other mobs of the same type are close enough, they should join the attack (in blocks)
 #   player-movement:                   Mob should attack if the player is
 #     standing: true
 #     sneaking: true
@@ -56,7 +56,7 @@ mobs:
     attack-range: 1
     attack-chance: 50
     chance-duration: 100
-    acquisition-range: 12
+    acquisition-range: 16
     deacquisition-range: 20
     attacker-health-threshold: 5
     age:
@@ -66,7 +66,7 @@ mobs:
     named-mobs-only: false
     retribution-only: true
     override-targeting: false
-    group-aggression-distance: 10
+    group-aggression-range: 20
     player-movement:
       standing: true
       sneaking: true
