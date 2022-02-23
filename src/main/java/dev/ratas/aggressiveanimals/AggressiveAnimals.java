@@ -92,6 +92,10 @@ public class AggressiveAnimals extends JavaPlugin {
         return npcHookManager;
     }
 
+    public AggressivityManager getAggressivityManager() {
+        return aggressivityManager;
+    }
+
     private void disableMe(ConfigLoadIssueResolver issues) {
         getLogger().severe(issues.asString());
         getServer().getPluginManager().disablePlugin(this);
