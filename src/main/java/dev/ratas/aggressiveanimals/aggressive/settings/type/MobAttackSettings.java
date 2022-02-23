@@ -8,6 +8,6 @@ package dev.ratas.aggressiveanimals.aggressive.settings.type;
 // #   chance-duration: 100               How often should the attack chance be calculated? (in ticks)
 
 public record MobAttackSettings(double damage, boolean canKill, double speed, double range, double chance,
-        long chanceRecalcTicks) {
+                long chanceRecalcTicks, float attackLeapHeight) {
 
 }

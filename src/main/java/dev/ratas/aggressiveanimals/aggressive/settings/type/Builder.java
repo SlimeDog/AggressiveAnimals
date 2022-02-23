@@ -79,7 +79,9 @@ public class Builder {
         double range = section.getDouble("attack-range", 1.0D);
         double chance = section.getDouble("attack-chance", 50.0D);
         long chanceRecalcTicks = section.getLong("chance-duration", 100);
-        attackSettings = new MobAttackSettings(damage, canKill, speed, range, chance, chanceRecalcTicks);
+        float attackLeapHeight = (float) section.getDouble("attack-leap-height", 0.0F);
+        attackSettings = new MobAttackSettings(damage, canKill, speed, range, chance, chanceRecalcTicks,
+                attackLeapHeight);
     }
 
     private void loadAcquisitionSettings() {

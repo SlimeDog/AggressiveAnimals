@@ -34,6 +34,7 @@ enable-metrics: true
 #   attack-speed: 10                   How often a mob can attack the player (in ticks)
 #   attack-range: 1                    From how many blocks away can the mob hit the player? (in blocks)
 #   attack-chance: 50                  Chance that the mob will attack the player, per chance-duration? (in percentage)
+#   attack-leap-height: 0.0            The height to which the mob leaps when attacking (0 or below means disabled)
 #   chance-duration: 100               How often should the attack chance be calculated? (in ticks)
 #   acquisition-range: 16              Distance at which the attaker can detect a target
 #   deacquisition-range: 20            Distance at which the victim can escape attack
@@ -65,6 +66,7 @@ mobs:
     attack-speed: 10
     attack-range: 1
     attack-chance: 50
+    attack-leap-height: 0.3
     chance-duration: 100
     acquisition-range: 16
     deacquisition-range: 20

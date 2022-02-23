@@ -19,6 +19,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
@@ -103,6 +104,11 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         wrapper.getGoals().add(cur);
         mob.targetSelector.addGoal(2, cur = new NearestAttackableTargetGoal<Player>(mob, Player.class, true));
         wrapper.getGoals().add(cur);
+        float leapHeight = settings.attackSettings().attackLeapHeight();
+        if (leapHeight > 0) {
+            mob.targetSelector.addGoal(9, cur = new LeapAtTargetGoal(mob, leapHeight));
+            wrapper.getGoals().add(cur);
+        }
     }
 
     @Override
