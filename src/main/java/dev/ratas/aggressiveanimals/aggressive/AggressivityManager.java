@@ -106,4 +106,8 @@ public class AggressivityManager {
         passifier.reload();
     }
 
+    public MobTypeManager getMobTypeManager() {
+        return mobTypeManager;
+    }
+
 }
