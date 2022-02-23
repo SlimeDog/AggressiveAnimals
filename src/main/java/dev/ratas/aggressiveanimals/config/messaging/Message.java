@@ -1,12 +1,13 @@
 package dev.ratas.aggressiveanimals.config.messaging;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 public class Message {
     private final MessagesBase config;
     private final String path;
     private final String def;
-    
+
     public Message(MessagesBase config, String path, String def) {
         this.config = config;
         this.path = path;
@@ -26,7 +27,8 @@ public class Message {
         if (context != null) {
             msg = context.fill(msg);
         }
+        msg = ChatColor.translateAlternateColorCodes('&', msg);
         sender.sendMessage(msg);
     }
-    
+
 }

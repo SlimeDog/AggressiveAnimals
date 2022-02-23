@@ -1,6 +1,5 @@
 package dev.ratas.aggressiveanimals.config.messaging;
 
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -18,10 +17,6 @@ public class MessagesBase extends CustomConfigHandler {
 
     public JavaPlugin getOwner() {
         return plugin;
-    }
-
-    public String getMessage(String path, String def) {
-        return ChatColor.translateAlternateColorCodes('&', (getConfig().getString(path, def)));
     }
 
 }
