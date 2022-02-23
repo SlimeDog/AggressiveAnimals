@@ -45,7 +45,7 @@ enable-metrics: true
 #   named-mobs-only: false             If true, only named mobs may attack
 #   retribution-only: true             If true, mobs should attack only in retaliation for player attack
 #   override-targeting: false          If true, remove vanilla targeting behavior and only use attack-conditions
-#   group-aggression-range: 20         If other mobs of the same type are within range, they should join the attack (in blocks)
+#   group-aggression-range: 20         If other mobs of the same type are within range of the attacker, they should join the attack (in blocks)
 #   player-movement:                   Mob should attack if the player is
 #     standing: true
 #     sneaking: true
