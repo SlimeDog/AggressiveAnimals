@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 public record MobAcquisationSettings(double acquisitionRange, double deacquisitionRange) {
 
     public boolean isInRange(Entity mob, Player target) {
-        double max2 = acquisitionRange * acquisitionRange;
+        double max2 = deacquisitionRange * deacquisitionRange;
         return mob.getLocation().distanceSquared(target.getLocation()) <= max2;
     }
 
