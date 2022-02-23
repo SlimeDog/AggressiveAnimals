@@ -21,3 +21,6 @@ permissions:
   aggressiveanimals.reload:
     description: Allows reloading the plugin
     default: op
+  aggressiveanimals.list:
+    description: Allows showing list of aggressive animals
+    default: op
