@@ -119,13 +119,13 @@ public class Builder {
     }
 
     public void loadPlayerStateSettings() {
-        boolean attackStanding = section.getBoolean("standing", true);
-        boolean attackSneaking = section.getBoolean("sneaking", true);
-        boolean attackWalking = section.getBoolean("walking", true);
-        boolean attackSprinting = section.getBoolean("sprinting", true);
-        boolean attackLooking = section.getBoolean("looking", true);
-        boolean attackSleeping = section.getBoolean("sleeping", true);
-        boolean attackGliding = section.getBoolean("guiding", true);
+        boolean attackStanding = section.getBoolean("player-movement.standing", true);
+        boolean attackSneaking = section.getBoolean("player-movement.sneaking", true);
+        boolean attackWalking = section.getBoolean("player-movement.walking", true);
+        boolean attackSprinting = section.getBoolean("player-movement.sprinting", true);
+        boolean attackLooking = section.getBoolean("player-movement.looking", true);
+        boolean attackSleeping = section.getBoolean("player-movement.sleeping", true);
+        boolean attackGliding = section.getBoolean("player-movement.guiding", true);
         playerStateSettings = new PlayerStateSettings(attackStanding, attackSneaking, attackWalking, attackSprinting,
                 attackLooking, attackSleeping, attackGliding);
     }
