@@ -113,6 +113,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         for (Object goal : wrapper.getGoals()) {
             mob.targetSelector.removeGoal((Goal) goal);
         }
+        wrapper.getGoals().clear();
         MobAttributes saved = (MobAttributes) wrapper.getSavedAttributes();
         if (saved == null) {
             plugin.getLogger().warning("No previously saved attributes for mob  " + wrapper.getBukkitEntity()
