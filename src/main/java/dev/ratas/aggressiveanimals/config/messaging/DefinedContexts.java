@@ -16,7 +16,7 @@ public final class DefinedContexts {
     public static final ContextBuilder<EntityType> MOB_TYPE = new ContextBuilder<>(
             ENTITY_TYPE_PLACEHOLDER, e -> e.name());
     public static final ContextBuilder<Boolean> STATUS = new ContextBuilder<>(
-            ENTITY_TYPE_PLACEHOLDER, b -> String.valueOf(b));
+            STATUS_PLACEHOLDER, b -> String.valueOf(b));
     public static final MultiBuilder<EntityType, Boolean> TYPE_SETTINGS = new DelegateMultiContextBuilder<>(MOB_TYPE,
             STATUS);
 
