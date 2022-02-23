@@ -12,6 +12,16 @@
 # --------------------
 # is all that is required; the remaining configuration options will use the default values.
 
+# ========== CHECK FOR UPDATES =====================================================================
+# If you do not want notification of available updates in the console log, you may disable it here.
+check-for-updates: true
+
+# ========== BSTATS METRICS ========================================================================
+# By default, the plugin collects and transmits anonymous statistics to bstats.org.
+# Data collection may be disabled here, or generally in the bStats/config.yml.
+#
+enable-metrics: true
+
 # ========== PER MOB ATTACK PROFILES ===============================================================
 # An attack profile must be created for each mob-type that you want to stage revenge attacks.
 # Only the enabled node is required. Undefined nodes will use default values.
@@ -134,13 +144,3 @@ mobs:
     enabled: false
   wandering_trader      
     enabled: false
-
-# ========== CHECK FOR UPDATES =====================================================================
-# If you do not want notification of available updates in the console log, you may disable it here.
-check-for-updates: true
-
-# ========== BSTATS METRICS ========================================================================
-# By default, the plugin collects and transmits anonymous statistics to bstats.org.
-# Data collection may be disabled here, or generally in the bStats/config.yml.
-#
-enable-metrics: true
