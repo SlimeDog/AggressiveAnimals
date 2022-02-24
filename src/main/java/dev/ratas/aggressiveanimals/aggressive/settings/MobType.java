@@ -33,7 +33,7 @@ public enum MobType {
     giant(EntityType.GIANT),
     goat(EntityType.GOAT),
     guardian(EntityType.GUARDIAN),
-    glow_squit(EntityType.GLOW_SQUID),
+    glow_squid(EntityType.GLOW_SQUID),
     hogline(EntityType.HOGLIN),
     horse(EntityType.HORSE),
     husk(EntityType.HUSK),
