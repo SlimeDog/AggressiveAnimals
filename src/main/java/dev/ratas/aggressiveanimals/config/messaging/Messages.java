@@ -18,8 +18,8 @@ public class Messages extends MessagesBase {
                 "There was an issue while reloading the config - check the console log");
         this.listHeaderMessage = new Message(this, "list-header", "&8Configured mobs");
         this.listItemMessage = new Message(this, "list-format", "&6%mob-type% &f- %status%");
-        this.enabledMessage = new Message(this, "enable", "enable");
-        this.disabledMessage = new Message(this, "disable", "disable");
+        this.enabledMessage = new Message(this, "enabled", "enabled");
+        this.disabledMessage = new Message(this, "disabled", "disabled");
     }
 
     public Message getReloadMessage() {
