@@ -54,6 +54,12 @@ public interface Context {
 
     }
 
+    public static interface TripleBuilder<T, U, V> {
+
+        Context context(T t, U u, V v);
+
+    }
+
     public static class ContextBuilder<T> implements Builder<T> {
         private final String placeholder;
         private final Function<T, String> converter;
@@ -97,6 +103,22 @@ public interface Context {
         @Override
         public Context context(R r, H h) {
             return delegate.context(helperFunction.apply(r, h));
+        }
+
+    }
+
+    public static class DelegateWithMultiContextBuilder<T, U, V> implements TripleBuilder<T, U, V> {
+        private final ContextBuilder<T> delegate1;
+        private final MultiBuilder<U, V> delegate2;
+
+        public DelegateWithMultiContextBuilder(ContextBuilder<T> delegate1, MultiBuilder<U, V> delegate2) {
+            this.delegate1 = delegate1;
+            this.delegate2 = delegate2;
+        }
+
+        @Override
+        public Context context(T t, U u, V v) {
+            return new DelegatingContext(delegate1.context(t), delegate2.context(u, v));
         }
 
     }

@@ -5,8 +5,10 @@ import org.junit.Test;
 
 import dev.ratas.aggressiveanimals.config.messaging.Context.ContextBuilder;
 import dev.ratas.aggressiveanimals.config.messaging.Context.DelegateMultiContextBuilder;
+import dev.ratas.aggressiveanimals.config.messaging.Context.DelegateWithMultiContextBuilder;
 import dev.ratas.aggressiveanimals.config.messaging.Context.DelegatingContext;
 import dev.ratas.aggressiveanimals.config.messaging.Context.HelperDelegateBuilder;
+import dev.ratas.aggressiveanimals.config.messaging.Context.MultiBuilder;
 import dev.ratas.aggressiveanimals.config.messaging.Context.StringReplacementContext;
 
 public class DefinedContextsTest {
@@ -96,6 +98,32 @@ public class DefinedContextsTest {
         Assert.assertTrue("Output should contain converted replacement - false (1)", output.contains("0"));
         Assert.assertTrue("Output should contain converted replacement - false (2)", output.contains("false"));
         Assert.assertTrue("Output should contain converted replacement - false (3)", output.contains("0false"));
+    }
+
+    @Test
+    public void test_DelegateWithMultiContextBuilder_working() {
+        String placeholder1 = "%MySpecialPH%";
+        String placeholder2 = "%TheOtherPH%";
+        String placeholder3 = "%TheOTH3RDPH%";
+        String msg = "Message(DMCB) that includes PH: " + placeholder1 + " and some other text " + placeholder2
+                + " ++ and then " + placeholder3 + " this is it";
+        String strReplacement = "lower_case stuff";
+        int intRepalacement = 10;
+        String thirdReplacement = "DUH";
+        ContextBuilder<String> upperCaseBuilder = new ContextBuilder<>(placeholder1, s -> s.toUpperCase());
+        ContextBuilder<Integer> intBuilder = new ContextBuilder<>(placeholder2, nr -> String.valueOf(nr));
+        ContextBuilder<String> thirdBuilder = new ContextBuilder<>(placeholder3, s -> s.toLowerCase());
+        MultiBuilder<Integer, String> helperBuilder = new DelegateMultiContextBuilder<>(intBuilder, thirdBuilder);
+        DelegateWithMultiContextBuilder<String, Integer, String> builder = new DelegateWithMultiContextBuilder<>(
+                upperCaseBuilder, helperBuilder);
+        Context context = builder.context(strReplacement, intRepalacement, thirdReplacement);
+        String output = context.fill(msg);
+        Assert.assertFalse("Output cannot contain placholder one", output.contains(placeholder1));
+        Assert.assertFalse("Output cannot contain placholder two", output.contains(placeholder2));
+        Assert.assertFalse("Output cannot contain placholder three", output.contains(placeholder3));
+        Assert.assertTrue("Output should contain replacement one", output.contains(strReplacement.toUpperCase()));
+        Assert.assertTrue("Output should contain replacement two", output.contains(String.valueOf(intRepalacement)));
+        Assert.assertTrue("Output should contain replacement three", output.contains(thirdReplacement.toLowerCase()));
     }
 
 }
