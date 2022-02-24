@@ -62,6 +62,10 @@ public class AggressivityManager {
             setAggressivityAttributes(entity);
             wrapper = trackedMobs.get(entity);
         }
+        if (wrapper.isAttacking()) {
+            plugin.debug("Attempting to mark mob attacking while it is already doing so");
+            return;
+        }
         plugin.debug("Attempting to set attacking: " + entity);
         if (settings.shouldAttack(entity, target)) {
             setter.setAttackingGoals(wrapper);
