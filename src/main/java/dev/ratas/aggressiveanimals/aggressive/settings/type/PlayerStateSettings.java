@@ -71,6 +71,9 @@ public record PlayerStateSettings(boolean attackStanding, boolean attackSneaking
     private boolean isLookingAt(Player player, Entity mob, double maxDistance, double minAllowed) {
         Location from = player.getEyeLocation();
         Location to = mob.getLocation();
+        if (from.getWorld() != to.getWorld()) {
+            return false;
+        }
         double md2 = maxDistance * maxDistance;
         if (from.distanceSquared(to) > md2) {
             return false;
