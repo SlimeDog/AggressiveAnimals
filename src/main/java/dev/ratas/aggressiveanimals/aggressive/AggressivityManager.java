@@ -122,4 +122,13 @@ public class AggressivityManager {
         return mobTypeManager;
     }
 
+    public void untargetPlayer(Player player) {
+        // TODO - make this more effective
+        for (Mob mob : trackedMobs.keySet()) {
+            if (mob.getTarget() == player) {
+                mob.setTarget(null);
+            }
+        }
+    }
+
 }

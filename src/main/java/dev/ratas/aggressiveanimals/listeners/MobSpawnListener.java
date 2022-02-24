@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
@@ -72,6 +73,12 @@ public class MobSpawnListener implements Listener {
             return;
         }
         aggressivityManager.attemptAttacking(target, damagingPlayer, AttackReason.RETALIATE);
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent event) {
+        Player player = event.getEntity();
+        aggressivityManager.untargetPlayer(player);
     }
 
 }
