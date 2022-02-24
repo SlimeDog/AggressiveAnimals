@@ -82,7 +82,11 @@ public enum MobType {
     zombie(EntityType.ZOMBIE),
     zombie_horse(EntityType.ZOMBIE_HORSE),
     zombie_villager(EntityType.ZOMBIE_VILLAGER),
-    zombified_piglin(EntityType.ZOMBIFIED_PIGLIN);
+    zombified_piglin(EntityType.ZOMBIFIED_PIGLIN),
+    // New in next version(s):
+    frog("FROG"),
+    tadpole("TADPOLE")
+    ;
 
     private static final Map<EntityType, MobType> REVERSE_MAP = new EnumMap<>(EntityType.class);
     private static final Map<String, MobType> NAME_MAP = new HashMap<>();
@@ -91,6 +95,17 @@ public enum MobType {
     }
     private final EntityType delegate;
     private final Set<String> alternateNames;
+
+    private MobType(String enumName, String... alternates) {
+        EntityType delegate;
+        try {
+            delegate = EntityType.valueOf(enumName);
+        } catch (IllegalArgumentException e) {
+            delegate = null;
+        }
+        this.delegate = delegate;
+        this.alternateNames = new HashSet<>(Arrays.asList(alternates));
+    }
 
     private MobType(EntityType delegate, String... alternates) {
         this.delegate = delegate;

@@ -59,7 +59,7 @@ public class Builder {
         try {
             type = MobType.from(tpyeName.toLowerCase());
         } catch (IllegalArgumentException e) {
-            throw new IllegalMobTypeSettingsException("Unknown entity type " + tpyeName);
+            throw new IllegalMobTypeSettingsException("Unknown entity type " + tpyeName + " (" + e.getMessage() + ")");
         }
     }
 
