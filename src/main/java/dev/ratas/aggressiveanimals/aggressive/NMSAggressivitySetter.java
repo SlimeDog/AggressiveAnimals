@@ -30,6 +30,7 @@ import net.minecraft.world.entity.player.Player;
 
 public class NMSAggressivitySetter implements AggressivitySetter {
     private static final NMSResolver NMS_RESOLVER = new NMSResolver();
+    private static final double ATTACK_GOAL_SPEED_MODIFIER = 1.0D;
     private final AggressiveAnimals plugin;
 
     public NMSAggressivitySetter(AggressiveAnimals plugin) {
@@ -93,7 +94,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
 
         Goal cur;
         mob.targetSelector.addGoal(2,
-                cur = new MeleeAttackGoal((PathfinderMob) mob, settings.attackSettings().speed(), false));
+                cur = new MeleeAttackGoal((PathfinderMob) mob, ATTACK_GOAL_SPEED_MODIFIER, false));
         wrapper.getGoals().add(cur);
         mob.targetSelector.addGoal(8, cur = new LookAtPlayerGoal(mob, Player.class, range));
         wrapper.getGoals().add(cur);
