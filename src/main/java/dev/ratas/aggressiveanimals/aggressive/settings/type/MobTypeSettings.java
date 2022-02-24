@@ -41,22 +41,24 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
         if (!enabled) {
             return false;
         }
-        if (target.getHealth() <= attackSettings.attackDamageLimit()) {
-            return false;
+        if (target != null) {
+            if (target.getHealth() <= attackSettings.attackDamageLimit()) {
+                return false;
+            }
+            if (!acquisitionSettings.isInRange(mob, target)) {
+                return false;
+            }
+            if (target.getHealth() < minAttackHealth) {
+                return false;
+            }
+            if (!playerStateSettings.shouldAttack(mob, target)) {
+                return false;
+            }
         }
-        if (!acquisitionSettings.isInRange(mob, target)) {
-            return false;
-        }
-        if (target.getHealth() < minAttackHealth) {
+        if (!worldSettings.isEnabledInWorld(mob.getWorld())) {
             return false;
         }
         if (!ageSettings.shouldAttack(mob)) {
-            return false;
-        }
-        if (!playerStateSettings.shouldAttack(mob, target)) {
-            return false;
-        }
-        if (!worldSettings.isEnabledInWorld(target.getWorld())) {
             return false;
         }
         return true;

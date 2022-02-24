@@ -35,7 +35,7 @@ public class MobSpawnListener implements Listener {
         if (!aggressivityManager.shouldBeAggressiveAtSpawn(mob)) {
             return;
         }
-        // TODO make attacking closest target
+        aggressivityManager.attemptAttacking(mob, null);
     }
 
     private Player getDamagingPlayer(Entity entity) {
