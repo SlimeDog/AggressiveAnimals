@@ -11,18 +11,21 @@ import dev.ratas.aggressiveanimals.AggressiveAnimals;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobTypeManager;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
+import dev.ratas.aggressiveanimals.aggressive.timers.GroupAggressivity;
 import dev.ratas.aggressiveanimals.aggressive.timers.Passifier;
 import dev.ratas.aggressiveanimals.config.Settings;
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 
 public class AggressivityManager {
     private static final long PASSIFIER_PERIOD = 10L; // TODO - make configurable?
+    private static final long GROUP_AGGRESSION_PERIOD = 40L; // TODO - make configurable?
     private final AggressiveAnimals plugin;
     private final NPCHookManager npcHooks;
     private final MobTypeManager mobTypeManager;
     private final AggressivitySetter setter;
     private final Map<Mob, MobWrapper> trackedMobs = new HashMap<>();
     private final Passifier passifier;
+    private final GroupAggressivity groupAggressivity;
 
     public AggressivityManager(AggressiveAnimals plugin, Settings settings, NPCHookManager npcHooks) {
         this.npcHooks = npcHooks;
@@ -30,7 +33,10 @@ public class AggressivityManager {
         mobTypeManager = new MobTypeManager(plugin, settings);
         setter = new NMSAggressivitySetter(plugin);
         this.passifier = new Passifier(this, Collections.emptyList());
+        this.groupAggressivity = new GroupAggressivity(this, Collections.emptyList());
         plugin.getServer().getScheduler().runTaskTimer(plugin, passifier, PASSIFIER_PERIOD, PASSIFIER_PERIOD);
+        plugin.getServer().getScheduler().runTaskTimer(plugin, groupAggressivity, GROUP_AGGRESSION_PERIOD,
+                GROUP_AGGRESSION_PERIOD);
     }
 
     public void setAggressivityAttributes(Mob entity) {
@@ -62,6 +68,7 @@ public class AggressivityManager {
             entity.setTarget(target);
             plugin.debug("The mob is now attacking: " + entity + " -> " + entity.getTarget());
             passifier.addTrackableMob(wrapper);
+            groupAggressivity.addTrackableMob(wrapper);
         }
     }
 
