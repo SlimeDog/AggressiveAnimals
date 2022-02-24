@@ -3,13 +3,11 @@ Those cute little animals can kill you
 
 ### Overview
 
-AggressiveAnimals is based on Michielcx's original [AggressiveAnimals](https://www.spigotmc.org/resources/aggressive-animals-➤-mobs-take-revenge-1-8-1-15.76716/), which was abandoned after release 2.6 for Spigot 1.17 (2021-07-10). Credit for the original idea belongs to him.
+AggressiveAnimals is based on Michielcx's original [resource](https://www.spigotmc.org/resources/aggressive-animals-➤-mobs-take-revenge-1-8-1-15.76716/), which was abandoned after release 2.6 for Spigot 1.17 (2021-07-10). Credit for the idea belongs to him.
 
-Unfortunately, the original source code was not public, so this resource was created from scratch. We modified the configuration file slightly, so users of the original AggressiveAnimals may want to update, although the defaults will work adequately.
+Unfortunately, the original source code was not made public, so this resource was created from scratch. The configuration has been modified considerably, so users of the original will need to update, although the defaults will work adequately in most cases.
 
 This resource is released under a GPL3 license.
-
-If Michielcx revives the original AggressiveAnimals, this resource may be discontinued. Or maybe not.
 
 ### The Wiki
 
