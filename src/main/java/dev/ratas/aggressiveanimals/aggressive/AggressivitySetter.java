@@ -4,7 +4,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public interface AggressivitySetter {
-    public static final String AGGRESSIVE_ANIMAL_METADATA_TOKEN = "AgressiveAnimal";
+    public static final String AGGRESSIVE_ANIMAL_METADATA_TOKEN = "AggressiveAnimal";
 
     void setAggressivityAttributes(MobWrapper mob);
 
