@@ -34,7 +34,7 @@ public class ListSub extends SubCommand {
         messages.getListHeaderMessage().sendTo(sender);
         for (MobTypeSettings settings : manager.getUsedSettings()) {
             messages.getListItemMessage().sendTo(sender,
-                    DefinedContexts.TYPE_SETTINGS.context(settings.entityType(), settings.enabled()));
+                    DefinedContexts.TYPE_SETTINGS.context(settings.entityType(), settings.enabled(), messages));
         }
         return true;
     }
