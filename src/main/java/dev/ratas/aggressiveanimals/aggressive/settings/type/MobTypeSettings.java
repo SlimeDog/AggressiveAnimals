@@ -1,15 +1,15 @@
 package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 
 import dev.ratas.aggressiveanimals.aggressive.ChangeReason;
 import dev.ratas.aggressiveanimals.aggressive.MobWrapper;
+import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 
-public record MobTypeSettings(EntityType entityType, boolean enabled, double speedMultiplier,
+public record MobTypeSettings(MobType entityType, boolean enabled, double speedMultiplier,
         MobAttackSettings attackSettings, MobAcquisationSettings acquisitionSettings, double minAttackHealth,
         MobAgeSettings ageSettings, MobMiscSettings miscSettings, boolean retaliateOnly, boolean overrideTargets,
         double groupAgressionDistance, PlayerStateSettings playerStateSettings, MobWorldSettings worldSettings) {
@@ -17,7 +17,7 @@ public record MobTypeSettings(EntityType entityType, boolean enabled, double spe
     private static final double LEAVE_HEALTH_AT = 1.0D;
 
     public boolean shouldApplyTo(Mob mob, Player target, NPCHookManager npcHooks) {
-        if (mob.getType() != entityType) {
+        if (mob.getType() != entityType.getBukkitType()) {
             throw new IllegalArgumentException(
                     "Mob is of wrong type (at application time). Expected " + entityType.name() + " and got "
                             + mob.getType());
@@ -35,7 +35,7 @@ public record MobTypeSettings(EntityType entityType, boolean enabled, double spe
     }
 
     public boolean shouldAttack(Mob mob, Player target) {
-        if (mob.getType() != entityType) {
+        if (mob.getType() != entityType.getBukkitType()) {
             throw new IllegalArgumentException(
                     "Mob is of wrong type (at attack time). Expected " + entityType.name() + " and got "
                             + mob.getType());

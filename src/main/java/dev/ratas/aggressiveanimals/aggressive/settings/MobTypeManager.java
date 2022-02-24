@@ -2,12 +2,11 @@ package dev.ratas.aggressiveanimals.aggressive.settings;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.ratas.aggressiveanimals.aggressive.settings.type.Builder;
@@ -16,7 +15,7 @@ import dev.ratas.aggressiveanimals.config.Settings;
 
 public class MobTypeManager {
     private final JavaPlugin plugin;
-    private final Map<EntityType, MobTypeSettings> types = new HashMap<>();
+    private final Map<MobType, MobTypeSettings> types = new EnumMap<>(MobType.class);
 
     public MobTypeManager(JavaPlugin plugin, Settings settings) {
         this.plugin = plugin;
@@ -42,11 +41,11 @@ public class MobTypeManager {
         }
     }
 
-    public boolean isManaged(EntityType type) {
+    public boolean isManaged(MobType type) {
         return getEnabledSettings(type) != null;
     }
 
-    public MobTypeSettings getEnabledSettings(EntityType type) {
+    public MobTypeSettings getEnabledSettings(MobType type) {
         MobTypeSettings settings = types.get(type);
         if (settings == null) {
             return null;

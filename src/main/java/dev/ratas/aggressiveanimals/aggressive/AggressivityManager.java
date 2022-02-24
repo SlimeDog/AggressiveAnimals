@@ -8,6 +8,7 @@ import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 
 import dev.ratas.aggressiveanimals.AggressiveAnimals;
+import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobTypeManager;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.aggressiveanimals.aggressive.timers.Passifier;
@@ -33,7 +34,7 @@ public class AggressivityManager {
     }
 
     public void setAggressivityAttributes(Mob entity) {
-        MobTypeSettings settings = mobTypeManager.getEnabledSettings(entity.getType());
+        MobTypeSettings settings = mobTypeManager.getEnabledSettings((MobType.fromBukkit(entity.getType())));
         if (settings == null) {
             throw new IllegalArgumentException(
                     "Entity of type " + entity.getType() + " is not currently managed by the plugin.");
@@ -44,7 +45,7 @@ public class AggressivityManager {
     }
 
     public void attemptAttacking(Mob entity, Player target) {
-        MobTypeSettings settings = mobTypeManager.getEnabledSettings(entity.getType());
+        MobTypeSettings settings = mobTypeManager.getEnabledSettings((MobType.fromBukkit(entity.getType())));
         if (settings == null) {
             throw new IllegalArgumentException(
                     "Entity of type " + entity.getType() + " is not currently managed by the plugin.");
@@ -75,11 +76,11 @@ public class AggressivityManager {
     }
 
     public boolean isManaged(Mob entity) {
-        return mobTypeManager.isManaged(entity.getType());
+        return mobTypeManager.isManaged(MobType.fromBukkit(entity.getType()));
     }
 
     public boolean shouldBeAggressiveAtSpawn(Mob entity) {
-        MobTypeSettings settings = mobTypeManager.getEnabledSettings(entity.getType());
+        MobTypeSettings settings = mobTypeManager.getEnabledSettings((MobType.fromBukkit(entity.getType())));
         if (settings == null) {
             return false;
         }
@@ -90,7 +91,7 @@ public class AggressivityManager {
     }
 
     public boolean shouldBeAggressiveOnAttack(Mob entity, Player target) {
-        MobTypeSettings settings = mobTypeManager.getEnabledSettings(entity.getType());
+        MobTypeSettings settings = mobTypeManager.getEnabledSettings((MobType.fromBukkit(entity.getType())));
         if (settings == null) {
             return false;
         }

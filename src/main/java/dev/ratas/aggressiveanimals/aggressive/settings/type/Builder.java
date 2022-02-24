@@ -3,7 +3,8 @@ package dev.ratas.aggressiveanimals.aggressive.settings.type;
 import java.util.HashSet;
 
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.EntityType;
+
+import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 
 // # mob-type:
 // #   enabled: true                      Should revenge attacks by this mob-type be enabled?
@@ -35,7 +36,7 @@ import org.bukkit.entity.EntityType;
 
 public class Builder {
     private final ConfigurationSection section;
-    private EntityType type;
+    private MobType type;
     private boolean enabled;
     private double speedMultiplier;
     private MobAttackSettings attackSettings;
@@ -56,7 +57,7 @@ public class Builder {
     private void loadType() {
         String tpyeName = section.getName();
         try {
-            type = EntityType.valueOf(tpyeName.toUpperCase());
+            type = MobType.valueOf(tpyeName.toLowerCase());
         } catch (IllegalArgumentException e) {
             throw new IllegalMobTypeSettingsException("Unknown entity type " + tpyeName);
         }
