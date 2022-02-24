@@ -1,16 +1,17 @@
 # AggressiveAnimals configuration
 #
-# Note that this configuration is significantly different from the one provided by Michielcx in the
-# first AggressiveAnimals. This version does not rewrite the configuration files if they exist, so
-# changes must be made manually. Note that undefined configuration nodes default to the values found
-# in the original comments (for sanity, it would be wise not to edit them). The default values will
-# be adequate in many cases, so configuration for additional mob-types can be very simple -- for
-# example:
+# Note: This configuration file is significantly different from the one provided by Michielcx in the
+# original AggressiveAnimals.
+
+# AggressiveAnimals does not rewrite the configuration files if they exist, so changes must be made
+# manually. Undefined configuration nodes default to the values found in the original comments (for
+# sanity, it would be wise not to edit them). The default values will be adequate in many cases, so
+# configuration for additional mob-types can be very simple -- for example:
 # --------------------
 # axolotl:
 #   enabled: true
 # --------------------
-# is all that is required; the remaining configuration options will use the default values.
+# is all that is required; the remaining configuration options will use default values.
 
 # ========== CHECK FOR UPDATES =====================================================================
 # If you do not want notification of available updates in the console log, you may disable it here.
@@ -23,20 +24,20 @@ check-for-updates: true
 enable-metrics: true
 
 # ========== PER MOB ATTACK PROFILES ===============================================================
-# An attack profile must be created for each mob-type that you want to stage revenge attacks.
-# Only the enabled node is required. Undefined nodes will use default values.
+# An attack profile must be created for each mob-type that you want to stage attacks.
+# Only the enabled node is required. Undefined nodes use default values.
 #
 # mob-type:
 #   enabled: true                      If true, this mob-type should engage in attacks against players
 #   speed-multiplier: 1.0              Multiple of vanilla movement speed (examples: 1.0 is regular speed, 0.5 is half speed, 2.0 is double speed)
 #   attack-damage: 1.0                 Damage inflicted on the target on each attack (in half-hearts)
 #   attack-unto-death: false           If true, attacker can kill the player; if false, the attack will stop at 1 heart
-#   attack-speed: 10                   How often a mob can attack the player (in ticks)
-#   attack-range: 1                    From how many blocks away can the mob hit the player? (in blocks)
-#   attack-leap-height: 0.0            The height to which the mob leaps when attacking (0 or below means disabled)
+#   attack-speed: 10                   Frequency of attack on the player (in ticks)
+#   attack-range: 1                    Distance at which the mob can damage the player (in blocks)
+#   attack-leap-height: 0.0            Height attacker may leap when attacking (in blocks; 0.0 or below means disabled)
 #   acquisition-range: 16              Distance at which the attaker can detect a target
 #   deacquisition-range: 20            Distance at which the victim can escape attack
-#   attacker-health-threshold: 5       The attack should stop when the health of the attacker falls below the threshold (in half-hearts)
+#   attacker-health-threshold: 5       Attack should stop when the health of the attacker falls below the threshold (in half-hearts)
 #   age:                               Attacks may be waged by adults and/or babies
 #     adult: true                      If true, adult mobs should attack
 #     baby: false                      If true, baby mobs should attack
@@ -50,7 +51,7 @@ enable-metrics: true
 #     sneaking: true
 #     walking: true
 #     sprinting: true
-#     looking: true                    Like Enderman
+#     looking: true                    Like locking eyes with an Enderman
 #     sleeping: true
 #     gliding: true
 #   enabled-worlds: []                 Worlds in which attacks by this mob-type is enabled; if empty, it is enabled in all worlds
@@ -89,7 +90,7 @@ mobs:
     disabled-worlds:
       - "world_example"
 
-# Additional passive mob-types. Missing parameters will use  defaults.
+# Additional passive mob-types. Missing parameters will use defaults.
   axolotl:
     enabled: false
   bat:
