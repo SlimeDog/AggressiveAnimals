@@ -12,6 +12,7 @@ import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
+import dev.ratas.aggressiveanimals.aggressive.AttackReason;
 import dev.ratas.aggressiveanimals.aggressive.MobWrapper;
 
 public class GroupAggressivity implements Runnable {
@@ -56,7 +57,7 @@ public class GroupAggressivity implements Runnable {
             if (!(targetEntity instanceof Player target)) {
                 continue;
             }
-            aggressivityManager.attemptAttacking((Mob) e, target);
+            aggressivityManager.attemptAttacking((Mob) e, target, AttackReason.GROUP_AGGRESSION);
         }
     }
 

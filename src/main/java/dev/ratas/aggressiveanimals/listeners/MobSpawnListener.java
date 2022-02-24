@@ -13,6 +13,7 @@ import org.bukkit.projectiles.ProjectileSource;
 
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
 import dev.ratas.aggressiveanimals.aggressive.AggressivityReason;
+import dev.ratas.aggressiveanimals.aggressive.AttackReason;
 
 public class MobSpawnListener implements Listener {
     private final AggressivityManager aggressivityManager;
@@ -35,7 +36,7 @@ public class MobSpawnListener implements Listener {
         if (!aggressivityManager.shouldBeAggressiveAtSpawn(mob)) {
             return;
         }
-        aggressivityManager.attemptAttacking(mob, null);
+        aggressivityManager.attemptAttacking(mob, null, AttackReason.AGGRESSIVE_AT_SPAWN);
     }
 
     private Player getDamagingPlayer(Entity entity) {
@@ -70,7 +71,7 @@ public class MobSpawnListener implements Listener {
         if (!aggressivityManager.shouldBeAggressiveOnAttack(target, damagingPlayer)) {
             return;
         }
-        aggressivityManager.attemptAttacking(target, damagingPlayer);
+        aggressivityManager.attemptAttacking(target, damagingPlayer, AttackReason.RETALIATE);
     }
 
 }

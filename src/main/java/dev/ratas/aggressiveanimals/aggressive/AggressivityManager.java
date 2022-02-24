@@ -50,7 +50,7 @@ public class AggressivityManager {
         setter.setAggressivityAttributes(wrapper);
     }
 
-    public void attemptAttacking(Mob entity, Player target) {
+    public void attemptAttacking(Mob entity, Player target, AttackReason reason) {
         MobTypeSettings settings = mobTypeManager.getEnabledSettings((MobType.fromBukkit(entity.getType())));
         if (settings == null) {
             throw new IllegalArgumentException(
@@ -66,7 +66,7 @@ public class AggressivityManager {
             plugin.debug("Attempting to mark mob attacking while it is already doing so");
             return;
         }
-        plugin.debug("Attempting to set attacking: " + entity);
+        plugin.debug("Attempting to set attacking: " + entity + " because " + reason);
         if (settings.shouldAttack(entity, target)) {
             setter.setAttackingGoals(wrapper);
             entity.setTarget(target);
