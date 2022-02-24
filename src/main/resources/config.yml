@@ -30,7 +30,7 @@ enable-metrics: true
 #   enabled: true                      If true, this mob-type should engage in attacks against players
 #   speed-multiplier: 1.0              Multiple of vanilla movement speed (examples: 1.0 is regular speed, 0.5 is half speed, 2.0 is double speed)
 #   attack-damage: 1.0                 Damage inflicted on the target on each attack (in half-hearts)
-#   attack-unto-death: false           If true, attacker can kill the player; if false, the attack will stop at 1 heart
+#   attack-damage-limit: 2             If positive, the attacker will always leave the target alive with the specified amount of health (measued in half hearts)
 #   attack-speed: 10                   How often a mob can attack the player (in ticks)
 #   attack-range: 1                    From how many blocks away can the mob hit the player? (in blocks)
 #   attack-leap-height: 0.0            The height to which the mob leaps when attacking (0 or below means disabled)
@@ -62,7 +62,7 @@ mobs:
     enabled: true
     speed-multiplier: 1.5
     attack-damage: 1.0
-    attack-unto-death: false
+    attack-damage-limit: 2
     attack-speed: 10
     attack-range: 1
     attack-leap-height: 0.3

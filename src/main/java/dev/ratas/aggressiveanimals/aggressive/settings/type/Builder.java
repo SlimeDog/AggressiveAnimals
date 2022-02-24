@@ -10,7 +10,7 @@ import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 // #   enabled: true                      Should revenge attacks by this mob-type be enabled?
 // #   speed-multiplier: 1.0              How fast can the mob move? (for example: 1.0 is regular speed, 0.5 is half speed and 2.0 is double speed)
 // #   attack-damage: 1                   How much damage will the mob inflict per attack? (in half-hearts)
-// #   attack-unto-death: false           Should the mob kill the player if enough damage is inflicted? If false, the attack will stop at 1 heart
+// #   attack-damage-limit: 2             If positive, the attacker will always leave the target alive with the specified amount of health (measued in half hearts)
 // #   attack-speed: 10                   How often can the mob damage the player? (in ticks)
 // #   attack-range: 1                    From how many blocks away can the mob hit the player? (in blocks)
 // #   acquisition-range: 12              How close will mobs acquire a player and start an attack?
@@ -73,11 +73,11 @@ public class Builder {
 
     private void loadAttackSettings() {
         double damage = section.getDouble("attack-damage", 1.0D);
-        boolean canKill = section.getBoolean("attack-unto-death", false);
+        double attackDamageLimit = section.getDouble("attack-damage-limit", 2.0);
         double speed = section.getDouble("attack-speed", 10);
         double range = section.getDouble("attack-range", 1.0D);
         float attackLeapHeight = (float) section.getDouble("attack-leap-height", 0.0F);
-        attackSettings = new MobAttackSettings(damage, canKill, speed, range, attackLeapHeight);
+        attackSettings = new MobAttackSettings(damage, attackDamageLimit, speed, range, attackLeapHeight);
     }
 
     private void loadAcquisitionSettings() {

@@ -14,8 +14,6 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
         MobAgeSettings ageSettings, MobMiscSettings miscSettings, boolean alwaysAggressive, boolean overrideTargets,
         double groupAgressionDistance, PlayerStateSettings playerStateSettings, MobWorldSettings worldSettings) {
 
-    private static final double LEAVE_HEALTH_AT = 1.0D;
-
     public boolean shouldApplyTo(Mob mob, Player target, NPCHookManager npcHooks) {
         if (mob.getType() != entityType.getBukkitType()) {
             throw new IllegalArgumentException(
@@ -43,7 +41,7 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
         if (!enabled) {
             return false;
         }
-        if (!attackSettings.canKill() && target.getHealth() <= LEAVE_HEALTH_AT) {
+        if (target.getHealth() <= attackSettings.attackDamageLimit()) {
             return false;
         }
         if (!acquisitionSettings.isInRange(mob, target)) {
