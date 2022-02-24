@@ -87,7 +87,7 @@ public class AggressivityManager {
         if (!settings.shouldApplyTo(entity, null, npcHooks)) {
             return false;
         }
-        return !settings.retaliateOnly();
+        return settings.alwaysAggressive();
     }
 
     public boolean shouldBeAggressiveOnAttack(Mob entity, Player target) {

@@ -21,7 +21,7 @@ import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 // #     baby: false                      Baby mobs should attack
 // #   ignore-npcs: true                  Ignore NPCs created by Citizens, EliteMobs, InfernalMobs, and Shopkeepers
 // #   named-mobs-only: false             Should mobs attack only if they are named?
-// #   retribution-only: true             Should mobs retaliate only if attacked by the player?
+// #   always-aggressive: false           Should mobs retaliate only if attacked by the player?
 // #   override-targeting: false          If true, remove vanilla targeting behavior and only use attack-conditions
 // #   group-aggression-distance: 10      If other mobs of the same type are close enough, they should join the attack (in blocks)
 // #   player-movement:                   Mob should attack only if the player is
@@ -48,7 +48,7 @@ public class Builder {
     private double groupAgressionDistance;
     private PlayerStateSettings playerStateSettings;
     private MobWorldSettings worldSettings;
-    private boolean retaliateOnly;
+    private boolean alwaysAggressive;
 
     public Builder(ConfigurationSection section) {
         this.section = section;
@@ -102,8 +102,8 @@ public class Builder {
         miscSettings = new MobMiscSettings(ignoreNpcs, targetAsNamedOnly);
     }
 
-    private void loadRetalitateOnly() {
-        retaliateOnly = section.getBoolean("retribution-only", true);
+    private void loadAlwaysAggressive() {
+        alwaysAggressive = section.getBoolean("always-aggressive", false);
     }
 
     private void loadOverrideTargets() {
@@ -143,7 +143,7 @@ public class Builder {
         loadMinAttackHealth();
         loadMobAgeSettings();
         loadMiscSettings();
-        loadRetalitateOnly();
+        loadAlwaysAggressive();
         loadOverrideTargets();
         loadGroupAgrewssionDistance();
         loadPlayerStateSettings();
@@ -152,7 +152,7 @@ public class Builder {
         loadPlayerStateSettings();
         loadWorldSettings();
         return new MobTypeSettings(type, enabled, speedMultiplier, attackSettings, acquisitionSettings,
-                minAttackHealth, ageSettings, miscSettings, retaliateOnly, overrideTargets, groupAgressionDistance,
+                minAttackHealth, ageSettings, miscSettings, alwaysAggressive, overrideTargets, groupAgressionDistance,
                 playerStateSettings, worldSettings);
     }
 
