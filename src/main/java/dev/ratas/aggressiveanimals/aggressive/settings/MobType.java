@@ -101,6 +101,14 @@ public enum MobType {
         return delegate;
     }
 
+    public static MobType from(String name) throws IllegalArgumentException {
+        MobType type = Enum.valueOf(MobType.class, name);
+        if (type.getBukkitType() == null) {
+            throw new IllegalArgumentException("Disabled/unavailable mob type: " + name);
+        }
+        return type;
+    }
+
     public static MobType matchType(String name) {
         try {
             return MobType.valueOf(name.toLowerCase());
@@ -115,6 +123,9 @@ public enum MobType {
 
     private static void fillMaps() {
         for (MobType type : values()) {
+            if (type.getBukkitType() == null) {
+                continue; // ignore
+            }
             NAME_MAP.put(type.name(), type);
             for (String name : type.alternateNames) {
                 NAME_MAP.put(name, type);

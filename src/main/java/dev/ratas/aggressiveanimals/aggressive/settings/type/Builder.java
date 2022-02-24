@@ -57,7 +57,7 @@ public class Builder {
     private void loadType() {
         String tpyeName = section.getName();
         try {
-            type = MobType.valueOf(tpyeName.toLowerCase());
+            type = MobType.from(tpyeName.toLowerCase());
         } catch (IllegalArgumentException e) {
             throw new IllegalMobTypeSettingsException("Unknown entity type " + tpyeName);
         }
