@@ -12,6 +12,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
+import dev.ratas.aggressiveanimals.aggressive.AggressivityReason;
 
 public class MobSpawnListener implements Listener {
     private final AggressivityManager aggressivityManager;
@@ -30,11 +31,11 @@ public class MobSpawnListener implements Listener {
         if (!aggressivityManager.isManaged(mob)) {
             return;
         }
-        aggressivityManager.setAggressivityAttributes(mob);
+        aggressivityManager.setAggressivityAttributes(mob, AggressivityReason.SPAWN);
         if (!aggressivityManager.shouldBeAggressiveAtSpawn(mob)) {
             return;
         }
-        aggressivityManager.setAggressivityAttributes(mob);
+        // TODO make attacking closest target
     }
 
     private Player getDamagingPlayer(Entity entity) {

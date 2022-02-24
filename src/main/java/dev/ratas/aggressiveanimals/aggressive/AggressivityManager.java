@@ -39,14 +39,14 @@ public class AggressivityManager {
                 GROUP_AGGRESSION_PERIOD);
     }
 
-    public void setAggressivityAttributes(Mob entity) {
+    public void setAggressivityAttributes(Mob entity, AggressivityReason reason) {
         MobTypeSettings settings = mobTypeManager.getEnabledSettings((MobType.fromBukkit(entity.getType())));
         if (settings == null) {
             throw new IllegalArgumentException(
                     "Entity of type " + entity.getType() + " is not currently managed by the plugin.");
         }
         MobWrapper wrapper = trackedMobs.computeIfAbsent(entity, e -> new MobWrapper(e, settings));
-        plugin.debug("Setting aggressivity attributes for: " + entity);
+        plugin.debug("Setting aggressivity attributes for: " + entity + " because of " + reason);
         setter.setAggressivityAttributes(wrapper);
     }
 
@@ -59,7 +59,7 @@ public class AggressivityManager {
         MobWrapper wrapper = trackedMobs.get(entity);
         if (wrapper == null) {
             plugin.debug("No wrapper when attempting to attack: " + entity);
-            setAggressivityAttributes(entity);
+            setAggressivityAttributes(entity, AggressivityReason.ATTACK);
             wrapper = trackedMobs.get(entity);
         }
         if (wrapper.isAttacking()) {
