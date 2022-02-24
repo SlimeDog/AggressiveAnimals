@@ -1,5 +1,6 @@
 package dev.ratas.aggressiveanimals.config.messaging;
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public interface Context {
@@ -80,6 +81,22 @@ public interface Context {
         @Override
         public Context context(T t, V v) {
             return new DelegatingContext(delegate1.context(t), delegate2.context(v));
+        }
+
+    }
+
+    public static class HelperDelegateBuilder<T, R, H> implements MultiBuilder<R, H> {
+        private final BiFunction<R, H, T> helperFunction;
+        private final ContextBuilder<T> delegate;
+
+        public HelperDelegateBuilder(ContextBuilder<T> delegate, BiFunction<R, H, T> helperFunction) {
+            this.delegate = delegate;
+            this.helperFunction = helperFunction;
+        }
+
+        @Override
+        public Context context(R r, H h) {
+            return delegate.context(helperFunction.apply(r, h));
         }
 
     }

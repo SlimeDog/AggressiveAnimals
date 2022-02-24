@@ -6,6 +6,7 @@ import org.junit.Test;
 import dev.ratas.aggressiveanimals.config.messaging.Context.ContextBuilder;
 import dev.ratas.aggressiveanimals.config.messaging.Context.DelegateMultiContextBuilder;
 import dev.ratas.aggressiveanimals.config.messaging.Context.DelegatingContext;
+import dev.ratas.aggressiveanimals.config.messaging.Context.HelperDelegateBuilder;
 import dev.ratas.aggressiveanimals.config.messaging.Context.StringReplacementContext;
 
 public class DefinedContextsTest {
@@ -68,6 +69,33 @@ public class DefinedContextsTest {
         Assert.assertFalse("Output cannot contain placholder two", output.contains(placeholder2));
         Assert.assertTrue("Output should contain replacement one", output.contains(strReplacement.toUpperCase()));
         Assert.assertTrue("Output should contain replacement two", output.contains(String.valueOf(intRepalacement)));
+    }
+
+    @Test
+    public void test_HelperDelegateBuilder_working() {
+        String ph = "%PH1%";
+        String msg = "Long MSG " + ph + " with placeholder";
+        ContextBuilder<Integer> intBuilder = new ContextBuilder<>(ph,
+                i -> String.valueOf(i) + (i == 0 ? "false" : "true"));
+        class Converter {
+            Integer convert(Boolean b) {
+                return b ? 1 : 0;
+            }
+        }
+        HelperDelegateBuilder<Integer, Boolean, Converter> helper = new HelperDelegateBuilder<>(intBuilder,
+                (b, c) -> c.convert(b));
+        Context cont = helper.context(true, new Converter());
+        String output = cont.fill(msg);
+        Assert.assertFalse("Output cannot contain placeholder - true", output.contains(ph));
+        Assert.assertTrue("Output should contain converted replacement - true (1)", output.contains("1"));
+        Assert.assertTrue("Output should contain converted replacement - true (2)", output.contains("true"));
+        Assert.assertTrue("Output should contain converted replacement - true (3)", output.contains("1true"));
+        cont = helper.context(false, new Converter());
+        output = cont.fill(msg);
+        Assert.assertFalse("Output cannot contain placeholder - false", output.contains(ph));
+        Assert.assertTrue("Output should contain converted replacement - false (1)", output.contains("0"));
+        Assert.assertTrue("Output should contain converted replacement - false (2)", output.contains("false"));
+        Assert.assertTrue("Output should contain converted replacement - false (3)", output.contains("0false"));
     }
 
 }
