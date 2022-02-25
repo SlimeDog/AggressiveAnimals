@@ -12,14 +12,19 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
+import dev.ratas.aggressiveanimals.AggressiveAnimals;
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
 import dev.ratas.aggressiveanimals.aggressive.AggressivityReason;
 import dev.ratas.aggressiveanimals.aggressive.AttackReason;
+import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
+import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 
 public class MobSpawnListener implements Listener {
+    private final AggressiveAnimals plugin;
     private final AggressivityManager aggressivityManager;
 
-    public MobSpawnListener(AggressivityManager aggressivityManager) {
+    public MobSpawnListener(AggressiveAnimals plugin, AggressivityManager aggressivityManager) {
+        this.plugin = plugin;
         this.aggressivityManager = aggressivityManager;
     }
 
@@ -79,6 +84,29 @@ public class MobSpawnListener implements Listener {
     public void onDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
         aggressivityManager.untargetPlayer(player);
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageByEntityEvent event) {
+        Entity damager = event.getDamager();
+        if (!(damager instanceof Mob)) {
+            return;
+        }
+        Mob mob = (Mob) damager;
+        if (!aggressivityManager.isManaged(mob)) {
+            return;
+        }
+        Player target = getDamagingPlayer(event.getEntity());
+        if (target == null) {
+            return;
+        }
+        MobTypeSettings settings = aggressivityManager.getMobTypeManager()
+                .getEnabledSettings(MobType.fromBukkit(mob.getType()));
+        if (!settings.shouldAttack(mob, target)) {
+            plugin.debug("Removing target of " + mob + " : " + target);
+            event.setCancelled(true);
+            mob.setTarget(null);
+        }
     }
 
 }

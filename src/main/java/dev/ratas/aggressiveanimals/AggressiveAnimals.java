@@ -46,7 +46,7 @@ public class AggressiveAnimals extends JavaPlugin {
         loadDataFromFile();
         npcHookManager = new NPCHookManager();
         aggressivityManager = new AggressivityManager(this, settings, npcHookManager);
-        getServer().getPluginManager().registerEvents(new MobSpawnListener(aggressivityManager), this);
+        getServer().getPluginManager().registerEvents(new MobSpawnListener(this, aggressivityManager), this);
         // bstats
         if (settings.enableMetrics()) {
             new Metrics(this, BSTATS_ID);
