@@ -53,7 +53,30 @@
             <version>3.0.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>3.1.2</version>
+            <type>maven-plugin</type>
+            <scope>provided</scope>
+          </dependency>
     </dependencies>
+    <reporting>
+       <plugins>
+         <plugin>
+           <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-checkstyle-plugin</artifactId>
+           <version>3.1.2</version>
+           <reportSets>
+             <reportSet>
+               <reports>
+                 <report>checkstyle</report>
+               </reports>
+             </reportSet>
+           </reportSets>
+         </plugin>
+       </plugins>
+     </reporting>
 
     <build>
         <finalName>${project.name}-${project.version}</finalName>
@@ -63,6 +86,22 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-checkstyle-plugin</artifactId>
+              <version>3.1.2</version>
+              <dependencies>
+                <dependency>
+                  <groupId>com.puppycrawl.tools</groupId>
+                  <artifactId>checkstyle</artifactId>
+                  <version>9.3</version>
+                </dependency>
+              </dependencies>
+            </plugin>
+          </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
