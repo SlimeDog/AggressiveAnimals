@@ -29,10 +29,11 @@ enable-metrics: true
 #
 # mob-type:
 #   enabled: true                      If true, this mob-type should engage in attacks against players
+#   always-aggressive: false           If true, mobs should attack only in retaliation for player attack
 #   speed-multiplier: 1.0              Multiple of vanilla movement speed (examples: 1.0 is regular speed, 0.5 is half speed, 2.0 is double speed)
 #   attack-damage: 1.0                 Damage inflicted on the target on each attack (in half-hearts)
-#   attack-damage-limit: 2             If positive, the attacker will always leave the target alive with the specified amount of health (measued in half hearts)
-#   attack-speed: 10                   Frequency of attack on the player (in ticks)
+#   attack-damage-limit: 2             The attacker will leave the target alive with the specified amount of health (in half hearts)
+#   attack-speed: 20                   Frequency of attack, same as vanilla except for zombies (in ticks)
 #   attack-range: 1                    Distance at which the mob can damage the player (in blocks)
 #   attack-leap-height: 0.0            Height attacker may leap when attacking (in blocks; 0.0 or below means disabled)
 #   acquisition-range: 16              Distance at which the attaker can detect a target
@@ -43,7 +44,6 @@ enable-metrics: true
 #     baby: false                      If true, baby mobs should attack
 #   ignore-npcs: true                  If true, ignore NPCs created by NPC managers, such as Citizens, EliteMobs, InfernalMobs, and Shopkeepers
 #   named-mobs-only: false             If true, only named mobs may attack
-#   always-aggressive: false           If true, mobs should attack only in retaliation for player attack
 #   override-targeting: false          If true, remove vanilla targeting behavior and only use attack-conditions
 #   group-aggression-range: 20         If other mobs of the same type are within range of the attacker, they should join the attack (in blocks)
 #   player-movement:                   Mob should attack if the player is
@@ -61,10 +61,11 @@ enable-metrics: true
 mobs:
   chicken:
     enabled: true
+    always-aggressive: false
     speed-multiplier: 1.5
     attack-damage: 1.0
     attack-damage-limit: 2
-    attack-speed: 10
+    attack-speed: 20
     attack-range: 1
     attack-leap-height: 0.3
     acquisition-range: 16
@@ -75,7 +76,6 @@ mobs:
       baby: false
     ignore-npcs: true
     named-mobs-only: false
-    always-aggressive: false
     override-targeting: false
     group-aggression-range: 20
     player-movement:
