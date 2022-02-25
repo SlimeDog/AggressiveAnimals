@@ -5,11 +5,14 @@ import java.util.List;
 
 import org.bukkit.command.CommandSender;
 
+import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobTypeManager;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.aggressiveanimals.commands.SubCommand;
-import dev.ratas.aggressiveanimals.config.messaging.DefinedContexts;
 import dev.ratas.aggressiveanimals.config.messaging.Messages;
+import dev.ratas.aggressiveanimals.config.messaging.context.Context;
+import dev.ratas.aggressiveanimals.config.messaging.context.factory.DoubleContextFactory;
+import dev.ratas.aggressiveanimals.config.messaging.message.MessageFactory;
 
 public class ListSub extends SubCommand {
     private static final String NAME = "list";
@@ -31,10 +34,11 @@ public class ListSub extends SubCommand {
 
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
-        messages.getListHeaderMessage().sendTo(sender);
+        messages.getListHeaderMessage().getMessage(Context.NULL).sendTo(sender);
+        MessageFactory.DoubleFactory<MobType, Boolean> lmf = messages.getListItemMessage();
         for (MobTypeSettings settings : manager.getUsedSettings()) {
-            messages.getListItemMessage().sendTo(sender,
-                    DefinedContexts.TYPE_SETTINGS.context(settings.entityType(), settings.enabled(), messages));
+            DoubleContextFactory<MobType, Boolean> cf = lmf.getContextFactory();
+            lmf.getMessage(cf.getContext(settings.entityType(), settings.enabled())).sendTo(sender);
         }
         return true;
     }

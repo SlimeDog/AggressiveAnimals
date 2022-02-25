@@ -19,4 +19,8 @@ public class MessagesBase extends CustomConfigHandler {
         return plugin;
     }
 
+    public String getRawMessage(String path, String def) {
+        return getConfig().getString(path, def);
+    }
+
 }

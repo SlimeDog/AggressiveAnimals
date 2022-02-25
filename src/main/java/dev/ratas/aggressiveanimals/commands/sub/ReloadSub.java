@@ -9,6 +9,7 @@ import dev.ratas.aggressiveanimals.AggressiveAnimals;
 import dev.ratas.aggressiveanimals.commands.SubCommand;
 import dev.ratas.aggressiveanimals.config.ConfigLoadIssueResolver;
 import dev.ratas.aggressiveanimals.config.messaging.Messages;
+import dev.ratas.aggressiveanimals.config.messaging.context.Context;
 
 public class ReloadSub extends SubCommand {
     private static final String NAME = "reload";
@@ -32,9 +33,9 @@ public class ReloadSub extends SubCommand {
     public boolean onCommand(CommandSender sender, String[] args) {
         ConfigLoadIssueResolver issues = plugin.reload();
         if (!issues.hasIssues()) {
-            messages.getReloadMessage().sendTo(sender);
+            messages.getReloadMessage().getMessage(Context.NULL).sendTo(sender);
         } else {
-            messages.getReloadFailedMessage().sendTo(sender);
+            messages.getReloadFailedMessage().getMessage(Context.NULL).sendTo(sender);
         }
         return true;
     }
