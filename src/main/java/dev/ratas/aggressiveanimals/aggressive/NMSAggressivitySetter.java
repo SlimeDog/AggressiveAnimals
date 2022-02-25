@@ -144,10 +144,11 @@ public class NMSAggressivitySetter implements AggressivitySetter {
 
     }
 
-    private static class NMSResolver {
+    private static final class NMSResolver {
+        private static final int VERSION_PACKAGE_COUNTER = 3;
         private static final String PACKAGE_BASE = "org.bukkit.craftbukkit";
         private static final String VERSION = org.bukkit.Bukkit.getServer().getClass().getPackage().getName()
-                .split("\\.")[3];
+                .split("\\.")[VERSION_PACKAGE_COUNTER];
         private static final String MIDDLE_PACKAGE = "entity";
         private static final String CRAFT_LIVING_ENTITY_CLASS_NAME = "CraftLivingEntity";
         private final Class<?> craftLivingEntityClass;

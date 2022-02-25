@@ -96,7 +96,7 @@ public enum MobType {
     private final EntityType delegate;
     private final Set<String> alternateNames;
 
-    private MobType(String enumName, String... alternates) {
+    MobType(String enumName, String... alternates) {
         EntityType delegate;
         try {
             delegate = EntityType.valueOf(enumName);
@@ -107,7 +107,7 @@ public enum MobType {
         this.alternateNames = new HashSet<>(Arrays.asList(alternates));
     }
 
-    private MobType(EntityType delegate, String... alternates) {
+    MobType(EntityType delegate, String... alternates) {
         this.delegate = delegate;
         this.alternateNames = new HashSet<>(Arrays.asList(alternates));
     }

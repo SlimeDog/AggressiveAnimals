@@ -1,11 +1,11 @@
 package dev.ratas.aggressiveanimals.config.messaging.context;
 
 public interface Context {
-    public static final VoidContext NULL = new VoidContext();
+    VoidContext NULL = new VoidContext();
 
     String fill(String msg);
 
-    public class VoidContext implements Context {
+    class VoidContext implements Context {
 
         private VoidContext() {
             // only local instsance

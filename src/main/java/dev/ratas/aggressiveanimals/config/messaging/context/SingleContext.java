@@ -8,7 +8,7 @@ public interface SingleContext<T> extends Context {
 
     T getContents();
 
-    public static class Factory<T> {
+    class Factory<T> {
         private final String placeholder;
         private final Function<T, String> mapper;
 
