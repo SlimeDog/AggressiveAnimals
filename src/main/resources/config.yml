@@ -44,7 +44,7 @@ enable-metrics: true
 #     baby: false                      If true, baby mobs should attack
 #   ignore-npcs: true                  If true, ignore NPCs created by NPC managers, such as Citizens, EliteMobs, InfernalMobs, and Shopkeepers
 #   named-mobs-only: false             If true, only named mobs may attack
-#   override-targeting: false          If true, remove vanilla targeting behavior and only use attack-conditions
+#   override-targeting: false          If true, remove vanilla targeting behavior and use only attack-conditions; useful for hostile mob-types
 #   group-aggression-range: 20         If other mobs of the same type are within range of the attacker, they should join the attack (in blocks)
 #   player-movement:                   Mob should attack if the player is
 #     standing: true
