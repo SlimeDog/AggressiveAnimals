@@ -93,10 +93,12 @@ mobs:
 # Additional passive mob-types. Missing parameters will use defaults.
   axolotl:
     enabled: false
+    attack-leap-height: 0.3
   bat:
     enabled: false
   cat:
     enabled: false
+    attack-leap-height: 0.3
   cod:
     enabled: false
   cow:
@@ -105,6 +107,7 @@ mobs:
     enabled: false
   fox:
     enabled: false
+    attack-leap-height: 0.3
   frog:
     enabled: false
   glow_squid:
@@ -117,6 +120,7 @@ mobs:
     enabled: false
   ocelot:
     enabled: false
+    attack-leap-height: 0.3
   parrot:
     enabled: false
   pig:
@@ -125,6 +129,7 @@ mobs:
     enabled: false
   rabbit:
     enabled: false
+    attack-leap-height: 0.3
   salmon:
     enabled: false
   sheep:
