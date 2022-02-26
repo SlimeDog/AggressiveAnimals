@@ -5,18 +5,18 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.bukkit.command.CommandSender;
 import org.bukkit.util.StringUtil;
 
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobTypeManager;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
-import dev.ratas.aggressiveanimals.commands.SubCommand;
 import dev.ratas.aggressiveanimals.config.messaging.Messages;
 import dev.ratas.slimedogcore.api.messaging.context.factory.SDCDoubleContextFactory;
 import dev.ratas.slimedogcore.api.messaging.factory.SDCDoubleContextMessageFactory;
+import dev.ratas.slimedogcore.api.messaging.recipient.SDCRecipient;
+import dev.ratas.slimedogcore.impl.commands.AbstractSubCommand;
 
-public class ListSub extends SubCommand {
+public class ListSub extends AbstractSubCommand {
     private static final String NAME = "list";
     private static final String USAGE = "/aggro list [enabled | disabled]";
     private static final String PERMS = "aggressiveanimals.list";
@@ -25,13 +25,13 @@ public class ListSub extends SubCommand {
     private final Messages messages;
 
     public ListSub(MobTypeManager manager, Messages messages) {
-        super(NAME, USAGE, PERMS);
+        super(NAME, PERMS, USAGE);
         this.manager = manager;
         this.messages = messages;
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, String[] args) {
+    public List<String> onTabComplete(SDCRecipient sender, String[] args) {
         if (args.length == 1) {
             return StringUtil.copyPartialMatches(args[0], OPTIONS, new ArrayList<>());
         }
@@ -39,8 +39,9 @@ public class ListSub extends SubCommand {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, String[] args) {
+    public boolean onCommand(SDCRecipient sender, String[] args, List<String> opts) {
         SettingTarget target;
+        System.out.println("DEBUG: here (1) w:" + java.util.Arrays.asList(args) + " and " + opts);
         if (args.length == 0) {
             target = SettingTarget.BOTH;
         } else if (args[0].equalsIgnoreCase("enabled")) {
@@ -48,8 +49,10 @@ public class ListSub extends SubCommand {
         } else if (args[0].equalsIgnoreCase("disabled")) {
             target = SettingTarget.DISABLED;
         } else {
+            System.out.println("DEBUG: here something...");
             return false; // unknown option
         }
+        System.out.println("DEBUG: here (2): " + target);
         messages.getListHeaderMessage().getMessage().sendTo(sender);
         SDCDoubleContextMessageFactory<MobType, Boolean> lmf = messages.getListItemMessage();
         for (MobTypeSettings settings : manager.getUsedSettings()) {
