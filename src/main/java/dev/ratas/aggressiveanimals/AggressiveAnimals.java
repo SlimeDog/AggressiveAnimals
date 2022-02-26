@@ -2,21 +2,21 @@ package dev.ratas.aggressiveanimals;
 
 import org.bstats.bukkit.Metrics;
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
 import dev.ratas.aggressiveanimals.commands.AggressiveAnimalsCommand;
 import dev.ratas.aggressiveanimals.config.ConfigLoadIssueResolver;
-import dev.ratas.aggressiveanimals.config.CustomConfigHandler;
 import dev.ratas.aggressiveanimals.config.Settings;
 import dev.ratas.aggressiveanimals.config.messaging.Messages;
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 import dev.ratas.aggressiveanimals.listeners.MobSpawnListener;
+import dev.ratas.slimedogcore.api.config.SDCCustomConfig;
+import dev.ratas.slimedogcore.api.config.exceptions.ConfigException;
+import dev.ratas.slimedogcore.impl.SlimeDogCore;
 
-public class AggressiveAnimals extends JavaPlugin {
+public class AggressiveAnimals extends SlimeDogCore {
     private static final int BSTATS_ID = 14423;
-    private CustomConfigHandler config;
+    private SDCCustomConfig config;
     private Messages messages;
     private Settings settings;
     private NPCHookManager npcHookManager;
@@ -25,8 +25,8 @@ public class AggressiveAnimals extends JavaPlugin {
     private void loadDataFromFile() {
         ConfigLoadIssueResolver issues = ConfigLoadIssueResolver.atLoad();
         try {
-            config = new CustomConfigHandler(this, "config.yml");
-        } catch (InvalidConfigurationException e) {
+            config = getDefaultConfig();
+        } catch (ConfigException e) {
             issues.logIssue("INVALID CONFIGURATION", "Invalid configuration - disabling", e);
             disableMe(issues);
             return;
@@ -42,7 +42,7 @@ public class AggressiveAnimals extends JavaPlugin {
     }
 
     @Override
-    public void onEnable() {
+    public void pluginEnabled() {
         loadDataFromFile();
         npcHookManager = new NPCHookManager();
         aggressivityManager = new AggressivityManager(this, settings, npcHookManager);
@@ -55,23 +55,18 @@ public class AggressiveAnimals extends JavaPlugin {
         getCommand("aggressiveanimals").setExecutor(new AggressiveAnimalsCommand(this, messages));
     }
 
-    @Override
-    public FileConfiguration getConfig() {
-        return config.getConfig();
-    }
-
     public ConfigLoadIssueResolver reload() {
         ConfigLoadIssueResolver issues = ConfigLoadIssueResolver.atReload();
         try {
             config.reloadConfig();
-        } catch (InvalidConfigurationException e) {
+        } catch (ConfigException e) {
             issues.logIssue("INVALID CONFIGURATION", "Invalid configuration - disabling", e);
             disableMe(issues);
             return issues;
         }
         try {
             messages.reloadConfig();
-        } catch (InvalidConfigurationException e) {
+        } catch (ConfigException e) {
             issues.logIssue("INVALID CONFIGURATION", "Invalid configuration - disabling", e);
             disableMe(issues);
             return issues;
@@ -105,6 +100,11 @@ public class AggressiveAnimals extends JavaPlugin {
         if (settings.isOnDebug()) {
             getLogger().warning("DEBUG: " + msg);
         }
+    }
+
+    @Override
+    public void pluginDisabled() {
+        // TODO Auto-generated meth
     }
 
 }

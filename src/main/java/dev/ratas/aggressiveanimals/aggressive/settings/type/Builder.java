@@ -2,9 +2,8 @@ package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
 import java.util.HashSet;
 
-import org.bukkit.configuration.ConfigurationSection;
-
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
+import dev.ratas.slimedogcore.api.config.SDCConfiguration;
 
 // # mob-type:
 // #   enabled: true                      Should revenge attacks by this mob-type be enabled?
@@ -35,7 +34,7 @@ import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 // #     - "world_example"
 
 public class Builder {
-    private final ConfigurationSection section;
+    private final SDCConfiguration section;
     private MobType type;
     private boolean enabled;
     private double speedMultiplier;
@@ -50,7 +49,7 @@ public class Builder {
     private MobWorldSettings worldSettings;
     private boolean alwaysAggressive;
 
-    public Builder(ConfigurationSection section) {
+    public Builder(SDCConfiguration section) {
         this.section = section;
     }
 

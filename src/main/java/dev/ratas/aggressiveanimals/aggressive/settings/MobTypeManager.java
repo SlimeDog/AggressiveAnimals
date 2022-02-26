@@ -6,24 +6,23 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import dev.ratas.aggressiveanimals.aggressive.settings.type.Builder;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.aggressiveanimals.config.Settings;
+import dev.ratas.slimedogcore.api.SlimeDogPlugin;
+import dev.ratas.slimedogcore.api.config.SDCConfiguration;
 
 public class MobTypeManager {
-    private final JavaPlugin plugin;
+    private final SlimeDogPlugin plugin;
     private final Map<MobType, MobTypeSettings> types = new EnumMap<>(MobType.class);
 
-    public MobTypeManager(JavaPlugin plugin, Settings settings) {
+    public MobTypeManager(SlimeDogPlugin plugin, Settings settings) {
         this.plugin = plugin;
         loadMobs(settings);
     }
 
     private void loadMobs(Settings settings) {
-        ConfigurationSection section = settings.getMobSection();
+        SDCConfiguration section = settings.getMobSection();
         if (section == null) {
             plugin.getLogger().info("No section for 'mobs' found so no per-mob configuration was loaded");
             return;

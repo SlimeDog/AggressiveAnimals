@@ -60,6 +60,12 @@
             <type>maven-plugin</type>
             <scope>provided</scope>
           </dependency>
+          <dependency>
+            <groupId>dev.ratas</groupId>
+            <artifactId>slimedogcore</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
     <reporting>
        <plugins>
@@ -131,6 +137,10 @@
                     <relocation>
                       <pattern>org.bstats</pattern>
                       <shadedPattern>${project.groupId}.${project.artifactId}.metrics</shadedPattern>
+                    </relocation>
+                    <relocation>
+                        <pattern>dev.ratas.slimedogcore</pattern>
+                        <shadedPattern>${project.groupId}.${project.artifactId}.core</shadedPattern>
                     </relocation>
                   </relocations>
                 </configuration>

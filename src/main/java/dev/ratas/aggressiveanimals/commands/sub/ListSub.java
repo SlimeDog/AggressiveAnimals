@@ -13,9 +13,8 @@ import dev.ratas.aggressiveanimals.aggressive.settings.MobTypeManager;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.aggressiveanimals.commands.SubCommand;
 import dev.ratas.aggressiveanimals.config.messaging.Messages;
-import dev.ratas.aggressiveanimals.config.messaging.context.Context;
-import dev.ratas.aggressiveanimals.config.messaging.context.factory.DoubleContextFactory;
-import dev.ratas.aggressiveanimals.config.messaging.message.MessageFactory;
+import dev.ratas.slimedogcore.api.messaging.context.factory.SDCDoubleContextFactory;
+import dev.ratas.slimedogcore.api.messaging.factory.SDCDoubleContextMessageFactory;
 
 public class ListSub extends SubCommand {
     private static final String NAME = "list";
@@ -51,13 +50,13 @@ public class ListSub extends SubCommand {
         } else {
             return false; // unknown option
         }
-        messages.getListHeaderMessage().getMessage(Context.NULL).sendTo(sender);
-        MessageFactory.DoubleFactory<MobType, Boolean> lmf = messages.getListItemMessage();
+        messages.getListHeaderMessage().getMessage().sendTo(sender);
+        SDCDoubleContextMessageFactory<MobType, Boolean> lmf = messages.getListItemMessage();
         for (MobTypeSettings settings : manager.getUsedSettings()) {
             if (!target.shouldInclude(settings)) {
                 continue; // ignore
             }
-            DoubleContextFactory<MobType, Boolean> cf = lmf.getContextFactory();
+            SDCDoubleContextFactory<MobType, Boolean> cf = lmf.getContextFactory();
             lmf.getMessage(cf.getContext(settings.entityType(), settings.enabled())).sendTo(sender);
         }
         return true;

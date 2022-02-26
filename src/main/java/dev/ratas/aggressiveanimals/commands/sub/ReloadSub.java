@@ -9,7 +9,8 @@ import dev.ratas.aggressiveanimals.AggressiveAnimals;
 import dev.ratas.aggressiveanimals.commands.SubCommand;
 import dev.ratas.aggressiveanimals.config.ConfigLoadIssueResolver;
 import dev.ratas.aggressiveanimals.config.messaging.Messages;
-import dev.ratas.aggressiveanimals.config.messaging.context.Context;
+import dev.ratas.slimedogcore.api.messaging.SDCMessage;
+import dev.ratas.slimedogcore.api.messaging.context.SDCVoidContext;
 
 public class ReloadSub extends SubCommand {
     private static final String NAME = "reload";
@@ -32,11 +33,9 @@ public class ReloadSub extends SubCommand {
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
         ConfigLoadIssueResolver issues = plugin.reload();
-        if (!issues.hasIssues()) {
-            messages.getReloadMessage().getMessage(Context.NULL).sendTo(sender);
-        } else {
-            messages.getReloadFailedMessage().getMessage(Context.NULL).sendTo(sender);
-        }
+        SDCMessage<SDCVoidContext> msg = (!issues.hasIssues() ? messages.getReloadMessage()
+                : messages.getReloadFailedMessage()).getMessage();
+        msg.sendTo(sender);
         return true;
     }
 

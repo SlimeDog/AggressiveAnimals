@@ -1,11 +1,12 @@
 package dev.ratas.aggressiveanimals.config;
 
-import org.bukkit.configuration.ConfigurationSection;
+import dev.ratas.slimedogcore.api.config.SDCConfiguration;
+import dev.ratas.slimedogcore.api.config.SDCCustomConfig;
 
 public class Settings {
-    private final CustomConfigHandler config;
+    private final SDCCustomConfig config;
 
-    public Settings(CustomConfigHandler config) {
+    public Settings(SDCCustomConfig config) {
         this.config = config;
     }
 
@@ -21,7 +22,7 @@ public class Settings {
         return config.getConfig().getBoolean("check-for-updates", false);
     }
 
-    public ConfigurationSection getMobSection() {
+    public SDCConfiguration getMobSection() {
         return config.getConfig().getConfigurationSection("mobs");
     }
 

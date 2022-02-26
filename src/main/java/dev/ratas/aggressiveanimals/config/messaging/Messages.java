@@ -1,78 +1,85 @@
 package dev.ratas.aggressiveanimals.config.messaging;
 
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
-import dev.ratas.aggressiveanimals.config.messaging.context.Context;
-import dev.ratas.aggressiveanimals.config.messaging.context.DoubleContext;
-import dev.ratas.aggressiveanimals.config.messaging.context.Context.VoidContext;
-import dev.ratas.aggressiveanimals.config.messaging.context.factory.ContextFactory;
-import dev.ratas.aggressiveanimals.config.messaging.context.factory.DelegatingDoubleContextFactory;
-import dev.ratas.aggressiveanimals.config.messaging.context.factory.SingleContextFactory;
-import dev.ratas.aggressiveanimals.config.messaging.message.DoubleContextMessage;
-import dev.ratas.aggressiveanimals.config.messaging.message.Message;
-import dev.ratas.aggressiveanimals.config.messaging.message.MessageFactory;
-import dev.ratas.aggressiveanimals.config.messaging.message.VoidContextMessage;
+import dev.ratas.slimedogcore.api.SlimeDogPlugin;
+import dev.ratas.slimedogcore.api.messaging.SDCMessage;
+import dev.ratas.slimedogcore.api.messaging.context.SDCVoidContext;
+import dev.ratas.slimedogcore.api.messaging.factory.SDCDoubleContextMessageFactory;
+import dev.ratas.slimedogcore.api.messaging.factory.SDCVoidContextMessageFactory;
+import dev.ratas.slimedogcore.impl.messaging.DefinedMessageDeliverer;
+import dev.ratas.slimedogcore.impl.messaging.MessagesBase;
+import dev.ratas.slimedogcore.impl.messaging.context.VoidContext;
+import dev.ratas.slimedogcore.impl.messaging.context.factory.SingleContextFactory;
+import dev.ratas.slimedogcore.impl.messaging.context.factory.VoidContextFactory;
+import dev.ratas.slimedogcore.impl.messaging.context.factory.delegating.DelegatingDoubleContextFactory;
+import dev.ratas.slimedogcore.impl.messaging.factory.DoubleContextMessageFactory;
+import dev.ratas.slimedogcore.impl.messaging.factory.VoidContextMessageFactory;
 
 public class Messages extends MessagesBase {
-    private MessageFactory<VoidContext> reloadMessage;
-    private MessageFactory<VoidContext> reloadFailMessage;
-    private MessageFactory<VoidContext> listHeaderMessage;
-    private MessageFactory.DoubleFactory<MobType, Boolean> listItemMessage;
-    private MessageFactory<VoidContext> enabledMessage;
-    private MessageFactory<VoidContext> disabledMessage;
+    private static final String FILE_NAME = "messages.yml";
+    private SDCVoidContextMessageFactory reloadMessage;
+    private SDCVoidContextMessageFactory reloadFailMessage;
+    private SDCVoidContextMessageFactory listHeaderMessage;
+    private SDCDoubleContextMessageFactory<MobType, Boolean> listItemMessage;
+    private SDCVoidContextMessageFactory enabledMessage;
+    private SDCVoidContextMessageFactory disabledMessage;
 
-    public Messages(JavaPlugin plugin) throws InvalidConfigurationException {
-        super(plugin);
+    public Messages(SlimeDogPlugin plugin) throws InvalidConfigurationException {
+        super(plugin.getCustomConfigManager().getConfig(FILE_NAME));
         loadMessages();
     }
 
     private void loadMessages() {
-        this.reloadMessage = new MessageFactory<>(VoidContextMessage.class, VoidContext.class, ContextFactory.NULL,
-                getRawMessage("reloaded-config", "Plugin was successfully reloaded"));
-        this.reloadFailMessage = new MessageFactory<>(VoidContextMessage.class, VoidContext.class, ContextFactory.NULL,
+        this.reloadMessage = new VoidContextMessageFactory(VoidContextFactory.INSTANCE,
+                getRawMessage("reloaded-config", "Plugin was successfully reloaded"), DefinedMessageDeliverer.TEXT);
+        this.reloadFailMessage = new VoidContextMessageFactory(VoidContextFactory.INSTANCE,
                 getRawMessage("problem-reloading-config",
-                        "There was an issue while reloading the config - check the console log"));
-        this.listHeaderMessage = new MessageFactory<>(VoidContextMessage.class, VoidContext.class, ContextFactory.NULL,
-                getRawMessage("list-header", "&8Configured mobs"));
-        this.listItemMessage = new MessageFactory.DoubleFactory<>(DoubleContextMessage.class, DoubleContext.class,
+                        "There was an issue while reloading the config - check the console log"),
+                DefinedMessageDeliverer.TEXT);
+        this.listHeaderMessage = new VoidContextMessageFactory(VoidContextFactory.INSTANCE,
+                getRawMessage("list-header", "&8Configured mobs"), DefinedMessageDeliverer.TEXT);
+        this.listItemMessage = new DoubleContextMessageFactory<>(
                 new DelegatingDoubleContextFactory<>(new SingleContextFactory<>("%mob-type%", t -> t.name()),
-                        new SingleContextFactory<>("%status%",
-                                b -> {
-                                    Message<VoidContext> m = (b ? enabledMessage : disabledMessage)
-                                            .getMessage(Context.NULL);
-                                    return m.getRaw();
-                                })),
-                getRawMessage("list-format", "&6%mob-type% &f- %status%"));
-        this.enabledMessage = new MessageFactory<>(VoidContextMessage.class, VoidContext.class, ContextFactory.NULL,
-                getRawMessage("enabled", "enabled"));
-        this.disabledMessage = new MessageFactory<>(VoidContextMessage.class, VoidContext.class, ContextFactory.NULL,
-                getRawMessage("disabled", "disabled"));
+                        new SingleContextFactory<>("%status%", b -> {
+                            SDCMessage<SDCVoidContext> m = (b ? enabledMessage : disabledMessage)
+                                    .getMessage(VoidContext.INSTANCE);
+                            return m.getRaw();
+                        })),
+                getRawMessage("list-format", "&6%mob-type% &f- %status%"), DefinedMessageDeliverer.TEXT);
+        this.enabledMessage = new VoidContextMessageFactory(VoidContextFactory.INSTANCE,
+                getRawMessage("enabled", "enabled"), DefinedMessageDeliverer.TEXT);
+        this.disabledMessage = new VoidContextMessageFactory(VoidContextFactory.INSTANCE,
+                getRawMessage("disabled", "disabled"), DefinedMessageDeliverer.TEXT);
     }
 
-    public MessageFactory<VoidContext> getReloadMessage() {
+    public SDCVoidContextMessageFactory getReloadMessage() {
         return reloadMessage;
     }
 
-    public MessageFactory<VoidContext> getReloadFailedMessage() {
+    public SDCVoidContextMessageFactory getReloadFailedMessage() {
         return reloadFailMessage;
     }
 
-    public MessageFactory<VoidContext> getListHeaderMessage() {
+    public SDCVoidContextMessageFactory getListHeaderMessage() {
         return listHeaderMessage;
     }
 
-    public MessageFactory.DoubleFactory<MobType, Boolean> getListItemMessage() {
+    public SDCDoubleContextMessageFactory<MobType, Boolean> getListItemMessage() {
         return listItemMessage;
     }
 
-    public MessageFactory<VoidContext> getEnabledMessage() {
+    public SDCVoidContextMessageFactory getEnabledMessage() {
         return enabledMessage;
     }
 
-    public MessageFactory<VoidContext> getDisabledMessage() {
+    public SDCVoidContextMessageFactory getDisabledMessage() {
         return disabledMessage;
+    }
+
+    public void reloadConfig() {
+
     }
 
 }
