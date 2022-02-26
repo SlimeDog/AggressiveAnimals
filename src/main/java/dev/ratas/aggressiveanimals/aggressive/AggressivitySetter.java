@@ -1,7 +1,8 @@
 package dev.ratas.aggressiveanimals.aggressive;
 
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.plugin.java.JavaPlugin;
+
+import dev.ratas.slimedogcore.impl.SlimeDogCore;
 
 public interface AggressivitySetter {
     String AGGRESSIVE_ANIMAL_METADATA_TOKEN = "AggressiveAnimal";
@@ -12,7 +13,7 @@ public interface AggressivitySetter {
 
     void setPassive(MobWrapper mob);
 
-    JavaPlugin getPlugin();
+    SlimeDogCore getPlugin();
 
     default void markAsAttacking(MobWrapper wrapper) {
         wrapper.markAttacking();

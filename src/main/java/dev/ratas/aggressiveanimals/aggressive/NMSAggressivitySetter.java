@@ -7,10 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
 import dev.ratas.aggressiveanimals.AggressiveAnimals;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
+import dev.ratas.slimedogcore.impl.SlimeDogCore;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
@@ -37,7 +36,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         this.plugin = plugin;
     }
 
-    public JavaPlugin getPlugin() {
+    public SlimeDogCore getPlugin() {
         return plugin;
     }
 
