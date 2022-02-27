@@ -31,6 +31,10 @@
             <id>everything</id>
             <url>https://repo.citizensnpcs.co/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id> <!-- For automated building of SlimeDogCore-->
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -59,11 +63,11 @@
             <version>3.1.2</version>
             <type>maven-plugin</type>
             <scope>provided</scope>
-          </dependency>
-          <dependency>
-            <groupId>dev.ratas</groupId>
-            <artifactId>slimedogcore</artifactId>
-            <version>0.0.3-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.SlimeDog</groupId>
+            <artifactId>SlimeDogCore</artifactId>
+            <version>0.0.9-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
