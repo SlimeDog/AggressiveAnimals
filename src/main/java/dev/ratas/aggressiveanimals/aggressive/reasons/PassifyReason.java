@@ -1,4 +1,4 @@
-package dev.ratas.aggressiveanimals.aggressive;
+package dev.ratas.aggressiveanimals.aggressive.reasons;
 
 public enum PassifyReason {
     UNLOAD_ENTITY, RELOAD_PLUGIN

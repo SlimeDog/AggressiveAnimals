@@ -12,8 +12,8 @@ import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
-import dev.ratas.aggressiveanimals.aggressive.AttackReason;
 import dev.ratas.aggressiveanimals.aggressive.managed.TrackedMob;
+import dev.ratas.aggressiveanimals.aggressive.reasons.AttackReason;
 
 public class GroupAggressivity implements Runnable {
     private final AggressivityManager aggressivityManager;

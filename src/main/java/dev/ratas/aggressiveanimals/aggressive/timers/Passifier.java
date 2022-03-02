@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
-import dev.ratas.aggressiveanimals.aggressive.ChangeReason;
 import dev.ratas.aggressiveanimals.aggressive.managed.TrackedMob;
+import dev.ratas.aggressiveanimals.aggressive.reasons.ChangeReason;
 
 public class Passifier implements Runnable {
     private final AggressivityManager aggressivityManager;

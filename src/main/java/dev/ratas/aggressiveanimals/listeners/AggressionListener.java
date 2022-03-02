@@ -12,7 +12,7 @@ import org.bukkit.projectiles.ProjectileSource;
 
 import dev.ratas.aggressiveanimals.AggressiveAnimals;
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
-import dev.ratas.aggressiveanimals.aggressive.AttackReason;
+import dev.ratas.aggressiveanimals.aggressive.reasons.AttackReason;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 

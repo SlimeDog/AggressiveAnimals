@@ -12,8 +12,8 @@ import org.bukkit.event.world.EntitiesLoadEvent;
 import org.bukkit.event.world.WorldInitEvent;
 
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
-import dev.ratas.aggressiveanimals.aggressive.AggressivityReason;
-import dev.ratas.aggressiveanimals.aggressive.PassifyReason;
+import dev.ratas.aggressiveanimals.aggressive.reasons.AggressivityReason;
+import dev.ratas.aggressiveanimals.aggressive.reasons.PassifyReason;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.slimedogcore.api.SlimeDogPlugin;

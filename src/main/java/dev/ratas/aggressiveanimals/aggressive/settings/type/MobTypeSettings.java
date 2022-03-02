@@ -5,8 +5,8 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 
-import dev.ratas.aggressiveanimals.aggressive.ChangeReason;
 import dev.ratas.aggressiveanimals.aggressive.managed.TrackedMob;
+import dev.ratas.aggressiveanimals.aggressive.reasons.ChangeReason;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 
