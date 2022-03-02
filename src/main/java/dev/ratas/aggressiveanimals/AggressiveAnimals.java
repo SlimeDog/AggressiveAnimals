@@ -9,7 +9,8 @@ import dev.ratas.aggressiveanimals.config.ConfigLoadIssueResolver;
 import dev.ratas.aggressiveanimals.config.Settings;
 import dev.ratas.aggressiveanimals.config.messaging.Messages;
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
-import dev.ratas.aggressiveanimals.listeners.MobSpawnListener;
+import dev.ratas.aggressiveanimals.listeners.AggressionListener;
+import dev.ratas.aggressiveanimals.listeners.MobRegistrationListener;
 import dev.ratas.slimedogcore.api.config.SDCCustomConfig;
 import dev.ratas.slimedogcore.api.config.exceptions.ConfigException;
 import dev.ratas.slimedogcore.impl.SlimeDogCore;
@@ -46,7 +47,8 @@ public class AggressiveAnimals extends SlimeDogCore {
         loadDataFromFile();
         npcHookManager = new NPCHookManager();
         aggressivityManager = new AggressivityManager(this, settings, npcHookManager);
-        getServer().getPluginManager().registerEvents(new MobSpawnListener(this, aggressivityManager), this);
+        getPluginManager().registerEvents(new MobRegistrationListener(this, aggressivityManager));
+        getPluginManager().registerEvents(new AggressionListener(this, aggressivityManager));
         // bstats
         if (settings.enableMetrics()) {
             new Metrics(this, BSTATS_ID);

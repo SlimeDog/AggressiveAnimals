@@ -6,6 +6,7 @@ import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -14,21 +15,20 @@ import org.bukkit.projectiles.ProjectileSource;
 
 import dev.ratas.aggressiveanimals.AggressiveAnimals;
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
-import dev.ratas.aggressiveanimals.aggressive.AggressivityReason;
 import dev.ratas.aggressiveanimals.aggressive.AttackReason;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 
-public class MobSpawnListener implements Listener {
+public class AggressionListener implements Listener {
     private final AggressiveAnimals plugin;
     private final AggressivityManager aggressivityManager;
 
-    public MobSpawnListener(AggressiveAnimals plugin, AggressivityManager aggressivityManager) {
+    public AggressionListener(AggressiveAnimals plugin, AggressivityManager aggressivityManager) {
         this.plugin = plugin;
         this.aggressivityManager = aggressivityManager;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH) // lower priority in MobRegistrationListener so it gets called first
     public void onSpawn(CreatureSpawnEvent event) {
         LivingEntity entity = event.getEntity();
         if (!(entity instanceof Mob)) {
@@ -38,7 +38,6 @@ public class MobSpawnListener implements Listener {
         if (!aggressivityManager.isManaged(mob)) {
             return;
         }
-        aggressivityManager.setAggressivityAttributes(mob, AggressivityReason.SPAWN);
         if (!aggressivityManager.shouldBeAggressiveAtSpawn(mob)) {
             return;
         }

@@ -4,10 +4,15 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import dev.ratas.aggressiveanimals.AggressiveAnimals;
+import dev.ratas.aggressiveanimals.aggressive.managed.TrackedMob;
+import dev.ratas.aggressiveanimals.aggressive.managed.addon.AddonType;
+import dev.ratas.aggressiveanimals.aggressive.managed.addon.MobAddon;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.slimedogcore.impl.SlimeDogCore;
 import net.minecraft.world.entity.LivingEntity;
@@ -41,7 +46,11 @@ public class NMSAggressivitySetter implements AggressivitySetter {
     }
 
     @Override
-    public void setAggressivityAttributes(MobWrapper wrapper) {
+    public void setAggressivityAttributes(TrackedMob wrapper) {
+        if (!wrapper.hasAddon(AddonType.GOAL)) {
+            wrapper.addAddon(new GoalAddon());
+        }
+        GoalAddon addon = (GoalAddon) wrapper.getAddon(AddonType.GOAL);
         MobTypeSettings settings = wrapper.getSettings();
         plugin.debug("[NMS Setter] Setting aggressivivity attributes to: " + settings);
         org.bukkit.entity.Mob entity = wrapper.getBukkitEntity();
@@ -74,12 +83,16 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             savedAttributes.prevValues.put(Attributes.ATTACK_SPEED, attackSpeedAttribute.getBaseValue());
             attackSpeedAttribute.setBaseValue(attackSpeedAttribute.getBaseValue() * settings.attackSettings().speed());
         }
-        wrapper.setAttributes(savedAttributes);
+        addon.attributes = savedAttributes;
         plugin.debug("[NMS Setter] Previous attributes: " + savedAttributes);
     }
 
     @Override
-    public void setAttackingGoals(MobWrapper wrapper) {
+    public void setAttackingGoals(TrackedMob wrapper) {
+        if (!wrapper.hasAddon(AddonType.GOAL)) {
+            wrapper.addAddon(new GoalAddon());
+        }
+        GoalAddon addon = (GoalAddon) wrapper.getAddon(AddonType.GOAL);
         plugin.debug("[NMS Setter] Setting aggressive/attacking goals");
         org.bukkit.entity.Mob entity = wrapper.getBukkitEntity();
         Mob mob = NMS_RESOLVER.getNMSEntity(entity);
@@ -94,33 +107,34 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         Goal cur;
         mob.targetSelector.addGoal(2,
                 cur = new MeleeAttackGoal((PathfinderMob) mob, ATTACK_GOAL_SPEED_MODIFIER, false));
-        wrapper.getGoals().add(cur);
+        addon.goals.add(cur);
         mob.targetSelector.addGoal(8, cur = new LookAtPlayerGoal(mob, Player.class, range));
-        wrapper.getGoals().add(cur);
+        addon.goals.add(cur);
         mob.targetSelector.addGoal(8, cur = new RandomLookAroundGoal(mob));
-        wrapper.getGoals().add(cur);
+        addon.goals.add(cur);
 
         mob.targetSelector.addGoal(1, cur = new HurtByTargetGoal((PathfinderMob) mob));
-        wrapper.getGoals().add(cur);
+        addon.goals.add(cur);
         mob.targetSelector.addGoal(2, cur = new NearestAttackableTargetGoal<Player>(mob, Player.class, true));
-        wrapper.getGoals().add(cur);
+        addon.goals.add(cur);
         float leapHeight = settings.attackSettings().attackLeapHeight();
         if (leapHeight > 0) {
             mob.targetSelector.addGoal(9, cur = new LeapAtTargetGoal(mob, leapHeight));
-            wrapper.getGoals().add(cur);
+            addon.goals.add(cur);
         }
     }
 
     @Override
-    public void setPassive(MobWrapper wrapper) {
+    public void setPassive(TrackedMob wrapper) {
         plugin.debug("[NMS Setter] Removing previous goals and resetting attributes");
         markAsPassive(wrapper);
         Mob mob = NMS_RESOLVER.getNMSEntity(wrapper.getBukkitEntity());
-        for (Object goal : wrapper.getGoals()) {
-            mob.targetSelector.removeGoal((Goal) goal);
+        GoalAddon addon = (GoalAddon) wrapper.getAddon(AddonType.GOAL);
+        for (Goal goal : addon.goals) {
+            mob.targetSelector.removeGoal(goal);
         }
-        wrapper.getGoals().clear();
-        MobAttributes saved = (MobAttributes) wrapper.getSavedAttributes();
+        addon.goals.clear();
+        MobAttributes saved = addon.attributes;
         if (saved == null) {
             plugin.getLogger().warning("No previously saved attributes for mob  " + wrapper.getBukkitEntity()
                     + " - cannot properly passify");
@@ -188,6 +202,17 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             }
             attributes.put(instance.getAttribute(), instance);
         }
+    }
+
+    private static final class GoalAddon implements MobAddon {
+        private final Set<Goal> goals = new HashSet<>();
+        private MobAttributes attributes;
+
+        @Override
+        public AddonType getAddonType() {
+            return AddonType.GOAL;
+        }
+
     }
 
 }

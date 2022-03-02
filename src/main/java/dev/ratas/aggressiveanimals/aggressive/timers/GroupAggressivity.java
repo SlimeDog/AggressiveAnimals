@@ -13,24 +13,24 @@ import org.bukkit.entity.Player;
 
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
 import dev.ratas.aggressiveanimals.aggressive.AttackReason;
-import dev.ratas.aggressiveanimals.aggressive.MobWrapper;
+import dev.ratas.aggressiveanimals.aggressive.managed.TrackedMob;
 
 public class GroupAggressivity implements Runnable {
     private final AggressivityManager aggressivityManager;
-    private final Set<MobWrapper> checkableMobs;
+    private final Set<TrackedMob> checkableMobs;
 
-    public GroupAggressivity(AggressivityManager aggressivityManager, Collection<MobWrapper> checkableMobs) {
+    public GroupAggressivity(AggressivityManager aggressivityManager, Collection<TrackedMob> checkableMobs) {
         this.aggressivityManager = aggressivityManager;
         this.checkableMobs = new HashSet<>(checkableMobs);
     }
 
-    public void addTrackableMob(MobWrapper mob) {
+    public void addTrackableMob(TrackedMob mob) {
         checkableMobs.add(mob);
     }
 
     @Override
     public void run() {
-        for (MobWrapper mob : new HashSet<>(checkableMobs)) {
+        for (TrackedMob mob : new HashSet<>(checkableMobs)) {
             if (!mob.isAttacking()) {
                 checkableMobs.remove(mob);
                 continue;
@@ -39,7 +39,7 @@ public class GroupAggressivity implements Runnable {
         }
     }
 
-    private void checkMob(MobWrapper mob) {
+    private void checkMob(TrackedMob mob) {
         double dist = mob.getSettings().groupAgressionDistance();
         if (dist <= 0) {
             return;

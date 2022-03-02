@@ -1,13 +1,14 @@
 package dev.ratas.aggressiveanimals.aggressive;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 
 import dev.ratas.aggressiveanimals.AggressiveAnimals;
+import dev.ratas.aggressiveanimals.aggressive.managed.TrackedMob;
+import dev.ratas.aggressiveanimals.aggressive.managed.registry.GlobalRegistry;
+import dev.ratas.aggressiveanimals.aggressive.managed.registry.TrackedMobRegistry;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobTypeManager;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
@@ -25,7 +26,7 @@ public class AggressivityManager {
     private final NPCHookManager npcHooks;
     private final MobTypeManager mobTypeManager;
     private final AggressivitySetter setter;
-    private final Map<Mob, MobWrapper> trackedMobs = new HashMap<>();
+    private final TrackedMobRegistry registry = new GlobalRegistry();
     private final Passifier passifier;
     private final GroupAggressivity groupAggressivity;
     private final NearDeathChecker nearDeathChecker;
@@ -45,15 +46,19 @@ public class AggressivityManager {
                 NEAR_DEATH_PERIOD + NEAR_DEATH_PERIOD / 2, NEAR_DEATH_PERIOD);
     }
 
-    public void setAggressivityAttributes(Mob entity, AggressivityReason reason) {
-        MobTypeSettings settings = mobTypeManager.getEnabledSettings((MobType.fromBukkit(entity.getType())));
-        if (settings == null) {
-            throw new IllegalArgumentException(
-                    "Entity of type " + entity.getType() + " is not currently managed by the plugin.");
-        }
-        MobWrapper wrapper = trackedMobs.computeIfAbsent(entity, e -> new MobWrapper(e, settings));
-        plugin.debug("Setting aggressivity attributes for: " + entity + " because of " + reason);
-        setter.setAggressivityAttributes(wrapper);
+    public void register(Mob mob, MobTypeSettings settings, AggressivityReason reason) {
+        TrackedMob tracked = registry.register(mob, settings);
+        setAggressivityAttributes(tracked, reason);
+    }
+
+    public void unregister(Mob mob, MobTypeSettings settings, PassifyReason reason) {
+        setPassive(registry.getTrackedMob(mob), reason);
+        registry.unregister(mob, settings);
+    }
+
+    private void setAggressivityAttributes(TrackedMob tracked, AggressivityReason reason) {
+        plugin.debug("Setting aggressivity attributes for: " + tracked.getBukkitEntity() + " because of " + reason);
+        setter.setAggressivityAttributes(tracked);
     }
 
     public void attemptAttacking(Mob entity, Player target, AttackReason reason) {
@@ -62,11 +67,11 @@ public class AggressivityManager {
             throw new IllegalArgumentException(
                     "Entity of type " + entity.getType() + " is not currently managed by the plugin.");
         }
-        MobWrapper wrapper = trackedMobs.get(entity);
+        TrackedMob wrapper = registry.getTrackedMob(entity);
         if (wrapper == null) {
             plugin.debug("No wrapper when attempting to attack: " + entity);
-            setAggressivityAttributes(entity, AggressivityReason.ATTACK);
-            wrapper = trackedMobs.get(entity);
+            setAggressivityAttributes(wrapper, AggressivityReason.ATTACK);
+            wrapper = registry.getTrackedMob(entity);
         }
         if (wrapper.isAttacking()) {
             plugin.debug("Attempting to mark mob attacking while it is already doing so");
@@ -82,12 +87,17 @@ public class AggressivityManager {
         }
     }
 
-    public void stopTracking(MobWrapper mob) {
+    public void stopTracking(TrackedMob mob) {
         plugin.debug("Stopping tracking: " + mob.getBukkitEntity());
-        trackedMobs.remove(mob.getBukkitEntity());
+        registry.unregister(mob);
     }
 
-    public void setPassive(MobWrapper mob, ChangeReason reason) {
+    public void stopAttacking(TrackedMob mob, ChangeReason reason) {
+        plugin.debug("Stopping attacking for: " + mob.getBukkitEntity());
+        registry.markNotAttacking(mob);
+    }
+
+    public void setPassive(TrackedMob mob, PassifyReason reason) {
         plugin.debug("Setting passive: " + mob.getBukkitEntity() + " because of " + reason);
         setter.setPassive(mob);
     }
@@ -119,7 +129,8 @@ public class AggressivityManager {
     }
 
     public void reload(Settings settings) {
-        trackedMobs.clear();
+
+        registry.clear();
         mobTypeManager.reload(settings);
         passifier.reload();
     }
@@ -129,12 +140,7 @@ public class AggressivityManager {
     }
 
     public void untargetPlayer(Player player) {
-        // TODO - make this more effective
-        for (Mob mob : trackedMobs.keySet()) {
-            if (mob.getTarget() == player) {
-                mob.setTarget(null);
-            }
-        }
+        registry.stopAttacking(player);
     }
 
 }

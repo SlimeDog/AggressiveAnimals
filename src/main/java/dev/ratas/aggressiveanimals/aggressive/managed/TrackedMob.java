@@ -1,23 +1,24 @@
-package dev.ratas.aggressiveanimals.aggressive;
+package dev.ratas.aggressiveanimals.aggressive.managed;
 
-import java.util.HashSet;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 import org.bukkit.entity.Mob;
 
+import dev.ratas.aggressiveanimals.aggressive.managed.addon.AddonType;
+import dev.ratas.aggressiveanimals.aggressive.managed.addon.MobAddon;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 
-public class MobWrapper {
+public class TrackedMob {
     private static final long MIN_ATTACK_MS = 10 * 1000L; // aggressive for at least 10 seconds // TODO - configurable
     private final Mob bukkitEntity;
     private final MobTypeSettings settings;
     private boolean isAttacking = false;
-    private final Set<Object> goals = new HashSet<>();
-    private Object savedAttributes;
+    private final Map<AddonType, MobAddon> addons = new EnumMap<>(AddonType.class);
     private long startedAttacking = 0L;
 
-    public MobWrapper(Mob bukkitEntity, MobTypeSettings settings) {
+    public TrackedMob(Mob bukkitEntity, MobTypeSettings settings) {
         this.bukkitEntity = bukkitEntity;
         this.settings = settings;
     }
@@ -52,16 +53,30 @@ public class MobWrapper {
                 && bukkitEntity.getLocation().getChunk().isLoaded();
     }
 
-    Set<Object> getGoals() {
-        return goals;
+    public void addAddon(MobAddon addon) {
+        if (addons.get(addon.getAddonType()) != null) {
+            throw new IllegalArgumentException("Addon of type " + addon.getAddonType() + " already set");
+        }
+        addons.put(addon.getAddonType(), addon);
     }
 
-    void setAttributes(Object attributes) {
-        savedAttributes = attributes;
+    public void removeAddon(MobAddon addon) {
+        MobAddon prev = addons.get(addon.getAddonType());
+        if (prev == null) {
+            throw new IllegalArgumentException("Addon of type " + addon.getAddonType() + " not set");
+        }
+        if (prev != addon) {
+            throw new IllegalArgumentException("Duplicat addon of same type");
+        }
+        addons.remove(addon.getAddonType());
     }
 
-    Object getSavedAttributes() {
-        return savedAttributes;
+    public boolean hasAddon(AddonType type) {
+        return getAddon(type) != null;
+    }
+
+    public MobAddon getAddon(AddonType type) {
+        return addons.get(type);
     }
 
     @Override
@@ -74,10 +89,10 @@ public class MobWrapper {
         if (this == other) {
             return true;
         }
-        if (!(other instanceof MobWrapper)) {
+        if (!(other instanceof TrackedMob)) {
             return false;
         }
-        MobWrapper o = (MobWrapper) other;
+        TrackedMob o = (TrackedMob) other;
         return bukkitEntity.equals(o.bukkitEntity) && settings.equals(o.settings);
     }
 

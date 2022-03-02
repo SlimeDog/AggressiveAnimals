@@ -5,7 +5,7 @@ import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 
 import dev.ratas.aggressiveanimals.aggressive.ChangeReason;
-import dev.ratas.aggressiveanimals.aggressive.MobWrapper;
+import dev.ratas.aggressiveanimals.aggressive.managed.TrackedMob;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 
@@ -65,13 +65,13 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
     }
 
     /**
-     * Checks if a mob should be passified. Returns a ChangeReason if that is the
+     * Checks if a mob should stop attacking. Returns a ChangeReason if that is the
      * case and null otherwise.
      *
      * @param wrapper the mob wrapper in question
      * @return the ChangeReason if mob should be passified, null otherwise
      */
-    public ChangeReason shouldBePassified(MobWrapper wrapper) {
+    public ChangeReason shouldStopAttacking(TrackedMob wrapper) {
         Mob mob = wrapper.getBukkitEntity();
         LivingEntity target = mob.getTarget();
         if (!wrapper.hasOutlivedAggression()) {
