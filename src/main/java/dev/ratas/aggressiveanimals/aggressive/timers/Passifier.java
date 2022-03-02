@@ -7,6 +7,7 @@ import java.util.Set;
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
 import dev.ratas.aggressiveanimals.aggressive.managed.TrackedMob;
 import dev.ratas.aggressiveanimals.aggressive.reasons.ChangeReason;
+import dev.ratas.aggressiveanimals.aggressive.reasons.StopTrackingReason;
 
 public class Passifier implements Runnable {
     private final AggressivityManager aggressivityManager;
@@ -30,7 +31,7 @@ public class Passifier implements Runnable {
                 checkableMobs.remove(mob);
             }
             if (!mob.isLoaded()) {
-                aggressivityManager.stopTracking(mob);
+                aggressivityManager.stopTracking(mob, StopTrackingReason.UNLOADED);
                 checkableMobs.remove(mob);
             }
         }

@@ -13,6 +13,7 @@ import dev.ratas.aggressiveanimals.aggressive.reasons.AggressivityReason;
 import dev.ratas.aggressiveanimals.aggressive.reasons.AttackReason;
 import dev.ratas.aggressiveanimals.aggressive.reasons.ChangeReason;
 import dev.ratas.aggressiveanimals.aggressive.reasons.PassifyReason;
+import dev.ratas.aggressiveanimals.aggressive.reasons.StopTrackingReason;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobTypeManager;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
@@ -94,8 +95,8 @@ public class AggressivityManager {
         }
     }
 
-    public void stopTracking(TrackedMob mob) {
-        plugin.debug("Stopping tracking: " + mob.getBukkitEntity());
+    public void stopTracking(TrackedMob mob, StopTrackingReason reason) {
+        plugin.debug("Stopping tracking: " + mob.getBukkitEntity() + " becaause " + reason);
         registry.unregister(mob);
     }
 
