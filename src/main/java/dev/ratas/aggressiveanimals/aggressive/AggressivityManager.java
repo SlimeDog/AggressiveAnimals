@@ -18,7 +18,7 @@ import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobTypeManager;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.aggressiveanimals.aggressive.timers.GroupAggressivity;
-import dev.ratas.aggressiveanimals.aggressive.timers.Passifier;
+import dev.ratas.aggressiveanimals.aggressive.timers.AggressivityMaintainer;
 import dev.ratas.aggressiveanimals.config.Settings;
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 
@@ -30,7 +30,7 @@ public class AggressivityManager {
     private final MobTypeManager mobTypeManager;
     private final AggressivitySetter setter;
     private final TrackedMobRegistry registry = new GlobalRegistry();
-    private final Passifier passifier;
+    private final AggressivityMaintainer passifier;
     private final GroupAggressivity groupAggressivity;
 
     public AggressivityManager(IAggressiveAnimals plugin, Settings settings, NPCHookManager npcHooks) {
@@ -38,7 +38,7 @@ public class AggressivityManager {
         this.plugin = plugin;
         mobTypeManager = new MobTypeManager(plugin, settings);
         setter = new NMSAggressivitySetter(plugin);
-        this.passifier = new Passifier(this);
+        this.passifier = new AggressivityMaintainer(this);
         this.groupAggressivity = new GroupAggressivity(this);
         plugin.getScheduler().runTaskTimer(passifier, PASSIFIER_PERIOD, PASSIFIER_PERIOD);
         plugin.getScheduler().runTaskTimer(groupAggressivity, GROUP_AGGRESSION_PERIOD, GROUP_AGGRESSION_PERIOD);
