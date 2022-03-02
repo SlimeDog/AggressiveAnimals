@@ -23,6 +23,7 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
     private Settings settings;
     private NPCHookManager npcHookManager;
     private AggressivityManager aggressivityManager;
+    private MobRegistrationListener registrationListener;
 
     private void loadDataFromFile() {
         ConfigLoadIssueResolver issues = ConfigLoadIssueResolver.atLoad();
@@ -48,7 +49,8 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
         loadDataFromFile();
         npcHookManager = new NPCHookManager();
         aggressivityManager = new AggressivityManager(this, settings, npcHookManager);
-        getPluginManager().registerEvents(new MobRegistrationListener(this, aggressivityManager));
+        registrationListener = new MobRegistrationListener(this, aggressivityManager);
+        getPluginManager().registerEvents(registrationListener);
         getPluginManager().registerEvents(new AggressionListener(this, aggressivityManager));
         // bstats
         if (settings.enableMetrics()) {
@@ -76,6 +78,7 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
             return issues;
         }
         aggressivityManager.reload(settings);
+        registrationListener.onReload();
         return issues;
     }
 

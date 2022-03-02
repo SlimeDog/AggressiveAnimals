@@ -104,4 +104,8 @@ public class MobRegistrationListener implements Listener {
         registerAllInWorld(event.getWorld());
     }
 
+    public void onReload() {
+        registerAllExistingMobs();
+    }
+
 }
