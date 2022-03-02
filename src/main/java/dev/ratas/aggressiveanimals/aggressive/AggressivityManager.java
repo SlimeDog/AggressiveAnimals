@@ -49,6 +49,9 @@ public class AggressivityManager {
     public void register(Mob mob, MobTypeSettings settings, AggressivityReason reason) {
         TrackedMob tracked = registry.register(mob, settings);
         setAggressivityAttributes(tracked, reason);
+        if (shouldBeAggressiveAtSpawn(tracked)) {
+            attemptAttacking(mob, null, AttackReason.AGGRESSIVE_AT_SPAWN);
+        }
     }
 
     public void unregister(Mob mob, MobTypeSettings settings, PassifyReason reason) {
@@ -106,12 +109,10 @@ public class AggressivityManager {
         return mobTypeManager.isManaged(MobType.fromBukkit(entity.getType()));
     }
 
-    public boolean shouldBeAggressiveAtSpawn(Mob entity) {
-        MobTypeSettings settings = mobTypeManager.getEnabledSettings((MobType.fromBukkit(entity.getType())));
-        if (settings == null) {
-            return false;
-        }
-        if (!settings.shouldApplyTo(entity, null, npcHooks)) {
+    public boolean shouldBeAggressiveAtSpawn(TrackedMob tracked) {
+        Mob entity = tracked.getBukkitEntity();
+        MobTypeSettings settings = tracked.getSettings();
+        if (!settings.shouldAttack(entity, null, npcHooks)) {
             return false;
         }
         return settings.alwaysAggressive();
@@ -122,7 +123,7 @@ public class AggressivityManager {
         if (settings == null) {
             return false;
         }
-        if (!settings.shouldApplyTo(entity, target, npcHooks)) {
+        if (!settings.shouldAttack(entity, target, npcHooks)) {
             return false;
         }
         return true;

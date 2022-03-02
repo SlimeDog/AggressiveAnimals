@@ -1,14 +1,11 @@
 package dev.ratas.aggressiveanimals.listeners;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.projectiles.ProjectileSource;
@@ -28,22 +25,6 @@ public class AggressionListener implements Listener {
         this.aggressivityManager = aggressivityManager;
     }
 
-    @EventHandler(priority = EventPriority.HIGH) // lower priority in MobRegistrationListener so it gets called first
-    public void onSpawn(CreatureSpawnEvent event) {
-        LivingEntity entity = event.getEntity();
-        if (!(entity instanceof Mob)) {
-            return;
-        }
-        Mob mob = (Mob) entity;
-        if (!aggressivityManager.isManaged(mob)) {
-            return;
-        }
-        if (!aggressivityManager.shouldBeAggressiveAtSpawn(mob)) {
-            return;
-        }
-        aggressivityManager.attemptAttacking(mob, null, AttackReason.AGGRESSIVE_AT_SPAWN);
-    }
-
     private Player getDamagingPlayer(Entity entity) {
         if (entity instanceof Player) {
             return (Player) entity;
@@ -60,7 +41,7 @@ public class AggressionListener implements Listener {
     }
 
     @EventHandler
-    public void onAttack(EntityDamageByEntityEvent event) {
+    public void mobGetsAttacked(EntityDamageByEntityEvent event) {
         Entity targetEntity = event.getEntity();
         if (!(targetEntity instanceof Mob)) {
             return; // currently only managing living entities
@@ -86,7 +67,7 @@ public class AggressionListener implements Listener {
     }
 
     @EventHandler
-    public void onDamage(EntityDamageByEntityEvent event) {
+    public void mobDamagesPlayer(EntityDamageByEntityEvent event) {
         Entity damager = event.getDamager();
         if (!(damager instanceof Mob)) {
             return;

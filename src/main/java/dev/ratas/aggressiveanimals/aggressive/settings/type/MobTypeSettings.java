@@ -15,7 +15,7 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
         MobAgeSettings ageSettings, MobMiscSettings miscSettings, boolean alwaysAggressive, boolean overrideTargets,
         double groupAgressionDistance, PlayerStateSettings playerStateSettings, MobWorldSettings worldSettings) {
 
-    public boolean shouldApplyTo(Mob mob, Player target, NPCHookManager npcHooks) {
+    public boolean shouldAttack(Mob mob, Player target, NPCHookManager npcHooks) {
         if (mob.getType() != entityType.getBukkitType()) {
             throw new IllegalArgumentException(
                     "Mob is of wrong type (at application time). Expected " + entityType.name() + " and got "
