@@ -44,8 +44,12 @@ public class MobRegistrationListener implements Listener {
         if (!(entity instanceof Mob)) {
             return null;
         }
-        return aggressivityManager.getMobTypeManager()
+        MobTypeSettings settings = aggressivityManager.getMobTypeManager()
                 .getEnabledSettings(MobType.fromBukkit(((Mob) entity).getType()));
+        if (!settings.isApplicableAt(entity.getLocation())) {
+            return null;
+        }
+        return settings;
     }
 
     private void attemptRegister(Entity entity, AggressivityReason reason) {

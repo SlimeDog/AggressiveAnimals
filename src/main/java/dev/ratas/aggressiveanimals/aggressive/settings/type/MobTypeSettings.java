@@ -1,5 +1,6 @@
 package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
+import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
@@ -85,6 +86,16 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
             return ChangeReason.OUT_OF_RANGE;
         }
         return null;
+    }
+
+    /**
+     * Checks if the mob type settings are applicable in the location / world
+     *
+     * @param location target location
+     * @return true if applicable, false otherwise
+     */
+    public boolean isApplicableAt(Location location) {
+        return worldSettings.isEnabledInWorld(location.getWorld());
     }
 
 }
