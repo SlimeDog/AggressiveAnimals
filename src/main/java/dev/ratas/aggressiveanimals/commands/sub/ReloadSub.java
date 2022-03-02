@@ -3,7 +3,7 @@ package dev.ratas.aggressiveanimals.commands.sub;
 import java.util.ArrayList;
 import java.util.List;
 
-import dev.ratas.aggressiveanimals.AggressiveAnimals;
+import dev.ratas.aggressiveanimals.IAggressiveAnimals;
 import dev.ratas.aggressiveanimals.config.ConfigLoadIssueResolver;
 import dev.ratas.aggressiveanimals.config.messaging.Messages;
 import dev.ratas.slimedogcore.api.messaging.SDCMessage;
@@ -15,10 +15,10 @@ public class ReloadSub extends AbstractSubCommand {
     private static final String NAME = "reload";
     private static final String USAGE = "/aggro reload";
     private static final String PERMS = "aggressiveanimals.reload";
-    private final AggressiveAnimals plugin;
+    private final IAggressiveAnimals plugin;
     private final Messages messages;
 
-    public ReloadSub(AggressiveAnimals plugin, Messages messages) {
+    public ReloadSub(IAggressiveAnimals plugin, Messages messages) {
         super(NAME, PERMS, USAGE);
         this.plugin = plugin;
         this.messages = messages;
