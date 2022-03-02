@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import dev.ratas.aggressiveanimals.AggressiveAnimals;
+import dev.ratas.aggressiveanimals.IAggressiveAnimals;
 import dev.ratas.aggressiveanimals.aggressive.managed.TrackedMob;
 import dev.ratas.aggressiveanimals.aggressive.managed.addon.AddonType;
 import dev.ratas.aggressiveanimals.aggressive.managed.addon.MobAddon;
@@ -35,14 +35,14 @@ import net.minecraft.world.entity.player.Player;
 public class NMSAggressivitySetter implements AggressivitySetter {
     private static final NMSResolver NMS_RESOLVER = new NMSResolver();
     private static final double ATTACK_GOAL_SPEED_MODIFIER = 1.0D;
-    private final AggressiveAnimals plugin;
+    private final IAggressiveAnimals plugin;
 
-    public NMSAggressivitySetter(AggressiveAnimals plugin) {
+    public NMSAggressivitySetter(IAggressiveAnimals plugin) {
         this.plugin = plugin;
     }
 
     public SlimeDogCore getPlugin() {
-        return plugin;
+        return plugin.asPlugin();
     }
 
     @Override

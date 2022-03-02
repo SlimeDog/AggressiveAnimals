@@ -5,7 +5,7 @@ import java.util.Collections;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 
-import dev.ratas.aggressiveanimals.AggressiveAnimals;
+import dev.ratas.aggressiveanimals.IAggressiveAnimals;
 import dev.ratas.aggressiveanimals.aggressive.managed.TrackedMob;
 import dev.ratas.aggressiveanimals.aggressive.managed.registry.GlobalRegistry;
 import dev.ratas.aggressiveanimals.aggressive.managed.registry.TrackedMobRegistry;
@@ -25,7 +25,7 @@ import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 public class AggressivityManager {
     private static final long PASSIFIER_PERIOD = 10L; // TODO - make configurable?
     private static final long GROUP_AGGRESSION_PERIOD = 40L; // TODO - make configurable?
-    private final AggressiveAnimals plugin;
+    private final IAggressiveAnimals plugin;
     private final NPCHookManager npcHooks;
     private final MobTypeManager mobTypeManager;
     private final AggressivitySetter setter;
@@ -33,16 +33,15 @@ public class AggressivityManager {
     private final Passifier passifier;
     private final GroupAggressivity groupAggressivity;
 
-    public AggressivityManager(AggressiveAnimals plugin, Settings settings, NPCHookManager npcHooks) {
+    public AggressivityManager(IAggressiveAnimals plugin, Settings settings, NPCHookManager npcHooks) {
         this.npcHooks = npcHooks;
         this.plugin = plugin;
         mobTypeManager = new MobTypeManager(plugin, settings);
         setter = new NMSAggressivitySetter(plugin);
         this.passifier = new Passifier(this, Collections.emptyList());
         this.groupAggressivity = new GroupAggressivity(this, Collections.emptyList());
-        plugin.getServer().getScheduler().runTaskTimer(plugin, passifier, PASSIFIER_PERIOD, PASSIFIER_PERIOD);
-        plugin.getServer().getScheduler().runTaskTimer(plugin, groupAggressivity, GROUP_AGGRESSION_PERIOD,
-                GROUP_AGGRESSION_PERIOD);
+        plugin.getScheduler().runTaskTimer(passifier, PASSIFIER_PERIOD, PASSIFIER_PERIOD);
+        plugin.getScheduler().runTaskTimer(groupAggressivity, GROUP_AGGRESSION_PERIOD, GROUP_AGGRESSION_PERIOD);
     }
 
     public void register(Mob mob, MobTypeSettings settings, AggressivityReason reason) {
