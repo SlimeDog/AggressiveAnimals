@@ -99,10 +99,10 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
     }
 
     /**
-     * Check if settings other than enabled are similar.
+     * Check if settings other than enabled and world settings are the same.
      *
      * @param other the other settings instance to check against
-     * @return if all settings other than enabled are the same
+     * @return if all settings other than enabled and world settings are the same
      */
     public boolean hasSimilarSettings(MobTypeSettings other) {
         if (speedMultiplier != other.speedMultiplier) {
@@ -133,9 +133,6 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
             return false;
         }
         if (!playerStateSettings.equals(other.playerStateSettings)) {
-            return false;
-        }
-        if (!worldSettings.equals(other.worldSettings)) {
             return false;
         }
         return true;
