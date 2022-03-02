@@ -98,4 +98,47 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
         return worldSettings.isEnabledInWorld(location.getWorld());
     }
 
+    /**
+     * Check if settings other than enabled are similar.
+     *
+     * @param other the other settings instance to check against
+     * @return if all settings other than enabled are the same
+     */
+    public boolean hasSimilarSettings(MobTypeSettings other) {
+        if (speedMultiplier != other.speedMultiplier) {
+            return false;
+        }
+        if (!attackSettings.equals(other.attackSettings)) {
+            return false;
+        }
+        if (!acquisitionSettings.equals(other.acquisitionSettings)) {
+            return false;
+        }
+        if (minAttackHealth != other.minAttackHealth) {
+            return false;
+        }
+        if (!ageSettings.equals(other.ageSettings)) {
+            return false;
+        }
+        if (!miscSettings.equals(other.miscSettings)) {
+            return false;
+        }
+        if (alwaysAggressive != other.alwaysAggressive) {
+            return false;
+        }
+        if (overrideTargets != other.overrideTargets) {
+            return false;
+        }
+        if (groupAgressionDistance != other.groupAgressionDistance) {
+            return false;
+        }
+        if (!playerStateSettings.equals(other.playerStateSettings)) {
+            return false;
+        }
+        if (!worldSettings.equals(other.worldSettings)) {
+            return false;
+        }
+        return true;
+    }
+
 }
