@@ -6,31 +6,34 @@ import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.slimedogcore.api.config.SDCConfiguration;
 
 // # mob-type:
-// #   enabled: true                      Should revenge attacks by this mob-type be enabled?
-// #   speed-multiplier: 1.0              How fast can the mob move? (for example: 1.0 is regular speed, 0.5 is half speed and 2.0 is double speed)
-// #   attack-damage: 1                   How much damage will the mob inflict per attack? (in half-hearts)
-// #   attack-damage-limit: 2             If positive, the attacker will always leave the target alive with the specified amount of health (measued in half hearts)
-// #   attack-speed: 10                   How often can the mob damage the player? (in ticks)
-// #   attack-range: 1                    From how many blocks away can the mob hit the player? (in blocks)
-// #   acquisition-range: 12              How close will mobs acquire a player and start an attack?
-// #   deacquisition-range: 20            How far away must the player run to stop an attack?
-// #   attacker-health-threshold: 5       The attack should stop when the mob health falls below the threshold (in half-hearts)
-// #   age:                               Should adult mobs and/or baby mobs attack the player?
-// #     adult: true                      Adult mobs should attack
-// #     baby: false                      Baby mobs should attack
-// #   ignore-npcs: true                  Ignore NPCs created by Citizens, EliteMobs, InfernalMobs, and Shopkeepers
-// #   named-mobs-only: false             Should mobs attack only if they are named?
-// #   always-aggressive: false           Should mobs retaliate only if attacked by the player?
-// #   override-targeting: false          If true, remove vanilla targeting behavior and only use attack-conditions
-// #   group-aggression-distance: 10      If other mobs of the same type are close enough, they should join the attack (in blocks)
-// #   player-movement:                   Mob should attack only if the player is
+// #   enabled: true                      If true, this mob-type should engage in attacks against players
+// #   always-aggressive: false           If true, mobs should attack only in retaliation for player attack
+// #   speed-multiplier: 1.0              Multiple of vanilla movement speed (examples: 1.0 is regular speed, 0.5 is half speed, 2.0 is double speed)
+// #   attack-damage: 1.0                 Damage inflicted on the target on each attack (in half-hearts)
+// #   attack-damage-limit: 2             The attacker will leave the target alive with the specified amount of health (in half hearts)
+// #   attack-speed: 20                   Frequency of attack, same as vanilla except for zombies (in ticks)
+// #   attack-range: 1                    Distance at which the mob can damage the player (in blocks)
+// #   attack-leap-height: 0.0            Height attacker may leap when attacking (in blocks; 0.0 or below means disabled)
+// #   acquisition-range: 16              Distance at which the attaker can detect a target
+// #   deacquisition-range: 20            Distance at which the victim can escape attack
+// #   attacker-health-threshold: 5       Attack should stop when the health of the attacker falls below the threshold (in half-hearts)
+// #   age:                               Attacks may be waged by adults and/or babies
+// #     adult: true                      If true, adult mobs should attack
+// #     baby: false                      If true, baby mobs should attack
+// #   ignore-npcs: true                  If true, ignore NPCs created by NPC managers, such as Citizens, EliteMobs, InfernalMobs, and Shopkeepers
+// #   named-mobs-only: false             If true, only named mobs may attack
+// #   override-targeting: false          If true, remove vanilla targeting behavior and use only attack-conditions; useful for hostile mob-types
+// #   group-aggression-range: 20         If other mobs of the same type are within range of the attacker, they should join the attack (in blocks)
+// #   player-movement:                   Mob should attack if the player is
 // #     standing: true
 // #     sneaking: true
 // #     walking: true
 // #     sprinting: true
-// #     looking: true                    Like Enderman
-// #   enabled-worlds: []                 Worlds in which this mob-type is enabled; if empty, it is enabled in all worlds
-// #   disabled-worlds:                   Worlds in which this mob-type is disabled; must be set explicitly
+// #     looking: true                    Like locking eyes with an Enderman
+// #     sleeping: true
+// #     gliding: true
+// #   enabled-worlds: []                 Worlds in which attacks by this mob-type is enabled; if empty, it is enabled in all worlds
+// #   disabled-worlds:                   Worlds in which attacks by this mob-type is disabled; must be set explicitly; takes precedence over enabled_worlds
 // #     - "world_example"
 
 public class Builder {
@@ -66,6 +69,10 @@ public class Builder {
         enabled = section.getBoolean("enabled", false);
     }
 
+    private void loadAlwaysAggressive() {
+        alwaysAggressive = section.getBoolean("always-aggressive", false);
+    }
+
     private void loadSpeed() {
         speedMultiplier = section.getDouble("speed-multiplier", 1.0);
     }
@@ -73,14 +80,14 @@ public class Builder {
     private void loadAttackSettings() {
         double damage = section.getDouble("attack-damage", 1.0D);
         double attackDamageLimit = section.getDouble("attack-damage-limit", 2.0);
-        double speed = section.getDouble("attack-speed", 10);
+        double speed = section.getDouble("attack-speed", 20);
         double range = section.getDouble("attack-range", 1.0D);
         float attackLeapHeight = (float) section.getDouble("attack-leap-height", 0.0F);
         attackSettings = new MobAttackSettings(damage, attackDamageLimit, speed, range, attackLeapHeight);
     }
 
     private void loadAcquisitionSettings() {
-        double acquisitionRange = section.getDouble("acquisition-range", 12.0D);
+        double acquisitionRange = section.getDouble("acquisition-range", 16.0D);
         double deacquisitionRange = section.getDouble("deacquisition-range", 20.0D);
         acquisitionSettings = new MobAcquisationSettings(acquisitionRange, deacquisitionRange);
     }
@@ -90,8 +97,8 @@ public class Builder {
     }
 
     private void loadMobAgeSettings() {
-        boolean attackAsAdult = section.getBoolean("age.adult");
-        boolean attackAsBaby = section.getBoolean("age.baby");
+        boolean attackAsAdult = section.getBoolean("age.adult", true);
+        boolean attackAsBaby = section.getBoolean("age.baby", false);
         ageSettings = new MobAgeSettings(attackAsAdult, attackAsBaby);
     }
 
@@ -101,16 +108,12 @@ public class Builder {
         miscSettings = new MobMiscSettings(ignoreNpcs, targetAsNamedOnly);
     }
 
-    private void loadAlwaysAggressive() {
-        alwaysAggressive = section.getBoolean("always-aggressive", false);
-    }
-
     private void loadOverrideTargets() {
         overrideTargets = section.getBoolean("override-targeting", false);
     }
 
     private void loadGroupAgrewssionDistance() {
-        groupAgressionDistance = section.getDouble("group-aggression-distance", 10.0D);
+        groupAgressionDistance = section.getDouble("group-aggression-distance", 20.0D);
     }
 
     public void loadPlayerStateSettings() {
