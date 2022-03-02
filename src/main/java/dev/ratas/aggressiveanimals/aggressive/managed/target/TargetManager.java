@@ -13,8 +13,15 @@ public class TargetManager {
 
     public void setTarget(TrackedMob wrapper, Player player) {
         wrapper.getBukkitEntity().setTarget(player);
-        targetMapper.put(player, wrapper);
-        trackedTargets.put(wrapper, player);
+        if (player == null) {
+            Player prevTarget = trackedTargets.remove(wrapper);
+            if (prevTarget != null) {
+                targetMapper.remove(prevTarget);
+            }
+        } else {
+            targetMapper.put(player, wrapper);
+            trackedTargets.put(wrapper, player);
+        }
     }
 
     public void removeTarget(Player player) {
