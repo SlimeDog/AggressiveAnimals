@@ -41,7 +41,6 @@ public class ListSub extends AbstractSubCommand {
     @Override
     public boolean onCommand(SDCRecipient sender, String[] args, List<String> opts) {
         SettingTarget target;
-        System.out.println("DEBUG: here (1) w:" + java.util.Arrays.asList(args) + " and " + opts);
         if (args.length == 0) {
             target = SettingTarget.BOTH;
         } else if (args[0].equalsIgnoreCase("enabled")) {
@@ -49,10 +48,8 @@ public class ListSub extends AbstractSubCommand {
         } else if (args[0].equalsIgnoreCase("disabled")) {
             target = SettingTarget.DISABLED;
         } else {
-            System.out.println("DEBUG: here something...");
             return false; // unknown option
         }
-        System.out.println("DEBUG: here (2): " + target);
         messages.getListHeaderMessage().getMessage().sendTo(sender);
         SDCDoubleContextMessageFactory<MobType, Boolean> lmf = messages.getListItemMessage();
         for (MobTypeSettings settings : manager.getUsedSettings()) {
