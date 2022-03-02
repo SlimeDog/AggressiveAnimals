@@ -36,4 +36,8 @@ public interface TrackedMobRegistry {
 
     Collection<TrackedMob> getAllTrackedMobs();
 
+    Player getTargetOf(TrackedMob mob);
+
+    void resetTarget(TrackedMob mob);
+
 }

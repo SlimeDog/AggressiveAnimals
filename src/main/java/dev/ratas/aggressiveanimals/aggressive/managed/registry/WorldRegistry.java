@@ -72,4 +72,14 @@ public class WorldRegistry implements TrackedMobRegistry {
         return Collections.unmodifiableCollection(trackedMobs.values());
     }
 
+    @Override
+    public Player getTargetOf(TrackedMob mob) {
+        return targetManager.getCurrentTarget(mob);
+    }
+
+    @Override
+    public void resetTarget(TrackedMob mob) {
+        targetManager.setTarget(mob, targetManager.getCurrentTarget(mob));
+    }
+
 }

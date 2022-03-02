@@ -70,4 +70,14 @@ public class GlobalRegistry implements TrackedMobRegistry {
         return Collections.unmodifiableCollection(tracked);
     }
 
+    @Override
+    public Player getTargetOf(TrackedMob mob) {
+        return getWorldManager(mob.getBukkitEntity().getWorld()).getTargetOf(mob);
+    }
+
+    @Override
+    public void resetTarget(TrackedMob mob) {
+        getWorldManager(mob.getBukkitEntity().getWorld()).resetTarget(mob);
+    }
+
 }
