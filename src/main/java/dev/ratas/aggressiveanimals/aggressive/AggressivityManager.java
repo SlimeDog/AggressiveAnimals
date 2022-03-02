@@ -96,7 +96,7 @@ public class AggressivityManager {
     }
 
     public void stopAttacking(TrackedMob mob, ChangeReason reason) {
-        plugin.debug("Stopping attacking for: " + mob.getBukkitEntity());
+        plugin.debug("Stopping attacking for: " + mob.getBukkitEntity() + " because of " + reason);
         registry.markNotAttacking(mob);
     }
 
