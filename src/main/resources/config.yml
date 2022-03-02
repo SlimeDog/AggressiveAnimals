@@ -62,12 +62,12 @@ mobs:
   chicken:
     enabled: true
     always-aggressive: false
-    speed-multiplier: 1.5
+    speed-multiplier: 1.0
     attack-damage: 1.0
     attack-damage-limit: 2
     attack-speed: 20
     attack-range: 1
-    attack-leap-height: 0.3
+    attack-leap-height: 0.0
     acquisition-range: 16
     deacquisition-range: 20
     attacker-health-threshold: 5
