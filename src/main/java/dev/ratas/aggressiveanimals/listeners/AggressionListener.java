@@ -10,17 +10,17 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
-import dev.ratas.aggressiveanimals.AggressiveAnimals;
+import dev.ratas.aggressiveanimals.IAggressiveAnimals;
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
 import dev.ratas.aggressiveanimals.aggressive.reasons.AttackReason;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 
 public class AggressionListener implements Listener {
-    private final AggressiveAnimals plugin;
+    private final IAggressiveAnimals plugin;
     private final AggressivityManager aggressivityManager;
 
-    public AggressionListener(AggressiveAnimals plugin, AggressivityManager aggressivityManager) {
+    public AggressionListener(IAggressiveAnimals plugin, AggressivityManager aggressivityManager) {
         this.plugin = plugin;
         this.aggressivityManager = aggressivityManager;
     }
