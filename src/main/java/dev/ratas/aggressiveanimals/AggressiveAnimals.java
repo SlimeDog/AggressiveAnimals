@@ -110,7 +110,7 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
 
     @Override
     public void pluginDisabled() {
-        aggressivityManager.unRegisterAll(PassifyReason.PLUGIN_DISABLE);
+        aggressivityManager.unregisterAll(PassifyReason.PLUGIN_DISABLE);
     }
 
 }
