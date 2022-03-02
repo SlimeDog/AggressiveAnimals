@@ -128,7 +128,6 @@ public class AggressivityManager {
     }
 
     public void reload(Settings settings) {
-
         registry.clear();
         mobTypeManager.reload(settings);
         passifier.reload();
@@ -140,6 +139,12 @@ public class AggressivityManager {
 
     public void untargetPlayer(Player player) {
         registry.stopAttacking(player);
+    }
+
+    public void unRegisterAll(PassifyReason reason) {
+        for (TrackedMob mob : registry.getAllTrackedMobs()) {
+            unregister(mob.getBukkitEntity(), mob.getSettings(), reason);
+        }
     }
 
 }
