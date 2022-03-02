@@ -1,8 +1,6 @@
 package dev.ratas.aggressiveanimals.aggressive.timers;
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -17,22 +15,15 @@ import dev.ratas.aggressiveanimals.aggressive.reasons.AttackReason;
 
 public class GroupAggressivity implements Runnable {
     private final AggressivityManager aggressivityManager;
-    private final Set<TrackedMob> checkableMobs;
 
-    public GroupAggressivity(AggressivityManager aggressivityManager, Collection<TrackedMob> checkableMobs) {
+    public GroupAggressivity(AggressivityManager aggressivityManager) {
         this.aggressivityManager = aggressivityManager;
-        this.checkableMobs = new HashSet<>(checkableMobs);
-    }
-
-    public void addTrackableMob(TrackedMob mob) {
-        checkableMobs.add(mob);
     }
 
     @Override
     public void run() {
-        for (TrackedMob mob : new HashSet<>(checkableMobs)) {
+        for (TrackedMob mob : new HashSet<>(aggressivityManager.getAllTrackedMobs())) {
             if (!mob.isAttacking()) {
-                checkableMobs.remove(mob);
                 continue;
             }
             checkMob(mob);
@@ -59,10 +50,6 @@ public class GroupAggressivity implements Runnable {
             }
             aggressivityManager.attemptAttacking((Mob) e, target, AttackReason.GROUP_AGGRESSION);
         }
-    }
-
-    public void reload() {
-        checkableMobs.clear();
     }
 
 }

@@ -1,6 +1,6 @@
 package dev.ratas.aggressiveanimals.aggressive;
 
-import java.util.Collections;
+import java.util.Collection;
 
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
@@ -38,8 +38,8 @@ public class AggressivityManager {
         this.plugin = plugin;
         mobTypeManager = new MobTypeManager(plugin, settings);
         setter = new NMSAggressivitySetter(plugin);
-        this.passifier = new Passifier(this, Collections.emptyList());
-        this.groupAggressivity = new GroupAggressivity(this, Collections.emptyList());
+        this.passifier = new Passifier(this);
+        this.groupAggressivity = new GroupAggressivity(this);
         plugin.getScheduler().runTaskTimer(passifier, PASSIFIER_PERIOD, PASSIFIER_PERIOD);
         plugin.getScheduler().runTaskTimer(groupAggressivity, GROUP_AGGRESSION_PERIOD, GROUP_AGGRESSION_PERIOD);
     }
@@ -83,8 +83,6 @@ public class AggressivityManager {
             setter.setAttackingGoals(wrapper);
             entity.setTarget(target);
             plugin.debug("The mob is now attacking: " + entity + " -> " + entity.getTarget());
-            passifier.addTrackableMob(wrapper);
-            groupAggressivity.addTrackableMob(wrapper);
         }
     }
 
@@ -131,7 +129,6 @@ public class AggressivityManager {
         unregisterAll(PassifyReason.RELOAD_PLUGIN);
         registry.clear();
         mobTypeManager.reload(settings);
-        passifier.reload();
     }
 
     public MobTypeManager getMobTypeManager() {
@@ -146,6 +143,10 @@ public class AggressivityManager {
         for (TrackedMob mob : registry.getAllTrackedMobs()) {
             unregister(mob.getBukkitEntity(), mob.getSettings(), reason);
         }
+    }
+
+    public Collection<TrackedMob> getAllTrackedMobs() {
+        return registry.getAllTrackedMobs();
     }
 
 }
