@@ -35,6 +35,10 @@ public class TargetManager {
         wrapper.getBukkitEntity().setTarget(null);
     }
 
+    public Player getCurrentTarget(TrackedMob mob) {
+        return trackedTargets.get(mob);
+    }
+
     public TrackedMob getWrapperOf(Player target) {
         return targetMapper.get(target);
     }
