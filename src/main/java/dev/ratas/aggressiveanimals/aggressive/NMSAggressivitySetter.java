@@ -65,7 +65,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         AttributeInstance followRangeAttr = mob.getAttribute(Attributes.FOLLOW_RANGE);
         if (followRangeAttr != null) {
             savedAttributes.prevValues.put(Attributes.FOLLOW_RANGE, followRangeAttr.getBaseValue());
-            followRangeAttr.setBaseValue(settings.attackSettings().range());
+            followRangeAttr.setBaseValue(settings.acquisitionSettings().acquisitionRange());
         }
 
         AttributeInstance attackDamageAttr = mob.getAttribute(Attributes.ATTACK_DAMAGE);
@@ -98,7 +98,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         Mob mob = NMS_RESOLVER.getNMSEntity(entity);
         MobTypeSettings settings = wrapper.getSettings();
 
-        float range = (float) settings.attackSettings().range();
+        float range = (float) settings.acquisitionSettings().acquisitionRange();
         this.markAsAttacking(wrapper);
         mob.targetSelector.getAvailableGoals().removeIf(goal -> {
             return goal.getGoal() instanceof PanicGoal;
