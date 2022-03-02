@@ -97,6 +97,7 @@ public class AggressivityManager {
     }
 
     public void resetTarget(TrackedMob mob) {
+        plugin.debug("Resetting target for: " + mob.getBukkitEntity() + " (ruitenely)");
         registry.resetTarget(mob);
     }
 
