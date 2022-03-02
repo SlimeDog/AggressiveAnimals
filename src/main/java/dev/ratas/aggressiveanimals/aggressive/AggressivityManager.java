@@ -96,6 +96,10 @@ public class AggressivityManager {
         registry.markNotAttacking(mob);
     }
 
+    public void resetTarget(TrackedMob mob) {
+        registry.resetTarget(mob);
+    }
+
     public void setPassive(TrackedMob mob, PassifyReason reason) {
         plugin.debug("Setting passive: " + mob.getBukkitEntity() + " because of " + reason);
         setter.setPassive(mob);
