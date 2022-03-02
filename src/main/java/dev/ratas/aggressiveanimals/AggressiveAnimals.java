@@ -15,7 +15,7 @@ import dev.ratas.slimedogcore.api.config.SDCCustomConfig;
 import dev.ratas.slimedogcore.api.config.exceptions.ConfigException;
 import dev.ratas.slimedogcore.impl.SlimeDogCore;
 
-public class AggressiveAnimals extends SlimeDogCore {
+public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimals {
     private static final int BSTATS_ID = 14423;
     private SDCCustomConfig config;
     private Messages messages;
@@ -98,6 +98,7 @@ public class AggressiveAnimals extends SlimeDogCore {
         getServer().getPluginManager().disablePlugin(this);
     }
 
+    @Override
     public void debug(String msg) {
         if (settings.isOnDebug()) {
             getLogger().warning("DEBUG: " + msg);
