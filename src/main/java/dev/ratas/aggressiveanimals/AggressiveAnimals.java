@@ -57,6 +57,7 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
         getCommand("aggressiveanimals").setExecutor(new AggressiveAnimalsCommand(this, messages));
     }
 
+    @Override
     public ConfigLoadIssueResolver reload() {
         ConfigLoadIssueResolver issues = ConfigLoadIssueResolver.atReload();
         try {
@@ -89,6 +90,7 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
         return npcHookManager;
     }
 
+    @Override
     public AggressivityManager getAggressivityManager() {
         return aggressivityManager;
     }
