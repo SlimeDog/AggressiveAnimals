@@ -46,6 +46,9 @@ public class MobRegistrationListener implements Listener {
         }
         MobTypeSettings settings = aggressivityManager.getMobTypeManager()
                 .getEnabledSettings(MobType.fromBukkit(((Mob) entity).getType()));
+        if (settings == null)  {
+            return null;
+        }
         if (!settings.isApplicableAt(entity.getLocation())) {
             return null;
         }
