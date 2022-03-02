@@ -5,7 +5,6 @@ import java.util.HashSet;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 
@@ -44,8 +43,8 @@ public class GroupAggressivity implements Runnable {
             if (e.getLocation().distanceSquared(entityLoc) < dist2) {
                 continue; // in cube but not in sphere
             }
-            LivingEntity targetEntity = bukkitEntity.getTarget();
-            if (!(targetEntity instanceof Player target)) {
+            Player target = aggressivityManager.getRegisteredTarget(mob);
+            if (target == null) {
                 continue;
             }
             aggressivityManager.attemptAttacking((Mob) e, target, AttackReason.GROUP_AGGRESSION);

@@ -81,7 +81,7 @@ public class AggressivityManager {
         plugin.debug("Attempting to set attacking: " + entity + " because " + reason);
         if (settings.shouldAttack(entity, target)) {
             setter.setAttackingGoals(wrapper);
-            entity.setTarget(target);
+            registry.markAttacking(wrapper, target);
             plugin.debug("The mob is now attacking: " + entity + " -> " + entity.getTarget());
         }
     }
@@ -142,6 +142,10 @@ public class AggressivityManager {
 
     public void untargetPlayer(Player player) {
         registry.stopAttacking(player);
+    }
+
+    public Player getRegisteredTarget(TrackedMob mob) {
+        return registry.getTargetOf(mob);
     }
 
     public void unregisterAll(PassifyReason reason) {
