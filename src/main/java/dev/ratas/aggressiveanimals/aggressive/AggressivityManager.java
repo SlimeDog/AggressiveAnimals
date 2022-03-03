@@ -79,7 +79,7 @@ public class AggressivityManager {
             plugin.debug("Attempting to mark mob attacking while it is already doing so");
             return;
         }
-        plugin.debug("Attempting to set attacking: " + entity + " because " + reason);
+        plugin.debug("Attempting to set attacking: " + entity + " because " + reason + " (target " + target + ")");
         if (settings.shouldAttack(entity, target)) {
             setter.setAttackingGoals(wrapper);
             registry.markAttacking(wrapper, target, reason != AttackReason.GROUP_AGGRESSION);
