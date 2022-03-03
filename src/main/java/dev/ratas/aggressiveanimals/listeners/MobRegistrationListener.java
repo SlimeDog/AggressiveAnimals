@@ -88,7 +88,7 @@ public class MobRegistrationListener implements Listener {
     @EventHandler
     public void onEntitiesLoad(EntitiesLoadEvent event) {
         for (Entity entity : event.getEntities()) {
-            attemptRegister(entity, AggressivityReason.CHUNLOAD);
+            attemptRegister(entity, AggressivityReason.CHUNKLOAD);
         }
     }
 
