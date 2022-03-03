@@ -1,5 +1,6 @@
 package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
@@ -84,6 +85,9 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
         Player player = (Player) target;
         if (!acquisitionSettings.isInRange(mob, player)) {
             return ChangeReason.OUT_OF_RANGE;
+        }
+        if (player.getGameMode() != GameMode.SURVIVAL) {
+            return ChangeReason.WRONG_GAMEMODE;
         }
         return null;
     }
