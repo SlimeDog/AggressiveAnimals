@@ -6,6 +6,7 @@ import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 
 import dev.ratas.aggressiveanimals.IAggressiveAnimals;
+import dev.ratas.aggressiveanimals.aggressive.managed.MobWithTarget;
 import dev.ratas.aggressiveanimals.aggressive.managed.TrackedMob;
 import dev.ratas.aggressiveanimals.aggressive.managed.registry.GlobalRegistry;
 import dev.ratas.aggressiveanimals.aggressive.managed.registry.TrackedMobRegistry;
@@ -82,7 +83,7 @@ public class AggressivityManager {
         plugin.debug("Attempting to set attacking: " + entity + " because " + reason + " (target " + target + ")");
         if (settings.shouldAttack(entity, target)) {
             setter.setAttackingGoals(wrapper);
-            registry.markAttacking(wrapper, target, reason != AttackReason.GROUP_AGGRESSION);
+            wrapper.markAttacking(target, reason != AttackReason.GROUP_AGGRESSION);
             plugin.debug("The mob is now attacking: " + entity + " -> " + entity.getTarget());
         }
     }
@@ -94,11 +95,11 @@ public class AggressivityManager {
 
     public void stopAttacking(TrackedMob mob, ChangeReason reason) {
         plugin.debug("Stopping attacking for: " + mob.getBukkitEntity() + " because of " + reason);
-        registry.markNotAttacking(mob);
+        mob.markNotAttacking();
     }
 
     public void resetTarget(TrackedMob mob) {
-        if (registry.resetTarget(mob)) {
+        if (mob.resetTarget()) {
             plugin.debug("Reset target for: " + mob.getBukkitEntity() + " (ruitenely)");
             groupAggressivity.checkMob(mob);
         }
@@ -144,11 +145,11 @@ public class AggressivityManager {
     }
 
     public void untargetPlayer(Player player) {
-        registry.stopAttacking(player);
+        MobWithTarget.removeTarget(player);
     }
 
     public Player getRegisteredTarget(TrackedMob mob) {
-        return registry.getTargetOf(mob);
+        return mob.getTarget();
     }
 
     public void unregisterAll(PassifyReason reason) {

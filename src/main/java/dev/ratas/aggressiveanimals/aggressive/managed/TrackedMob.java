@@ -9,8 +9,9 @@ import org.bukkit.entity.Mob;
 import dev.ratas.aggressiveanimals.aggressive.managed.addon.AddonType;
 import dev.ratas.aggressiveanimals.aggressive.managed.addon.MobAddon;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
+import dev.ratas.aggressiveanimals.aggressive.timers.GroupAggressivity;
 
-public class TrackedMob {
+public class TrackedMob extends MobWithTarget {
     private static final long MIN_ATTACK_MS = 10 * 1000L; // aggressive for at least 10 seconds // TODO - configurable
     private final Mob bukkitEntity;
     private final MobTypeSettings settings;
@@ -18,7 +19,8 @@ public class TrackedMob {
     private final Map<AddonType, MobAddon> addons = new EnumMap<>(AddonType.class);
     private long startedAttacking = 0L;
 
-    public TrackedMob(Mob bukkitEntity, MobTypeSettings settings) {
+    public TrackedMob(Mob bukkitEntity, MobTypeSettings settings, GroupAggressivity groupAggro) {
+        super(groupAggro);
         this.bukkitEntity = bukkitEntity;
         this.settings = settings;
     }
@@ -94,6 +96,11 @@ public class TrackedMob {
         }
         TrackedMob o = (TrackedMob) other;
         return bukkitEntity.equals(o.bukkitEntity) && settings.equals(o.settings);
+    }
+
+    @Override
+    public TrackedMob getTrackedMob() {
+        return this;
     }
 
 }

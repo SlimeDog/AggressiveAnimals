@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.bukkit.World;
 import org.bukkit.entity.Mob;
-import org.bukkit.entity.Player;
 
 import dev.ratas.aggressiveanimals.aggressive.managed.TrackedMob;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
@@ -48,21 +47,6 @@ public class GlobalRegistry implements TrackedMobRegistry {
     }
 
     @Override
-    public void markAttacking(TrackedMob mob, Player target, boolean triggerNeighbours) {
-        getWorldManager(mob.getBukkitEntity().getWorld()).markAttacking(mob, target, triggerNeighbours);
-    }
-
-    @Override
-    public void markNotAttacking(TrackedMob mob) {
-        getWorldManager(mob.getBukkitEntity().getWorld()).markNotAttacking(mob);
-    }
-
-    @Override
-    public void stopAttacking(Player player) {
-        getWorldManager(player.getWorld()).stopAttacking(player);
-    }
-
-    @Override
     public void clear() {
         perWorldManager.clear();
     }
@@ -74,16 +58,6 @@ public class GlobalRegistry implements TrackedMobRegistry {
             tracked.addAll(perWorld.getAllTrackedMobs());
         }
         return Collections.unmodifiableCollection(tracked);
-    }
-
-    @Override
-    public Player getTargetOf(TrackedMob mob) {
-        return getWorldManager(mob.getBukkitEntity().getWorld()).getTargetOf(mob);
-    }
-
-    @Override
-    public boolean resetTarget(TrackedMob mob) {
-        return getWorldManager(mob.getBukkitEntity().getWorld()).resetTarget(mob);
     }
 
 }

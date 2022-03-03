@@ -17,7 +17,7 @@ public class AggressivityMaintainer implements Runnable {
     @Override
     public void run() {
         for (TrackedMob mob : new HashSet<>(aggressivityManager.getAllTrackedMobs())) {
-            ChangeReason reason = mob.getSettings().shouldStopAttacking(mob, aggressivityManager.getRegistry());
+            ChangeReason reason = mob.getSettings().shouldStopAttacking(mob);
             if (reason != null) {
                 aggressivityManager.stopAttacking(mob, reason);
             } else {

@@ -6,16 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.entity.Mob;
-import org.bukkit.entity.Player;
 
 import dev.ratas.aggressiveanimals.aggressive.managed.TrackedMob;
-import dev.ratas.aggressiveanimals.aggressive.managed.target.TargetManager;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.aggressiveanimals.aggressive.timers.GroupAggressivity;
 
 public class WorldRegistry implements TrackedMobRegistry {
     private final Map<Mob, TrackedMob> trackedMobs = new HashMap<>();
-    private final TargetManager targetManager = new TargetManager();
     private final GroupAggressivity groupAggro;
 
     public WorldRegistry(GroupAggressivity groupAggro) {
@@ -28,7 +25,7 @@ public class WorldRegistry implements TrackedMobRegistry {
             throw new IllegalArgumentException(
                     "Mob and settings do not match: " + mob.getType() + " vs " + settings.entityType());
         }
-        TrackedMob tracked = new TrackedMob(mob, settings);
+        TrackedMob tracked = new TrackedMob(mob, settings, groupAggro);
         trackedMobs.put(mob, tracked);
         return tracked;
     }
@@ -53,42 +50,13 @@ public class WorldRegistry implements TrackedMobRegistry {
     }
 
     @Override
-    public void markAttacking(TrackedMob mob, Player target, boolean triggerNeighbours) {
-        targetManager.setTarget(mob, target);
-        if (triggerNeighbours) {
-            groupAggro.checkMob(mob);
-        }
-    }
-
-    @Override
-    public void markNotAttacking(TrackedMob wrapper) {
-        targetManager.removeTarget(wrapper);
-    }
-
-    @Override
-    public void stopAttacking(Player player) {
-        targetManager.removeTarget(player);
-    }
-
-    @Override
     public void clear() {
         trackedMobs.clear();
-        targetManager.clear();
     }
 
     @Override
     public Collection<TrackedMob> getAllTrackedMobs() {
         return Collections.unmodifiableCollection(trackedMobs.values());
-    }
-
-    @Override
-    public Player getTargetOf(TrackedMob mob) {
-        return targetManager.getCurrentTarget(mob);
-    }
-
-    @Override
-    public boolean resetTarget(TrackedMob mob) {
-        return targetManager.setTarget(mob, targetManager.getCurrentTarget(mob));
     }
 
 }
