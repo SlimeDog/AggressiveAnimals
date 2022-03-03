@@ -13,7 +13,7 @@ import org.bukkit.event.world.WorldInitEvent;
 
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
 import dev.ratas.aggressiveanimals.aggressive.reasons.AggressivityReason;
-import dev.ratas.aggressiveanimals.aggressive.reasons.PassifyReason;
+import dev.ratas.aggressiveanimals.aggressive.reasons.PacificationReason;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.slimedogcore.api.SlimeDogPlugin;
@@ -67,7 +67,7 @@ public class MobRegistrationListener implements Listener {
         aggressivityManager.register(mob, settings, reason);
     }
 
-    private void attemptUnregister(Entity entity, PassifyReason reason) {
+    private void attemptUnregister(Entity entity, PacificationReason reason) {
         MobTypeSettings settings = getSettingsFor(entity);
         if (settings == null) {
             return;
@@ -75,7 +75,7 @@ public class MobRegistrationListener implements Listener {
         unregister((Mob) entity, settings, reason);
     }
 
-    private void unregister(Mob mob, MobTypeSettings settings, PassifyReason reason) {
+    private void unregister(Mob mob, MobTypeSettings settings, PacificationReason reason) {
         aggressivityManager.unregister(mob, settings, reason);
     }
 
@@ -95,7 +95,7 @@ public class MobRegistrationListener implements Listener {
     @EventHandler
     public void onChunkUnload(ChunkUnloadEvent event) {
         for (Entity entity : event.getChunk().getEntities()) {
-            attemptUnregister(entity, PassifyReason.UNLOAD_ENTITY);
+            attemptUnregister(entity, PacificationReason.UNLOAD_ENTITY);
         }
     }
 

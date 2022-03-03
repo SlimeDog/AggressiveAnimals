@@ -137,7 +137,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         MobAttributes saved = addon.attributes;
         if (saved == null) {
             plugin.getLogger().warning("No previously saved attributes for mob  " + wrapper.getBukkitEntity()
-                    + " - cannot properly passify");
+                    + " - cannot properly pacify");
             return;
         }
         for (Map.Entry<Attribute, Double> entry : saved.prevValues.entrySet()) {

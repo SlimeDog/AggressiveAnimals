@@ -13,7 +13,7 @@ import dev.ratas.aggressiveanimals.aggressive.managed.registry.TrackedMobRegistr
 import dev.ratas.aggressiveanimals.aggressive.reasons.AggressivityReason;
 import dev.ratas.aggressiveanimals.aggressive.reasons.AttackReason;
 import dev.ratas.aggressiveanimals.aggressive.reasons.ChangeReason;
-import dev.ratas.aggressiveanimals.aggressive.reasons.PassifyReason;
+import dev.ratas.aggressiveanimals.aggressive.reasons.PacificationReason;
 import dev.ratas.aggressiveanimals.aggressive.reasons.StopTrackingReason;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobTypeManager;
@@ -31,7 +31,7 @@ public class AggressivityManager {
     private final MobTypeManager mobTypeManager;
     private final AggressivitySetter setter;
     private final TrackedMobRegistry registry;
-    private final AggressivityMaintainer passifier;
+    private final AggressivityMaintainer aggressivityMaintainer;
     private final GroupAggressivity groupAggressivity;
 
     public AggressivityManager(IAggressiveAnimals plugin, Settings settings, NPCHookManager npcHooks) {
@@ -39,10 +39,10 @@ public class AggressivityManager {
         this.plugin = plugin;
         mobTypeManager = new MobTypeManager(plugin, settings);
         setter = new NMSAggressivitySetter(plugin);
-        this.passifier = new AggressivityMaintainer(this);
+        this.aggressivityMaintainer = new AggressivityMaintainer(this);
         this.groupAggressivity = new GroupAggressivity(this);
         this.registry = new GlobalRegistry(groupAggressivity);
-        plugin.getScheduler().runTaskTimer(passifier, PASSIFIER_PERIOD, PASSIFIER_PERIOD);
+        plugin.getScheduler().runTaskTimer(aggressivityMaintainer, PASSIFIER_PERIOD, PASSIFIER_PERIOD);
         plugin.getScheduler().runTaskTimer(groupAggressivity, GROUP_AGGRESSION_PERIOD, GROUP_AGGRESSION_PERIOD);
     }
 
@@ -54,7 +54,7 @@ public class AggressivityManager {
         }
     }
 
-    public void unregister(Mob mob, MobTypeSettings settings, PassifyReason reason) {
+    public void unregister(Mob mob, MobTypeSettings settings, PacificationReason reason) {
         setPassive(registry.getTrackedMob(mob), reason);
         registry.unregister(mob, settings);
     }
@@ -108,7 +108,7 @@ public class AggressivityManager {
         }
     }
 
-    public void setPassive(TrackedMob mob, PassifyReason reason) {
+    public void setPassive(TrackedMob mob, PacificationReason reason) {
         plugin.debug("Setting passive: " + mob.getBukkitEntity() + " because of " + reason);
         setter.setPassive(mob);
     }
@@ -138,7 +138,7 @@ public class AggressivityManager {
     }
 
     public void reload(Settings settings) {
-        unregisterAll(PassifyReason.RELOAD_PLUGIN);
+        unregisterAll(PacificationReason.RELOAD_PLUGIN);
         registry.clear();
         mobTypeManager.reload(settings);
     }
@@ -155,7 +155,7 @@ public class AggressivityManager {
         return mob.getTarget();
     }
 
-    public void unregisterAll(PassifyReason reason) {
+    public void unregisterAll(PacificationReason reason) {
         for (TrackedMob mob : registry.getAllTrackedMobs()) {
             unregister(mob.getBukkitEntity(), mob.getSettings(), reason);
         }

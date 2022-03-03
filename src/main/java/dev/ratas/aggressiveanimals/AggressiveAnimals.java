@@ -4,7 +4,7 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.configuration.InvalidConfigurationException;
 
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
-import dev.ratas.aggressiveanimals.aggressive.reasons.PassifyReason;
+import dev.ratas.aggressiveanimals.aggressive.reasons.PacificationReason;
 import dev.ratas.aggressiveanimals.commands.AggressiveAnimalsCommand;
 import dev.ratas.aggressiveanimals.config.ConfigLoadIssueResolver;
 import dev.ratas.aggressiveanimals.config.Settings;
@@ -113,7 +113,7 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
 
     @Override
     public void pluginDisabled() {
-        aggressivityManager.unregisterAll(PassifyReason.PLUGIN_DISABLE);
+        aggressivityManager.unregisterAll(PacificationReason.PLUGIN_DISABLE);
     }
 
 }

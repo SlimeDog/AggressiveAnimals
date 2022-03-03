@@ -70,7 +70,7 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
      * case and null otherwise.
      *
      * @param wrapper the mob wrapper in question
-     * @return the ChangeReason if mob should be passified, null otherwise
+     * @return the ChangeReason if mob should be pacified, null otherwise
      */
     public ChangeReason shouldStopAttacking(TrackedMob wrapper) {
         Mob mob = wrapper.getBukkitEntity();
