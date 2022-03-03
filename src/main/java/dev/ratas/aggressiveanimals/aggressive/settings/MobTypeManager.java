@@ -45,6 +45,10 @@ public class MobTypeManager {
         return getEnabledSettings(type) != null;
     }
 
+    public MobTypeSettings getDefinedSettings(MobType type) {
+        return types.get(type);
+    }
+
     public MobTypeSettings getEnabledSettings(MobType type) {
         MobTypeSettings settings = types.get(type);
         if (settings == null) {
