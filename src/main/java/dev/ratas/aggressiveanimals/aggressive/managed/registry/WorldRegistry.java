@@ -87,8 +87,8 @@ public class WorldRegistry implements TrackedMobRegistry {
     }
 
     @Override
-    public void resetTarget(TrackedMob mob) {
-        targetManager.setTarget(mob, targetManager.getCurrentTarget(mob));
+    public boolean resetTarget(TrackedMob mob) {
+        return targetManager.setTarget(mob, targetManager.getCurrentTarget(mob));
     }
 
 }

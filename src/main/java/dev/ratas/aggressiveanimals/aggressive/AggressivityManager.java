@@ -98,8 +98,9 @@ public class AggressivityManager {
     }
 
     public void resetTarget(TrackedMob mob) {
-        plugin.debug("Resetting target for: " + mob.getBukkitEntity() + " (ruitenely)");
-        registry.resetTarget(mob);
+        if (registry.resetTarget(mob)) {
+            plugin.debug("Reset target for: " + mob.getBukkitEntity() + " (ruitenely)");
+        }
     }
 
     public void setPassive(TrackedMob mob, PassifyReason reason) {

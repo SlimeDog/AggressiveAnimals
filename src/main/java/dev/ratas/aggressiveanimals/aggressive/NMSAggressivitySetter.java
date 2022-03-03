@@ -122,6 +122,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             mob.targetSelector.addGoal(9, cur = new LeapAtTargetGoal(mob, leapHeight));
             addon.goals.add(cur);
         }
+        wrapper.getBukkitEntity().setCustomName("ATTACKING");
     }
 
     @Override
@@ -144,6 +145,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             mob.getAttribute(entry.getKey()).setBaseValue(entry.getValue());
         }
         saved.prevValues.clear();
+        wrapper.getBukkitEntity().setCustomName(null);
     }
 
     private class MobAttributes {

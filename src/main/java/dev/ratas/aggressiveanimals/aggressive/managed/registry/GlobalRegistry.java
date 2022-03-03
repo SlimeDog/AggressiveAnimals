@@ -82,8 +82,8 @@ public class GlobalRegistry implements TrackedMobRegistry {
     }
 
     @Override
-    public void resetTarget(TrackedMob mob) {
-        getWorldManager(mob.getBukkitEntity().getWorld()).resetTarget(mob);
+    public boolean resetTarget(TrackedMob mob) {
+        return getWorldManager(mob.getBukkitEntity().getWorld()).resetTarget(mob);
     }
 
 }

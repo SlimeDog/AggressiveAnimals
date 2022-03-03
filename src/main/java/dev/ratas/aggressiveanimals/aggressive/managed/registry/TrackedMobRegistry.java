@@ -46,6 +46,12 @@ public interface TrackedMobRegistry {
 
     Player getTargetOf(TrackedMob mob);
 
-    void resetTarget(TrackedMob mob);
+    /**
+     * Resets the target of a tracked mob.
+     *
+     * @param mob tracked mob
+     * @return true if something was changed, false otherwise
+     */
+    boolean resetTarget(TrackedMob mob);
 
 }
