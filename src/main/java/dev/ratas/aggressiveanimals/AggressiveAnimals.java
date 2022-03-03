@@ -105,13 +105,6 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
     }
 
     @Override
-    public void debug(String msg) {
-        if (settings.isOnDebug()) {
-            getLogger().warning("DEBUG: " + msg);
-        }
-    }
-
-    @Override
     public void pluginDisabled() {
         aggressivityManager.unregisterAll(PacificationReason.PLUGIN_DISABLE);
     }

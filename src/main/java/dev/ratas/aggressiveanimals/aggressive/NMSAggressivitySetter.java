@@ -52,7 +52,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         }
         GoalAddon addon = (GoalAddon) wrapper.getAddon(AddonType.GOAL);
         MobTypeSettings settings = wrapper.getSettings();
-        plugin.debug("[NMS Setter] Setting aggressivivity attributes to: " + settings);
+        plugin.getDebugLogger().log("[NMS Setter] Setting aggressivivity attributes to: " + settings);
         org.bukkit.entity.Mob entity = wrapper.getBukkitEntity();
         Mob mob = NMS_RESOLVER.getNMSEntity(entity);
         MobAttributes savedAttributes = new MobAttributes();
@@ -84,7 +84,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             attackSpeedAttribute.setBaseValue(attackSpeedAttribute.getBaseValue() * settings.attackSettings().speed());
         }
         addon.attributes = savedAttributes;
-        plugin.debug("[NMS Setter] Previous attributes: " + savedAttributes);
+        plugin.getDebugLogger().log("[NMS Setter] Previous attributes: " + savedAttributes);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             wrapper.addAddon(new GoalAddon());
         }
         GoalAddon addon = (GoalAddon) wrapper.getAddon(AddonType.GOAL);
-        plugin.debug("[NMS Setter] Setting aggressive/attacking goals");
+        plugin.getDebugLogger().log("[NMS Setter] Setting aggressive/attacking goals");
         org.bukkit.entity.Mob entity = wrapper.getBukkitEntity();
         Mob mob = NMS_RESOLVER.getNMSEntity(entity);
         MobTypeSettings settings = wrapper.getSettings();
@@ -126,7 +126,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
 
     @Override
     public void setPassive(TrackedMob wrapper) {
-        plugin.debug("[NMS Setter] Removing previous goals and resetting attributes");
+        plugin.getDebugLogger().log("[NMS Setter] Removing previous goals and resetting attributes");
         markAsPassive(wrapper);
         Mob mob = NMS_RESOLVER.getNMSEntity(wrapper.getBukkitEntity());
         GoalAddon addon = (GoalAddon) wrapper.getAddon(AddonType.GOAL);

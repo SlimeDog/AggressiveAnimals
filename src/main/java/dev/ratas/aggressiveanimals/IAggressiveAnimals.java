@@ -7,8 +7,6 @@ import dev.ratas.slimedogcore.impl.SlimeDogCore;
 
 public interface IAggressiveAnimals extends SlimeDogPlugin {
 
-    void debug(String msg);
-
     ConfigLoadIssueResolver reload();
 
     AggressivityManager getAggressivityManager();
