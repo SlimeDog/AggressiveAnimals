@@ -13,12 +13,18 @@ import org.bukkit.entity.Player;
 
 import dev.ratas.aggressiveanimals.aggressive.managed.TrackedMob;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
+import dev.ratas.aggressiveanimals.aggressive.timers.GroupAggressivity;
 
 public class GlobalRegistry implements TrackedMobRegistry {
     private final Map<World, TrackedMobRegistry> perWorldManager = new HashMap<>();
+    private final GroupAggressivity groupAggro;
+
+    public GlobalRegistry(GroupAggressivity groupAggro) {
+        this.groupAggro = groupAggro;
+    }
 
     public TrackedMobRegistry getWorldManager(World world) {
-        return perWorldManager.compute(world, (w, am) -> (am == null) ? new WorldRegistry() : am);
+        return perWorldManager.compute(world, (w, am) -> (am == null) ? new WorldRegistry(groupAggro) : am);
     }
 
     @Override
@@ -42,8 +48,8 @@ public class GlobalRegistry implements TrackedMobRegistry {
     }
 
     @Override
-    public void markAttacking(TrackedMob mob, Player target) {
-        getWorldManager(mob.getBukkitEntity().getWorld()).markAttacking(mob, target);
+    public void markAttacking(TrackedMob mob, Player target, boolean triggerNeighbours) {
+        getWorldManager(mob.getBukkitEntity().getWorld()).markAttacking(mob, target, triggerNeighbours);
     }
 
     @Override

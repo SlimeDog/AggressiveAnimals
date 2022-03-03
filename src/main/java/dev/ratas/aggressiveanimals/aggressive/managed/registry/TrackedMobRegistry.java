@@ -18,7 +18,15 @@ public interface TrackedMobRegistry {
 
     TrackedMob getTrackedMob(Mob mob);
 
-    void markAttacking(TrackedMob mob, Player target);
+    /**
+     * Mark the mob as attacking a specifid target and (potentially) trigger its
+     * neighbours to attack as well.
+     *
+     * @param mob               the tracked mob
+     * @param target            the target to attack
+     * @param triggerNeighbours whether or not neighbours should be triggered
+     */
+    void markAttacking(TrackedMob mob, Player target, boolean triggerNeighbours);
 
     void markNotAttacking(TrackedMob wrapper);
 

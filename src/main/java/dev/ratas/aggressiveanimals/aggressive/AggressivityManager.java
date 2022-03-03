@@ -29,7 +29,7 @@ public class AggressivityManager {
     private final NPCHookManager npcHooks;
     private final MobTypeManager mobTypeManager;
     private final AggressivitySetter setter;
-    private final TrackedMobRegistry registry = new GlobalRegistry();
+    private final TrackedMobRegistry registry;
     private final AggressivityMaintainer passifier;
     private final GroupAggressivity groupAggressivity;
 
@@ -40,6 +40,7 @@ public class AggressivityManager {
         setter = new NMSAggressivitySetter(plugin);
         this.passifier = new AggressivityMaintainer(this);
         this.groupAggressivity = new GroupAggressivity(this);
+        this.registry = new GlobalRegistry(groupAggressivity);
         plugin.getScheduler().runTaskTimer(passifier, PASSIFIER_PERIOD, PASSIFIER_PERIOD);
         plugin.getScheduler().runTaskTimer(groupAggressivity, GROUP_AGGRESSION_PERIOD, GROUP_AGGRESSION_PERIOD);
     }
@@ -81,7 +82,7 @@ public class AggressivityManager {
         plugin.debug("Attempting to set attacking: " + entity + " because " + reason);
         if (settings.shouldAttack(entity, target)) {
             setter.setAttackingGoals(wrapper);
-            registry.markAttacking(wrapper, target);
+            registry.markAttacking(wrapper, target, reason != AttackReason.GROUP_AGGRESSION);
             plugin.debug("The mob is now attacking: " + entity + " -> " + entity.getTarget());
         }
     }
