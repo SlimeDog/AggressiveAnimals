@@ -21,6 +21,9 @@ public class AggressivityMaintainer implements Runnable {
                 aggressivityManager.stopTracking(mob, StopTrackingReason.UNLOADED);
                 continue;
             }
+            if (!mob.isAttacking()) {
+                continue;
+            }
             ChangeReason reason = mob.getSettings().shouldStopAttacking(mob);
             if (reason != null) {
                 aggressivityManager.stopAttacking(mob, reason);
