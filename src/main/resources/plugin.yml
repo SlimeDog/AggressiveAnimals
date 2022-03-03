@@ -24,3 +24,6 @@ permissions:
   aggressiveanimals.list:
     description: Allows showing list of aggressive animals
     default: op
+  aggressiveanimals.info:
+    description: Allows showing info regarrding a specific mob type
+    default: op

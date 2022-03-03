@@ -7,3 +7,31 @@ list-header: "&8Configured mobs"
 list-format: "&6%mob-type% &f- %status%"
 enabled: "enabled"
 disabled: "disabled"
+mob-type-not-found: "Mob type not found: %mob-type%"
+mob-type-not-defined: "No information defined for mon type: %mob-type%"
+mob-type-info: >
+  enabled: %enabled%
+  always-aggressive: %always-aggressive%
+  speed-multiplier: %speed-multiplier%
+  attack-damage: %attack-damage%
+  attack-damage-limit: %attack-damage-limit%
+  attack-speed: %attack-speed%
+  attack-leap-height: %attack-leap-height%
+  acquisition-range: %acquisition-range%
+  deacquisition-range: %deacquisition-range%
+  attacker-health-threshold: %attacker-health-threshold%
+  age.adult: %age.adult%
+  age.baby: %age.baby%
+  ignore-npcs: %ignore-npcs%
+  named-mobs-only: %named-mobs-only%
+  override-targeting: %override-targeting%
+  group-aggression-range: %group-aggression-range%
+  player-movement.standing: %player-movement.standing%
+  player-movement.sneaking: %player-movement.sneaking%
+  player-movement.walking: %player-movement.walking%
+  player-movement.sprinting: %player-movement.sprinting%
+  player-movement.looking: %player-movement.looking%
+  player-movement.sleeping: %player-movement.sleeping%
+  player-movement.gliding: %player-movement.gliding%
+  enabled-worlds: %enabled-worlds%
+  disabled-worlds: %disabled-worlds%
