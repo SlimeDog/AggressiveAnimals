@@ -99,7 +99,6 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         MobTypeSettings settings = wrapper.getSettings();
 
         float range = (float) settings.acquisitionSettings().acquisitionRange();
-        this.markAsAttacking(wrapper);
         mob.targetSelector.getAvailableGoals().removeIf(goal -> {
             return goal.getGoal() instanceof PanicGoal;
         });
@@ -127,7 +126,6 @@ public class NMSAggressivitySetter implements AggressivitySetter {
     @Override
     public void setPassive(TrackedMob wrapper) {
         plugin.getDebugLogger().log("[NMS Setter] Removing previous goals and resetting attributes");
-        markAsPassive(wrapper);
         Mob mob = NMS_RESOLVER.getNMSEntity(wrapper.getBukkitEntity());
         GoalAddon addon = (GoalAddon) wrapper.getAddon(AddonType.GOAL);
         for (Goal goal : addon.goals) {

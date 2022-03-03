@@ -106,7 +106,7 @@ public class AggressivityManager {
     public void stopAttacking(TrackedMob mob, ChangeReason reason) {
         plugin.getDebugLogger().log("Stopping attacking for: " + mob.getSettings().entityType() + " -> "
                 + mob.getBukkitEntity().getEntityId() + " because of " + reason);
-        mob.markNotAttacking();
+        mob.markAttacking(null, false);
     }
 
     public void resetTarget(TrackedMob mob) {
@@ -121,6 +121,7 @@ public class AggressivityManager {
         plugin.getDebugLogger().log("Setting passive: " + mob.getSettings().entityType() + " -> "
                 + mob.getBukkitEntity().getEntityId() + " because of " + reason);
         setter.setPassive(mob);
+        mob.markAttacking(null, false);
     }
 
     public boolean isManaged(Mob entity) {
