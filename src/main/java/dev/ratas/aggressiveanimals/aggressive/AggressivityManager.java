@@ -77,8 +77,11 @@ public class AggressivityManager {
             wrapper = registry.getTrackedMob(entity);
         }
         if (wrapper.isAttacking()) {
-            plugin.debug("Attempting to mark mob attacking while it is already doing so");
-            return;
+            if (wrapper.getTarget() == target) {
+                plugin.debug("Attempting to mark mob attacking for the same target again");
+                return; // already with same target
+            }
+            plugin.debug("New attack target specified");
         }
         plugin.debug("Attempting to set attacking: " + entity + " because " + reason + " (target " + target + ")");
         if (settings.shouldAttack(entity, target)) {
