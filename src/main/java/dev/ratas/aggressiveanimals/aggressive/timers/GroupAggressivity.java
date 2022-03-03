@@ -29,7 +29,7 @@ public class GroupAggressivity implements Runnable {
         }
     }
 
-    private void checkMob(TrackedMob mob) {
+    public void checkMob(TrackedMob mob) {
         double dist = mob.getSettings().groupAgressionDistance();
         if (dist <= 0) {
             return;
