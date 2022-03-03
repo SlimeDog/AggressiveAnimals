@@ -61,7 +61,8 @@ public class AggressivityManager {
 
     private void setAggressivityAttributes(TrackedMob tracked, AggressivityReason reason) {
         plugin.getDebugLogger()
-                .log("Setting aggressivity attributes for: " + tracked.getBukkitEntity() + " because of " + reason);
+                .log("Setting aggressivity attributes for: " + tracked.getSettings().entityType() + " -> "
+                        + tracked.getBukkitEntity().getEntityId() + " because of " + reason);
         setter.setAggressivityAttributes(tracked);
     }
 
@@ -73,7 +74,8 @@ public class AggressivityManager {
         }
         TrackedMob wrapper = registry.getTrackedMob(entity);
         if (wrapper == null) {
-            plugin.getDebugLogger().log("No wrapper when attempting to attack: " + entity);
+            plugin.getDebugLogger()
+                    .log("No wrapper when attempting to attack: " + entity.getType() + " -> " + entity.getEntityId());
             setAggressivityAttributes(wrapper, AggressivityReason.ATTACK);
             wrapper = registry.getTrackedMob(entity);
         }
@@ -85,33 +87,39 @@ public class AggressivityManager {
             plugin.getDebugLogger().log("New attack target specified");
         }
         plugin.getDebugLogger()
-                .log("Attempting to set attacking: " + entity + " because " + reason + " (target " + target + ")");
+                .log("Attempting to set attacking: " + wrapper.getSettings().entityType() + " -> "
+                        + entity.getEntityId() + " because " + reason + " (target " + target + ")");
         if (settings.shouldAttack(entity, target)) {
             setter.setAttackingGoals(wrapper);
             wrapper.markAttacking(target, reason != AttackReason.GROUP_AGGRESSION);
-            plugin.getDebugLogger().log("The mob is now attacking: " + entity + " -> " + entity.getTarget());
+            plugin.getDebugLogger().log("The mob is now attacking: " + wrapper.getSettings().entityType() + " -> "
+                    + entity.getEntityId() + " -> " + entity.getTarget());
         }
     }
 
     public void stopTracking(TrackedMob mob, StopTrackingReason reason) {
-        plugin.getDebugLogger().log("Stopping tracking: " + mob.getBukkitEntity() + " becaause " + reason);
+        plugin.getDebugLogger().log("Stopping tracking: " + mob.getSettings().entityType() + " -> "
+                + mob.getBukkitEntity().getEntityId() + " becaause " + reason);
         registry.unregister(mob);
     }
 
     public void stopAttacking(TrackedMob mob, ChangeReason reason) {
-        plugin.getDebugLogger().log("Stopping attacking for: " + mob.getBukkitEntity() + " because of " + reason);
+        plugin.getDebugLogger().log("Stopping attacking for: " + mob.getSettings().entityType() + " -> "
+                + mob.getBukkitEntity().getEntityId() + " because of " + reason);
         mob.markNotAttacking();
     }
 
     public void resetTarget(TrackedMob mob) {
         if (mob.resetTarget()) {
-            plugin.getDebugLogger().log("Reset target for: " + mob.getBukkitEntity() + " (ruitenely)");
+            plugin.getDebugLogger().log("Reset target for: " + mob.getSettings().entityType() + " -> "
+                    + mob.getBukkitEntity().getEntityId() + " (ruitenely)");
             groupAggressivity.checkMob(mob);
         }
     }
 
     public void setPassive(TrackedMob mob, PacificationReason reason) {
-        plugin.getDebugLogger().log("Setting passive: " + mob.getBukkitEntity() + " because of " + reason);
+        plugin.getDebugLogger().log("Setting passive: " + mob.getSettings().entityType() + " -> "
+                + mob.getBukkitEntity().getEntityId() + " because of " + reason);
         setter.setPassive(mob);
     }
 
