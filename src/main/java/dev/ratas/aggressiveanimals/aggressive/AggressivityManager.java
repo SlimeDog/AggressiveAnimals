@@ -159,4 +159,8 @@ public class AggressivityManager {
         return registry.getAllTrackedMobs();
     }
 
+    public TrackedMobRegistry getRegistry() {
+        return registry;
+    }
+
 }
