@@ -9,7 +9,6 @@ import org.bukkit.configuration.InvalidConfigurationException;
 
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
-import dev.ratas.aggressiveanimals.config.messaging.tmp.MultipleToOneBuilder;
 import dev.ratas.slimedogcore.api.SlimeDogPlugin;
 import dev.ratas.slimedogcore.api.messaging.SDCMessage;
 import dev.ratas.slimedogcore.api.messaging.context.SDCVoidContext;
@@ -54,25 +53,26 @@ public class Messages extends MessagesBase {
                 getRawMessage("mob-type-not-found", "Mob type not found: %mob-type%"));
         this.mobTypeNotDefined = MsgUtil.singleContext("%mob-type%", mt -> mt.name(),
                 getRawMessage("mob-type-not-defined", "No information defined for mon type: %mob-type%"));
-        MultipleToOneBuilder<MobTypeSettings> builder = new MultipleToOneBuilder<>(getRawMessage("mob-type-info",
-                String.join("\n", "enabled: %enabled%", "always-aggressive: %always-aggressive%",
-                        "speed-multiplier: %speed-multiplier%", "attack-damage: %attack-damage%",
-                        "attack-damage-limit: %attack-damage-limit%", "attack-speed: %attack-speed%",
-                        "attack-leap-height: %attack-leap-height%", "acquisition-range: %acquisition-range%",
-                        "deacquisition-range: %deacquisition-range%",
-                        "attacker-health-threshold: %attacker-health-threshold%", "age.adult: %age.adult%",
-                        "age.baby: %age.baby%", "ignore-npcs: %ignore-npcs%",
-                        "named-mobs-only: %named-mobs-only%", "override-targeting: %override-targeting%",
-                        "group-aggression-range: %group-aggression-range%",
-                        "player-movement.standing: %player-movement.standing%", //
-                        "player-movement.sneaking: %player-movement.sneaking%",
-                        "player-movement.walking: %player-movement.walking%",
-                        "player-movement.sprinting: %player-movement.sprinting%",
-                        "player-movement.looking: %player-movement.looking%",
-                        "player-movement.sleeping: %player-movement.sleeping%",
-                        "player-movement.gliding: %player-movement.gliding%",
-                        "enabled-worlds: %enabled-worlds%",
-                        "disabled-worlds: %disabled-worlds%")));
+        MsgUtil.MultipleToOneBuilder<MobTypeSettings> builder = new MsgUtil.MultipleToOneBuilder<>(
+                getRawMessage("mob-type-info",
+                        String.join("\n", "enabled: %enabled%", "always-aggressive: %always-aggressive%",
+                                "speed-multiplier: %speed-multiplier%", "attack-damage: %attack-damage%",
+                                "attack-damage-limit: %attack-damage-limit%", "attack-speed: %attack-speed%",
+                                "attack-leap-height: %attack-leap-height%", "acquisition-range: %acquisition-range%",
+                                "deacquisition-range: %deacquisition-range%",
+                                "attacker-health-threshold: %attacker-health-threshold%", "age.adult: %age.adult%",
+                                "age.baby: %age.baby%", "ignore-npcs: %ignore-npcs%",
+                                "named-mobs-only: %named-mobs-only%", "override-targeting: %override-targeting%",
+                                "group-aggression-range: %group-aggression-range%",
+                                "player-movement.standing: %player-movement.standing%", //
+                                "player-movement.sneaking: %player-movement.sneaking%",
+                                "player-movement.walking: %player-movement.walking%",
+                                "player-movement.sprinting: %player-movement.sprinting%",
+                                "player-movement.looking: %player-movement.looking%",
+                                "player-movement.sleeping: %player-movement.sleeping%",
+                                "player-movement.gliding: %player-movement.gliding%",
+                                "enabled-worlds: %enabled-worlds%",
+                                "disabled-worlds: %disabled-worlds%")));
         builder.with("%enabled%", mts -> enabledStringGetter.apply(mts.enabled()));
         builder.with("%always-aggressive%", mts -> String.valueOf(mts.alwaysAggressive()));
         builder.with("%speed-multiplier%", mts -> formatDouble(mts.speedMultiplier()));
