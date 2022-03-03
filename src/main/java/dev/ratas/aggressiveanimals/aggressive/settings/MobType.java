@@ -1,9 +1,12 @@
 package dev.ratas.aggressiveanimals.aggressive.settings;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -85,11 +88,11 @@ public enum MobType {
     zombified_piglin(EntityType.ZOMBIFIED_PIGLIN),
     // New in next version(s):
     frog("FROG"),
-    tadpole("TADPOLE")
-    ;
+    tadpole("TADPOLE");
 
     private static final Map<EntityType, MobType> REVERSE_MAP = new EnumMap<>(EntityType.class);
     private static final Map<String, MobType> NAME_MAP = new HashMap<>();
+    private static final List<String> NAMES = new ArrayList<>();
     static {
         MobType.fillMaps();
     }
@@ -142,11 +145,16 @@ public enum MobType {
                 continue; // ignore
             }
             NAME_MAP.put(type.name(), type);
+            NAMES.add(type.name());
             for (String name : type.alternateNames) {
                 NAME_MAP.put(name, type);
             }
             REVERSE_MAP.put(type.getBukkitType(), type);
         }
+    }
+
+    public static List<String> names() {
+        return Collections.unmodifiableList(NAMES);
     }
 
 }
