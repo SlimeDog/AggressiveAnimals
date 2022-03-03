@@ -1,5 +1,6 @@
 package dev.ratas.aggressiveanimals.listeners;
 
+import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
@@ -52,6 +53,9 @@ public class AggressionListener implements Listener {
         }
         Player damagingPlayer = getDamagingPlayer(event.getDamager());
         if (damagingPlayer == null) {
+            return;
+        }
+        if (damagingPlayer.getGameMode() != GameMode.SURVIVAL) {
             return;
         }
         if (!aggressivityManager.shouldBeAggressiveOnAttack(target, damagingPlayer)) {
