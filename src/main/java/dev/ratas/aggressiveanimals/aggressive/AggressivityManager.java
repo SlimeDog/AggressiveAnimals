@@ -76,8 +76,8 @@ public class AggressivityManager {
         if (wrapper == null) {
             plugin.getDebugLogger()
                     .log("No wrapper when attempting to attack: " + entity.getType() + " -> " + entity.getEntityId());
+            wrapper = registry.register(entity, settings);
             setAggressivityAttributes(wrapper, AggressivityReason.ATTACK);
-            wrapper = registry.getTrackedMob(entity);
         }
         if (wrapper.isAttacking()) {
             if (wrapper.getTarget() == target) {
