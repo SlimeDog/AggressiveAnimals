@@ -12,12 +12,10 @@ import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.aggressiveanimals.aggressive.timers.GroupAggressivity;
 
 public class TrackedMob extends MobWithTarget {
-    private static final long MIN_ATTACK_MS = 10 * 1000L; // aggressive for at least 10 seconds // TODO - configurable
     private final Mob bukkitEntity;
     private final MobTypeSettings settings;
     private boolean isAttacking = false;
     private final Map<AddonType, MobAddon> addons = new EnumMap<>(AddonType.class);
-    private long startedAttacking = 0L;
 
     public TrackedMob(Mob bukkitEntity, MobTypeSettings settings, GroupAggressivity groupAggro) {
         super(groupAggro);
@@ -37,16 +35,14 @@ public class TrackedMob extends MobWithTarget {
         return isAttacking;
     }
 
+    @Override
     public void markAttacking() {
         isAttacking = true;
-        startedAttacking = System.currentTimeMillis();
     }
 
-    public boolean hasOutlivedAggression() {
-        return System.currentTimeMillis() > startedAttacking + MIN_ATTACK_MS;
-    }
-
-    public void markPassive() {
+    @Override
+    public void markNotAttacking() {
+        super.markNotAttacking();
         isAttacking = false;
     }
 

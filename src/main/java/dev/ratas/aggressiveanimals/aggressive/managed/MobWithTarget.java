@@ -22,6 +22,8 @@ public abstract class MobWithTarget {
 
     public abstract TrackedMob getTrackedMob();
 
+    public abstract void markAttacking();
+
     private void setTarget(Player player) {
         getBukkitEntity().setTarget(player);
         if (player == null) {

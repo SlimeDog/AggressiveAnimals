@@ -23,7 +23,7 @@ public interface AggressivitySetter {
     }
 
     default void markAsPassive(TrackedMob wrapper) {
-        wrapper.markPassive();
+        wrapper.markNotAttacking();
         wrapper.getBukkitEntity().setMetadata(AGGRESSIVE_ANIMAL_METADATA_TOKEN,
                 new FixedMetadataValue(getPlugin(), false));
     }

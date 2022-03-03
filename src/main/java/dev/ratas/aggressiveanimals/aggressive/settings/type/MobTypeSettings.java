@@ -79,11 +79,8 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
     public ChangeReason shouldStopAttacking(TrackedMob wrapper) {
         Mob mob = wrapper.getBukkitEntity();
         LivingEntity target = wrapper.getTarget();
-        if (!wrapper.hasOutlivedAggression()) {
-            return null;
-        }
         if (!(target instanceof Player)) {
-            return null; // nothing to stop attacking?
+            return ChangeReason.NO_TARGET; // nothing to stop attacking?
         }
         Player player = (Player) target;
         if (!acquisitionSettings.isInRange(mob, player)) {
