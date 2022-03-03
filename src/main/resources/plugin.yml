@@ -27,3 +27,6 @@ permissions:
   aggressiveanimals.info:
     description: Allows showing info regarrding a specific mob type
     default: op
+  aggressiveanimals.use:
+    description: Allows using the help command
+    default: op

@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import dev.ratas.aggressiveanimals.IAggressiveAnimals;
+import dev.ratas.aggressiveanimals.commands.sub.HelpSub;
 import dev.ratas.aggressiveanimals.commands.sub.InfoSub;
 import dev.ratas.aggressiveanimals.commands.sub.ListSub;
 import dev.ratas.aggressiveanimals.commands.sub.ReloadSub;
@@ -22,6 +23,7 @@ public class AggressiveAnimalsCommand extends BukkitFacingParentCommand {
         addSubCommand(new ReloadSub(plugin, messages));
         addSubCommand(new ListSub(plugin.getAggressivityManager().getMobTypeManager(), messages));
         addSubCommand(new InfoSub(plugin.getAggressivityManager(), messages));
+        addSubCommand(new HelpSub(this));
     }
 
     @Override
