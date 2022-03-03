@@ -80,7 +80,7 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
             return null;
         }
         if (!(target instanceof Player)) {
-            return ChangeReason.NO_TARGET;
+            return null; // nothing to stop attacking?
         }
         Player player = (Player) target;
         if (!acquisitionSettings.isInRange(mob, player)) {
