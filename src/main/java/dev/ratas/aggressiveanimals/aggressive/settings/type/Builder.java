@@ -12,7 +12,6 @@ import dev.ratas.slimedogcore.api.config.SDCConfiguration;
 // #   attack-damage: 1.0                 Damage inflicted on the target on each attack (in half-hearts)
 // #   attack-damage-limit: 2             The attacker will leave the target alive with the specified amount of health (in half hearts)
 // #   attack-speed: 20                   Frequency of attack, same as vanilla except for zombies (in ticks)
-// #   attack-range: 1                    Distance at which the mob can damage the player (in blocks)
 // #   attack-leap-height: 0.0            Height attacker may leap when attacking (in blocks; 0.0 or below means disabled)
 // #   acquisition-range: 16              Distance at which the attaker can detect a target
 // #   deacquisition-range: 20            Distance at which the victim can escape attack
@@ -81,9 +80,8 @@ public class Builder {
         double damage = section.getDouble("attack-damage", 1.0D);
         double attackDamageLimit = section.getDouble("attack-damage-limit", 2.0);
         double speed = section.getDouble("attack-speed", 20);
-        double range = section.getDouble("attack-range", 1.0D);
         float attackLeapHeight = (float) section.getDouble("attack-leap-height", 0.0F);
-        attackSettings = new MobAttackSettings(damage, attackDamageLimit, speed, range, attackLeapHeight);
+        attackSettings = new MobAttackSettings(damage, attackDamageLimit, speed, attackLeapHeight);
     }
 
     private void loadAcquisitionSettings() {
