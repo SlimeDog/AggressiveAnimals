@@ -143,6 +143,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         for (Map.Entry<Attribute, Double> entry : saved.prevValues.entrySet()) {
             mob.getAttribute(entry.getKey()).setBaseValue(entry.getValue());
         }
+        saved.prevValues.clear();
     }
 
     private class MobAttributes {
