@@ -56,6 +56,9 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
             if (!playerStateSettings.shouldAttack(mob, target)) {
                 return false;
             }
+            if (target.getGameMode() != GameMode.SURVIVAL) {
+                return false;
+            }
         }
         if (!worldSettings.isEnabledInWorld(mob.getWorld())) {
             return false;
