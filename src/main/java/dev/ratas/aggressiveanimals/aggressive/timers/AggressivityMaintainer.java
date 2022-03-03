@@ -17,14 +17,15 @@ public class AggressivityMaintainer implements Runnable {
     @Override
     public void run() {
         for (TrackedMob mob : new HashSet<>(aggressivityManager.getAllTrackedMobs())) {
+            if (!mob.isLoaded()) {
+                aggressivityManager.stopTracking(mob, StopTrackingReason.UNLOADED);
+                continue;
+            }
             ChangeReason reason = mob.getSettings().shouldStopAttacking(mob);
             if (reason != null) {
                 aggressivityManager.stopAttacking(mob, reason);
             } else {
                 aggressivityManager.resetTarget(mob);
-            }
-            if (!mob.isLoaded()) {
-                aggressivityManager.stopTracking(mob, StopTrackingReason.UNLOADED);
             }
         }
     }
