@@ -20,7 +20,10 @@ public class TargetManager {
             }
         } else {
             targetMapper.put(player, wrapper);
-            trackedTargets.put(wrapper, player);
+            Player prevTarget = trackedTargets.put(wrapper, player);
+            if (prevTarget != null) {
+                targetMapper.remove(prevTarget);
+            }
         }
     }
 
