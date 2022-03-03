@@ -151,6 +151,7 @@ public class Messages extends MessagesBase {
     }
 
     public void reloadConfig() {
+        super.reloadConfig();
         loadMessages();
     }
 
