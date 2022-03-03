@@ -34,13 +34,14 @@ public class GroupAggressivity implements Runnable {
         if (dist <= 0) {
             return;
         }
-        double dist2 = dist * dist;
+        final double maxDist2 = dist * dist;
         Mob bukkitEntity = mob.getBukkitEntity();
         EntityType entityType = bukkitEntity.getType();
         Location entityLoc = bukkitEntity.getLocation();
         for (Entity e : entityLoc.getWorld().getNearbyEntities(entityLoc, dist, dist, dist,
                 e -> e.getType() == entityType)) {
-            if (e.getLocation().distanceSquared(entityLoc) < dist2) {
+            double curDist2 = e.getLocation().distanceSquared(entityLoc);
+            if (curDist2 > maxDist2) {
                 continue; // in cube but not in sphere
             }
             Player target = aggressivityManager.getRegisteredTarget(mob);
