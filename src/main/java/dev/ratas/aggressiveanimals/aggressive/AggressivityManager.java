@@ -100,6 +100,7 @@ public class AggressivityManager {
     public void resetTarget(TrackedMob mob) {
         if (registry.resetTarget(mob)) {
             plugin.debug("Reset target for: " + mob.getBukkitEntity() + " (ruitenely)");
+            groupAggressivity.checkMob(mob);
         }
     }
 
