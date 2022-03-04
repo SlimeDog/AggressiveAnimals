@@ -99,7 +99,7 @@ public class AggressivityManager {
 
     public void stopTracking(TrackedMob mob, StopTrackingReason reason) {
         plugin.getDebugLogger().log("Stopping tracking: " + mob.getSettings().entityType() + " -> "
-                + mob.getBukkitEntity().getEntityId() + " becaause " + reason);
+                + mob.getBukkitEntity().getEntityId() + " because " + reason);
         registry.unregister(mob);
         setter.stopTracking(mob);
     }
