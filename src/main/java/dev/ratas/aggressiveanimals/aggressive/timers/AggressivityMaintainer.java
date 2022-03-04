@@ -1,35 +1,32 @@
 package dev.ratas.aggressiveanimals.aggressive.timers;
 
-import java.util.HashSet;
-
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
 import dev.ratas.aggressiveanimals.aggressive.managed.TrackedMob;
 import dev.ratas.aggressiveanimals.aggressive.reasons.ChangeReason;
 import dev.ratas.aggressiveanimals.aggressive.reasons.StopTrackingReason;
 
-public class AggressivityMaintainer implements Runnable {
+public class AggressivityMaintainer extends AbstractQueuedRunnable<TrackedMob> {
     private final AggressivityManager aggressivityManager;
 
-    public AggressivityMaintainer(AggressivityManager aggressivityManager) {
+    public AggressivityMaintainer(AggressivityManager aggressivityManager, long processAtOnce) {
+        super(processAtOnce, () -> aggressivityManager.getAllTrackedMobs());
         this.aggressivityManager = aggressivityManager;
     }
 
     @Override
-    public void run() {
-        for (TrackedMob mob : new HashSet<>(aggressivityManager.getAllTrackedMobs())) {
-            if (!mob.isLoaded()) {
-                aggressivityManager.stopTracking(mob, StopTrackingReason.UNLOADED);
-                continue;
-            }
-            if (!mob.hasAttackingGoals()) {
-                continue;
-            }
-            ChangeReason reason = mob.getSettings().shouldStopAttacking(mob);
-            if (reason != null) {
-                aggressivityManager.stopAttacking(mob, reason);
-            } else if (mob.getTarget() == null) {
-                aggressivityManager.findNewTarget(mob);
-            }
+    public void process(TrackedMob mob) {
+        if (!mob.isLoaded()) {
+            aggressivityManager.stopTracking(mob, StopTrackingReason.UNLOADED);
+            return;
+        }
+        if (!mob.hasAttackingGoals()) {
+            return;
+        }
+        ChangeReason reason = mob.getSettings().shouldStopAttacking(mob);
+        if (reason != null) {
+            aggressivityManager.stopAttacking(mob, reason);
+        } else if (mob.getTarget() == null) {
+            aggressivityManager.findNewTarget(mob);
         }
     }
 

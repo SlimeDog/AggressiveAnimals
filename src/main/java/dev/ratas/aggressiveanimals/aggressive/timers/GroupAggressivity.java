@@ -1,7 +1,5 @@
 package dev.ratas.aggressiveanimals.aggressive.timers;
 
-import java.util.HashSet;
-
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -12,21 +10,20 @@ import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
 import dev.ratas.aggressiveanimals.aggressive.managed.TrackedMob;
 import dev.ratas.aggressiveanimals.aggressive.reasons.AttackReason;
 
-public class GroupAggressivity implements Runnable {
+public class GroupAggressivity extends AbstractQueuedRunnable<TrackedMob> {
     private final AggressivityManager aggressivityManager;
 
-    public GroupAggressivity(AggressivityManager aggressivityManager) {
+    public GroupAggressivity(AggressivityManager aggressivityManager, long processAtOnce) {
+        super(processAtOnce, () -> aggressivityManager.getAllTrackedMobs());
         this.aggressivityManager = aggressivityManager;
     }
 
     @Override
-    public void run() {
-        for (TrackedMob mob : new HashSet<>(aggressivityManager.getAllTrackedMobs())) {
-            if (!mob.hasAttackingGoals()) {
-                continue;
-            }
-            checkMob(mob);
+    public void process(TrackedMob mob) {
+        if (!mob.hasAttackingGoals()) {
+            return;
         }
+        checkMob(mob);
     }
 
     public void checkMob(TrackedMob mob) {

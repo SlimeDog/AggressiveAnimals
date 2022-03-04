@@ -29,6 +29,7 @@ import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 public class AggressivityManager {
     private static final long PASSIFIER_PERIOD = 10L; // TODO - make configurable?
     private static final long GROUP_AGGRESSION_PERIOD = 40L; // TODO - make configurable?
+    private static final long CHECK_MOBS_AT_ONCE = 1000L; // TODO - make configurable?
     private final IAggressiveAnimals plugin;
     private final NPCHookManager npcHooks;
     private final MobTypeManager mobTypeManager;
@@ -42,8 +43,8 @@ public class AggressivityManager {
         this.plugin = plugin;
         mobTypeManager = new MobTypeManager(plugin, settings);
         setter = new NMSAggressivitySetter(plugin);
-        this.aggressivityMaintainer = new AggressivityMaintainer(this);
-        this.groupAggressivity = new GroupAggressivity(this);
+        this.aggressivityMaintainer = new AggressivityMaintainer(this, CHECK_MOBS_AT_ONCE);
+        this.groupAggressivity = new GroupAggressivity(this, CHECK_MOBS_AT_ONCE);
         this.registry = new GlobalRegistry(groupAggressivity);
         plugin.getScheduler().runTaskTimer(aggressivityMaintainer, PASSIFIER_PERIOD, PASSIFIER_PERIOD);
         plugin.getScheduler().runTaskTimer(groupAggressivity, GROUP_AGGRESSION_PERIOD, GROUP_AGGRESSION_PERIOD);
@@ -196,7 +197,8 @@ public class AggressivityManager {
                 "Mobs that are not always aggressive will not look for a new target");
         Location bukkitLoc = mob.getBukkitEntity().getLocation();
         double dist = mob.getSettings().acquisitionSettings().acquisitionRange();
-        for (Entity entity : bukkitLoc.getWorld().getNearbyEntities(bukkitLoc, dist, dist, dist, e -> e instanceof Player)) {
+        for (Entity entity : bukkitLoc.getWorld().getNearbyEntities(bukkitLoc, dist, dist, dist,
+                e -> e instanceof Player)) {
             Player player = (Player) entity;
             if (mob.getSettings().shouldAttack(mob.getBukkitEntity(), player)) {
                 attemptAttacking(mob.getBukkitEntity(), player, AttackReason.ALWAYS_AGGRESSIVE_NEW_TARGET);
