@@ -22,7 +22,7 @@ mob-type-info: >
   attacker-health-threshold: %attacker-health-threshold%
   age.adult: %age.adult%
   age.baby: %age.baby%
-  ignore-npcs: %ignore-npcs%
+  include-npcs: %include-npcs%
   named-mobs-only: %named-mobs-only%
   override-targeting: %override-targeting%
   group-aggression-range: %group-aggression-range%
