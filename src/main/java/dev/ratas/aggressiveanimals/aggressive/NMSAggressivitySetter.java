@@ -212,6 +212,17 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             return AddonType.GOAL;
         }
 
+        @Override
+        public boolean isEmpty() {
+            if (!goals.isEmpty()) {
+                return false;
+            }
+            if (attributes != null && attributes.prevValues.isEmpty()){
+                return false;
+            }
+            return true;
+        }
+
     }
 
 }

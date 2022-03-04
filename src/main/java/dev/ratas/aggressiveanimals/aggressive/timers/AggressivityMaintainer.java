@@ -21,14 +21,9 @@ public class AggressivityMaintainer implements Runnable {
                 aggressivityManager.stopTracking(mob, StopTrackingReason.UNLOADED);
                 continue;
             }
-            // System.out.println(
-                    // "CHECK AGGRO " + mob.getSettings().entityType() + " -> " + mob.getBukkitEntity().getEntityId());
-            if (!mob.isAttacking()) {
+            if (!mob.hasAttackingGoals()) {
                 continue;
             }
-            // System.out.println(
-            //         "CHECK AGGRO (attacking) " + mob.getSettings().entityType() + " -> "
-            //                 + mob.getBukkitEntity().getEntityId());
             ChangeReason reason = mob.getSettings().shouldStopAttacking(mob);
             if (reason != null) {
                 aggressivityManager.stopAttacking(mob, reason);

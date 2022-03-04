@@ -79,7 +79,7 @@ public class AggressivityManager {
             wrapper = registry.register(entity, settings);
             setAggressivityAttributes(wrapper, AggressivityReason.ATTACK);
         }
-        if (wrapper.isAttacking()) {
+        if (wrapper.hasTarget()) {
             if (wrapper.getTarget() == target) {
                 plugin.getDebugLogger().log("Attempting to mark mob attacking for the same target again");
                 return; // already with same target

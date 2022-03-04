@@ -27,6 +27,8 @@ public abstract class MobWithTarget {
 
     public abstract TrackedMob getTrackedMob();
 
+    public abstract boolean hasAttackingGoals();
+
     private void setTarget(Player player) {
         getBukkitEntity().setTarget(player);
         if (player == null) {

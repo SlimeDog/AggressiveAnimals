@@ -22,7 +22,7 @@ public class GroupAggressivity implements Runnable {
     @Override
     public void run() {
         for (TrackedMob mob : new HashSet<>(aggressivityManager.getAllTrackedMobs())) {
-            if (!mob.isAttacking()) {
+            if (!mob.hasAttackingGoals()) {
                 continue;
             }
             checkMob(mob);
@@ -34,7 +34,7 @@ public class GroupAggressivity implements Runnable {
         if (dist <= 0) {
             return;
         }
-        Player target = aggressivityManager.getRegisteredTarget(mob);
+        Player target = mob.getTarget();
         if (target == null) {
             return;
         }

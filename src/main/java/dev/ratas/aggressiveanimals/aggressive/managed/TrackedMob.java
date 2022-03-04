@@ -12,7 +12,6 @@ import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.aggressiveanimals.aggressive.timers.GroupAggressivity;
 
 public class TrackedMob extends MobWithTarget {
-    public String AGGRESSIVE_ANIMAL_METADATA_TOKEN = "AggressiveAnimal";
     private final Mob bukkitEntity;
     private final MobTypeSettings settings;
     private final Map<AddonType, MobAddon> addons = new EnumMap<>(AddonType.class);
@@ -31,7 +30,7 @@ public class TrackedMob extends MobWithTarget {
         return settings;
     }
 
-    public boolean isAttacking() {
+    public boolean hasTarget() {
         return getTarget() != null;
     }
 
@@ -86,6 +85,11 @@ public class TrackedMob extends MobWithTarget {
     @Override
     public TrackedMob getTrackedMob() {
         return this;
+    }
+
+    @Override
+    public boolean hasAttackingGoals() {
+        return hasAddon(AddonType.GOAL) && !(getAddon(AddonType.GOAL).isEmpty());
     }
 
 }
