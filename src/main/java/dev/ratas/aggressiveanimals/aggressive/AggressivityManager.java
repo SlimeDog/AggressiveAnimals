@@ -2,6 +2,9 @@ package dev.ratas.aggressiveanimals.aggressive;
 
 import java.util.Collection;
 
+import org.apache.commons.lang3.Validate;
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 
@@ -180,6 +183,26 @@ public class AggressivityManager {
 
     public TrackedMobRegistry getRegistry() {
         return registry;
+    }
+
+    /**
+     * Find a new target for always aggressive mobs.
+     *
+     * @param mob the mob in question
+     * @throws IllegalArgumentException if the mob is not always aggressive
+     */
+    public void findNewTarget(TrackedMob mob) {
+        Validate.isTrue(mob.getSettings().alwaysAggressive(),
+                "Mobs that are not always aggressive will not look for a new target");
+        Location bukkitLoc = mob.getBukkitEntity().getLocation();
+        double dist = mob.getSettings().acquisitionSettings().acquisitionRange();
+        for (Entity entity : bukkitLoc.getWorld().getNearbyEntities(bukkitLoc, dist, dist, dist, e -> e instanceof Player)) {
+            Player player = (Player) entity;
+            if (mob.getSettings().shouldAttack(mob.getBukkitEntity(), player)) {
+                attemptAttacking(mob.getBukkitEntity(), player, AttackReason.ALWAYS_AGGRESSIVE_NEW_TARGET);
+                return;
+            }
+        }
     }
 
 }

@@ -77,6 +77,9 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
      * @return the ChangeReason if mob should be pacified, null otherwise
      */
     public ChangeReason shouldStopAttacking(TrackedMob wrapper) {
+        if (alwaysAggressive) {
+            return null;
+        }
         Mob mob = wrapper.getBukkitEntity();
         LivingEntity target = wrapper.getTarget();
         if (!(target instanceof Player)) {
