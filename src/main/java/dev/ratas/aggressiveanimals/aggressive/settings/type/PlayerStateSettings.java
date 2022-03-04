@@ -55,7 +55,7 @@ public record PlayerStateSettings(boolean attackStanding, boolean attackSneaking
         if (player.isGliding()) {
             return false;
         }
-        return true;
+        return player.getVelocity().lengthSquared() == 0; // only if NOT moving
     }
 
     private boolean isWalking(Player player) {
@@ -65,7 +65,7 @@ public record PlayerStateSettings(boolean attackStanding, boolean attackSneaking
         if (player.isSprinting()) {
             return false;
         }
-        return true;
+        return player.getVelocity().lengthSquared() > 0; // only if moving
     }
 
     private boolean isLookingAt(Player player, Entity mob, double maxDistance, double minAllowed) {
