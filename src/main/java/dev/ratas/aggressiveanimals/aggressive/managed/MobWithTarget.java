@@ -37,6 +37,7 @@ public abstract class MobWithTarget {
                 TARGET_MAPPER.remove(prevTarget);
             }
             tagEntityNotAttacking();
+            target = null;
         } else {
             target = player;
             TARGET_MAPPER.put(player, this);
