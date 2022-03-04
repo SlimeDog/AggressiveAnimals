@@ -124,14 +124,10 @@ public class NMSAggressivitySetter implements AggressivitySetter {
     }
 
     @Override
-    public void setPassive(TrackedMob wrapper) {
+    public void stopTracking(TrackedMob wrapper) {
         plugin.getDebugLogger().log("[NMS Setter] Removing previous goals and resetting attributes");
         Mob mob = NMS_RESOLVER.getNMSEntity(wrapper.getBukkitEntity());
         GoalAddon addon = (GoalAddon) wrapper.getAddon(AddonType.GOAL);
-        for (Goal goal : addon.goals) {
-            mob.targetSelector.removeGoal(goal);
-        }
-        addon.goals.clear();
         MobAttributes saved = addon.attributes;
         if (saved == null) {
             plugin.getLogger().warning("No previously saved attributes for mob  " + wrapper.getBukkitEntity()
@@ -142,6 +138,16 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             mob.getAttribute(entry.getKey()).setBaseValue(entry.getValue());
         }
         saved.prevValues.clear();
+    }
+
+    @Override
+    public void removeAttackingGoals(TrackedMob wrapper) {
+        Mob mob = NMS_RESOLVER.getNMSEntity(wrapper.getBukkitEntity());
+        GoalAddon addon = (GoalAddon) wrapper.getAddon(AddonType.GOAL);
+        for (Goal goal : addon.goals) {
+            mob.targetSelector.removeGoal(goal);
+        }
+        addon.goals.clear();
     }
 
     private class MobAttributes {
@@ -214,13 +220,8 @@ public class NMSAggressivitySetter implements AggressivitySetter {
 
         @Override
         public boolean isEmpty() {
-            if (!goals.isEmpty()) {
-                return false;
-            }
-            if (attributes != null && attributes.prevValues.isEmpty()){
-                return false;
-            }
-            return true;
+            // this is used to determine whether or not attacking goals have been set
+            return goals.isEmpty();
         }
 
     }

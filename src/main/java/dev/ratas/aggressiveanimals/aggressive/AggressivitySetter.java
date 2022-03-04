@@ -9,7 +9,9 @@ public interface AggressivitySetter {
 
     void setAttackingGoals(TrackedMob mob);
 
-    void setPassive(TrackedMob mob);
+    void removeAttackingGoals(TrackedMob mob);
+
+    void stopTracking(TrackedMob mob);
 
     SlimeDogCore getPlugin();
 
