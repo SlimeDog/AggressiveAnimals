@@ -150,3 +150,6 @@ mobs:
     enabled: false
   wandering_trader:
     enabled: false
+  wolf:
+    enabled: false
+    attack-leap-height: 0.3
