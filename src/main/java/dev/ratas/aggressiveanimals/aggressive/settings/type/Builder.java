@@ -92,7 +92,7 @@ public class Builder {
     }
 
     private void loatAttackerHealthThreshold() {
-        attackerHealthThreshold = section.getDouble("attacker-health-threshold", 5);
+        attackerHealthThreshold = section.getDouble("attacker-health-threshold", 25);
     }
 
     private void loadMobAgeSettings() {
