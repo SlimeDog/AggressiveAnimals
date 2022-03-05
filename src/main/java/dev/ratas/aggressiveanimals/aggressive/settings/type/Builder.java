@@ -20,7 +20,7 @@ import dev.ratas.slimedogcore.api.config.SDCConfiguration;
 // #     adult: true                      If true, adult mobs should attack
 // #     baby: false                      If true, baby mobs should attack
 // #   include-npcs: false                If true, include NPCs created by NPC managers, such as Citizens, EliteMobs, InfernalMobs, and Shopkeepers
-// #   include-tamed: false               If true, include tamed animals as well (in the case the animal is tameable)
+// #   include-tamed-mobs: false          If true, include tamed animals as well (in the case the animal is tameable)
 // #   named-mobs-only: false             If true, only named mobs may attack
 // #   override-targeting: false          If true, remove vanilla targeting behavior and use only attack-conditions; useful for hostile mob-types
 // #   group-aggression-range: 20         If other mobs of the same type are within range of the attacker, they should join the attack (in blocks)
@@ -104,7 +104,7 @@ public class Builder {
     private void loadMiscSettings() {
         boolean includeNpcs = section.getBoolean("include-npcs", false);
         boolean targetAsNamedOnly = section.getBoolean("named-mobs-only", false);
-        boolean includeTamed = section.getBoolean("include-tamed", false);
+        boolean includeTamed = section.getBoolean("include-tamed-mobs", false);
         miscSettings = new MobMiscSettings(includeNpcs, targetAsNamedOnly, includeTamed);
     }
 

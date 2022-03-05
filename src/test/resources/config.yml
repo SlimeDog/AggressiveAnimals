@@ -2,7 +2,7 @@ mobs:
   wolf: {}
   cat:
     enabled: false
-    include-tamed: true # should NOT produce error
+    include-tamed-mobs: true # should NOT produce error
   pig:
     enabled: true
-    include-tamed: true # should produce error
+    include-tamed-mobs: true # should produce error
