@@ -37,7 +37,7 @@ enable-metrics: true
 #   attack-leap-height: 0.0            Height attacker may leap when attacking (in blocks; 0.0 or below means disabled)
 #   acquisition-range: 16              Distance at which the attaker can detect a target
 #   deacquisition-range: 20            Distance at which the victim can escape attack
-#   attacker-health-threshold: 50      Attack should stop when the health of the attacker falls below the threshold (percentage of full health)
+#   attacker-health-threshold: 25      Attack should stop when the health of the attacker falls below the threshold (percentage of full health)
 #   age:                               Attacks may be waged by adults and/or babies
 #     adult: true                      If true, adult mobs should attack
 #     baby: false                      If true, baby mobs should attack
@@ -69,7 +69,7 @@ mobs:
     attack-leap-height: 0.0
     acquisition-range: 16
     deacquisition-range: 20
-    attacker-health-threshold: 5
+    attacker-health-threshold: 25
     age:
       adult: true
       baby: false
