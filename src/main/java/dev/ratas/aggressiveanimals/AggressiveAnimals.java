@@ -90,6 +90,7 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
         return settings;
     }
 
+    @Override
     public NPCHookManager getNPCHookManager() {
         return npcHookManager;
     }
