@@ -2,6 +2,7 @@ package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
@@ -31,7 +32,8 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
         if (!miscSettings.shouldBeAggressive(npcHooks, mob, target)) {
             return false;
         }
-        if (mob.getHealth() < attackerHealthThreshold) {
+        double curRelHealth = mob.getHealth() / mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        if (curRelHealth < attackerHealthThreshold / 100) { // percentage to relative value
             return false;
         }
         if (target != null) {
