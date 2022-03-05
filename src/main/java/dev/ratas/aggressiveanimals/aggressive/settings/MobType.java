@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Tameable;
 
 public enum MobType {
     axolotl(EntityType.AXOLOTL),
@@ -113,6 +114,16 @@ public enum MobType {
     MobType(EntityType delegate, String... alternates) {
         this.delegate = delegate;
         this.alternateNames = new HashSet<>(Arrays.asList(alternates));
+    }
+
+    /**
+     * Checks whether or not the mob type is tameable. Foxes are not considered
+     * tameable and will thus need to be addressed separately.
+     * 
+     * @return whether or not the mob represented by this type is tameable
+     */
+    public boolean isTameable() {
+        return Tameable.class.isAssignableFrom(delegate.getEntityClass());
     }
 
     public EntityType getBukkitType() {
