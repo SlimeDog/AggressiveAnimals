@@ -42,7 +42,7 @@ public class Builder {
     private boolean enabled;
     private double speedMultiplier;
     private MobAttackSettings attackSettings;
-    private MobAcquisationSettings acquisitionSettings;
+    private MobAcquisitionSettings acquisitionSettings;
     private double attackerHealthThreshold;
     private MobAgeSettings ageSettings;
     private MobMiscSettings miscSettings;
@@ -88,7 +88,7 @@ public class Builder {
     private void loadAcquisitionSettings() {
         double acquisitionRange = section.getDouble("acquisition-range", 16.0D);
         double deacquisitionRange = section.getDouble("deacquisition-range", 20.0D);
-        acquisitionSettings = new MobAcquisationSettings(acquisitionRange, deacquisitionRange);
+        acquisitionSettings = new MobAcquisitionSettings(acquisitionRange, deacquisitionRange);
     }
 
     private void loatAttackerHealthThreshold() {

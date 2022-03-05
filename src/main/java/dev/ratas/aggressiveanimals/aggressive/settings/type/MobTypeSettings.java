@@ -12,7 +12,7 @@ import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 
 public record MobTypeSettings(MobType entityType, boolean enabled, double speedMultiplier,
-        MobAttackSettings attackSettings, MobAcquisationSettings acquisitionSettings, double attackerHealthThreshold,
+        MobAttackSettings attackSettings, MobAcquisitionSettings acquisitionSettings, double attackerHealthThreshold,
         MobAgeSettings ageSettings, MobMiscSettings miscSettings, boolean alwaysAggressive, boolean overrideTargets,
         double groupAgressionDistance, PlayerStateSettings playerStateSettings, MobWorldSettings worldSettings) {
 
