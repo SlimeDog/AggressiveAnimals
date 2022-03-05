@@ -62,6 +62,7 @@ public class Messages extends MessagesBase {
                                 "deacquisition-range: %deacquisition-range%",
                                 "attacker-health-threshold: %attacker-health-threshold%", "age.adult: %age.adult%",
                                 "age.baby: %age.baby%", "include-npcs: %include-npcs%",
+                                "include-tamed-mobs: %include-tamed-mobs%",
                                 "named-mobs-only: %named-mobs-only%", "override-targeting: %override-targeting%",
                                 "group-aggression-range: %group-aggression-range%",
                                 "player-movement.standing: %player-movement.standing%", //
@@ -86,11 +87,16 @@ public class Messages extends MessagesBase {
         builder.with("%age.adult%", mts -> String.valueOf(mts.ageSettings().attackAsAdult()));
         builder.with("%age.baby%", mts -> String.valueOf(mts.ageSettings().attackAsBaby()));
         builder.with("%include-npcs%", mts -> String.valueOf(mts.miscSettings().includeNpcs()));
+        builder.with("%include-tamed-mobs%", mts -> {
+            if (!mts.entityType().isTameable() && mts.entityType() != MobType.fox) {
+                return "N/A";
+            }
+            return String.valueOf(mts.miscSettings().includeTamed());
+        });
         builder.with("%named-mobs-only%", mts -> String.valueOf(mts.miscSettings().targetAsNamedOnly()));
         builder.with("%override-targeting%", mts -> String.valueOf(mts.overrideTargets()));
         builder.with("%group-aggression-range%", mts -> formatDouble(mts.groupAgressionDistance()));
         builder.with("%player-movement.standing%", mts -> String.valueOf(mts.playerStateSettings().attackStanding()));
-
         builder.with("%player-movement.sneaking%", mts -> String.valueOf(mts.playerStateSettings().attackSneaking()));
         builder.with("%player-movement.walking%", mts -> String.valueOf(mts.playerStateSettings().attackWalking()));
         builder.with("%player-movement.sprinting%", mts -> String.valueOf(mts.playerStateSettings().attackSprinting()));
