@@ -7,13 +7,13 @@ import org.bukkit.entity.Tameable;
 
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 
-public record MobMiscSettings(boolean includeNpcs, boolean targetAsNamedOnly, boolean includeTamed) {
+public record MobMiscSettings(boolean includeNpcs, boolean includeNamedMobs, boolean includeTamed) {
 
     public boolean shouldBeAggressive(NPCHookManager npcHooks, Mob mob, Player target) {
         if (!includeNpcs && npcHooks.isNPC(target)) {
             return false;
         }
-        if (targetAsNamedOnly && mob.getCustomName() == null) {
+        if (!includeNamedMobs && mob.getCustomName() != null) {
             return false;
         }
         if (!shouldBeAggressiveRegardingTamability(mob)) {

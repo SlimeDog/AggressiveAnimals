@@ -24,7 +24,7 @@ mob-type-info: >
   age.baby: %age.baby%
   include-npcs: %include-npcs%
   include-tamed-mobs: %include-tamed-mobs%
-  named-mobs-only: %named-mobs-only%
+  include-named-mobs: %include-named-mobs%
   override-targeting: %override-targeting%
   group-aggression-range: %group-aggression-range%
   player-movement.standing: %player-movement.standing%

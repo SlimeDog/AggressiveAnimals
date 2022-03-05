@@ -63,7 +63,7 @@ public class Messages extends MessagesBase {
                                 "attacker-health-threshold: %attacker-health-threshold%", "age.adult: %age.adult%",
                                 "age.baby: %age.baby%", "include-npcs: %include-npcs%",
                                 "include-tamed-mobs: %include-tamed-mobs%",
-                                "named-mobs-only: %named-mobs-only%", "override-targeting: %override-targeting%",
+                                "include-named-mobs: %include-named-mobs%", "override-targeting: %override-targeting%",
                                 "group-aggression-range: %group-aggression-range%",
                                 "player-movement.standing: %player-movement.standing%", //
                                 "player-movement.sneaking: %player-movement.sneaking%",
@@ -93,7 +93,7 @@ public class Messages extends MessagesBase {
             }
             return String.valueOf(mts.miscSettings().includeTamed());
         });
-        builder.with("%named-mobs-only%", mts -> String.valueOf(mts.miscSettings().targetAsNamedOnly()));
+        builder.with("%include-named-mobs%", mts -> String.valueOf(mts.miscSettings().includeNamedMobs()));
         builder.with("%override-targeting%", mts -> String.valueOf(mts.overrideTargets()));
         builder.with("%group-aggression-range%", mts -> formatDouble(mts.groupAgressionDistance()));
         builder.with("%player-movement.standing%", mts -> String.valueOf(mts.playerStateSettings().attackStanding()));
