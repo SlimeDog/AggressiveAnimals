@@ -33,9 +33,10 @@ public record MobMiscSettings(boolean includeNpcs, boolean targetAsNamedOnly, bo
         if (mob instanceof Fox fox) {
             boolean hasTrusted = fox.getFirstTrustedPlayer() != null || fox.getSecondTrustedPlayer() != null;
             return !hasTrusted;
-        } else if (!(mob instanceof Tameable tameable)) {
+        } else if (!(mob instanceof Tameable)) {
             return true;
         }
+        Tameable tameable = (Tameable) mob;
         return !tameable.isTamed();
     }
 
