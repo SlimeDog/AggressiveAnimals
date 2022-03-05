@@ -1,5 +1,6 @@
 package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
+import org.bukkit.entity.Fox;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
@@ -22,14 +23,20 @@ public record MobMiscSettings(boolean includeNpcs, boolean targetAsNamedOnly, bo
     }
 
     private boolean shouldBeAggressiveRegardingTamability(Mob mob) {
-        if (!(mob instanceof Tameable tameable)) {
+        if (includeTamed) {
+            // be aggressive regardless
+            // this should not be the case if the mob is not tameable
+            // an exeptio nshould be thrown at build time in this case
             return true;
         }
-        if (includeTamed) {
-            return true; // be aggressive regardless
-        } else { // aggressive only if mob is NOT tamed
-            return !tameable.isTamed();
+        // should ignore tamed
+        if (mob instanceof Fox fox) {
+            boolean hasTrusted = fox.getFirstTrustedPlayer() != null || fox.getSecondTrustedPlayer() != null;
+            return !hasTrusted;
+        } else if (!(mob instanceof Tameable tameable)) {
+            return true;
         }
+        return !tameable.isTamed();
     }
 
 }
