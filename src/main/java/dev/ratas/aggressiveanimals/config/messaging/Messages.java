@@ -82,7 +82,7 @@ public class Messages extends MessagesBase {
         builder.with("%attack-leap-height%", mts -> formatDouble(mts.attackSettings().attackLeapHeight()));
         builder.with("%acquisition-range%", mts -> formatDouble(mts.acquisitionSettings().acquisitionRange()));
         builder.with("%deacquisition-range%", mts -> formatDouble(mts.acquisitionSettings().deacquisitionRange()));
-        builder.with("%attacker-health-threshold%", mts -> formatDouble(mts.minAttackHealth()));
+        builder.with("%attacker-health-threshold%", mts -> formatDouble(mts.attackerHealthThreshold()));
         builder.with("%age.adult%", mts -> String.valueOf(mts.ageSettings().attackAsAdult()));
         builder.with("%age.baby%", mts -> String.valueOf(mts.ageSettings().attackAsBaby()));
         builder.with("%include-npcs%", mts -> String.valueOf(mts.miscSettings().includeNpcs()));

@@ -12,7 +12,7 @@ import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 
 public record MobTypeSettings(MobType entityType, boolean enabled, double speedMultiplier,
-        MobAttackSettings attackSettings, MobAcquisationSettings acquisitionSettings, double minAttackHealth,
+        MobAttackSettings attackSettings, MobAcquisationSettings acquisitionSettings, double attackerHealthThreshold,
         MobAgeSettings ageSettings, MobMiscSettings miscSettings, boolean alwaysAggressive, boolean overrideTargets,
         double groupAgressionDistance, PlayerStateSettings playerStateSettings, MobWorldSettings worldSettings) {
 
@@ -43,14 +43,14 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
         if (!enabled) {
             return false;
         }
+        if (mob.getHealth() < attackerHealthThreshold) {
+            return false;
+        }
         if (target != null) {
             if (target.getHealth() <= attackSettings.attackDamageLimit()) {
                 return false;
             }
             if (!acquisitionSettings.isInRange(mob, target)) {
-                return false;
-            }
-            if (target.getHealth() < minAttackHealth) {
                 return false;
             }
             if (!playerStateSettings.shouldAttack(mob, target)) {
@@ -121,7 +121,7 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
         if (!acquisitionSettings.equals(other.acquisitionSettings)) {
             return false;
         }
-        if (minAttackHealth != other.minAttackHealth) {
+        if (attackerHealthThreshold != other.attackerHealthThreshold) {
             return false;
         }
         if (!ageSettings.equals(other.ageSettings)) {

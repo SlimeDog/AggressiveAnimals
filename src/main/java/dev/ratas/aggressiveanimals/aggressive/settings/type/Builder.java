@@ -42,7 +42,7 @@ public class Builder {
     private double speedMultiplier;
     private MobAttackSettings attackSettings;
     private MobAcquisationSettings acquisitionSettings;
-    private double minAttackHealth;
+    private double attackerHealthThreshold;
     private MobAgeSettings ageSettings;
     private MobMiscSettings miscSettings;
     private boolean overrideTargets;
@@ -90,8 +90,8 @@ public class Builder {
         acquisitionSettings = new MobAcquisationSettings(acquisitionRange, deacquisitionRange);
     }
 
-    private void loadMinAttackHealth() {
-        minAttackHealth = section.getDouble("attacker-health-threshold", 5);
+    private void loatAttackerHealthThreshold() {
+        attackerHealthThreshold = section.getDouble("attacker-health-threshold", 5);
     }
 
     private void loadMobAgeSettings() {
@@ -140,7 +140,7 @@ public class Builder {
         loadSpeed();
         loadAttackSettings();
         loadAcquisitionSettings();
-        loadMinAttackHealth();
+        loatAttackerHealthThreshold();
         loadMobAgeSettings();
         loadMiscSettings();
         loadAlwaysAggressive();
@@ -152,7 +152,8 @@ public class Builder {
         loadPlayerStateSettings();
         loadWorldSettings();
         return new MobTypeSettings(type, enabled, speedMultiplier, attackSettings, acquisitionSettings,
-                minAttackHealth, ageSettings, miscSettings, alwaysAggressive, overrideTargets, groupAgressionDistance,
+                attackerHealthThreshold, ageSettings, miscSettings, alwaysAggressive, overrideTargets,
+                groupAgressionDistance,
                 playerStateSettings, worldSettings);
     }
 
