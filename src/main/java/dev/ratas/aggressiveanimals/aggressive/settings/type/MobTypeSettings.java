@@ -75,7 +75,8 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
         if (!(target instanceof Player)) {
             return ChangeReason.NO_TARGET; // nothing to stop attacking?
         }
-        if (mob.getHealth() < attackerHealthThreshold) {
+        double curRelHealth = mob.getHealth() / mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        if (curRelHealth < attackerHealthThreshold / 100) { // percentage to relative value
             return ChangeReason.MOB_TOO_DAMAGED;
         }
         Player player = (Player) target;
