@@ -11,8 +11,8 @@ import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobTypeManager;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.aggressiveanimals.config.messaging.Messages;
-import dev.ratas.slimedogcore.api.messaging.context.factory.SDCDoubleContextFactory;
-import dev.ratas.slimedogcore.api.messaging.factory.SDCDoubleContextMessageFactory;
+import dev.ratas.slimedogcore.api.messaging.context.factory.SDCSingleContextFactory;
+import dev.ratas.slimedogcore.api.messaging.factory.SDCSingleContextMessageFactory;
 import dev.ratas.slimedogcore.api.messaging.recipient.SDCRecipient;
 import dev.ratas.slimedogcore.impl.commands.AbstractSubCommand;
 
@@ -51,13 +51,14 @@ public class ListSub extends AbstractSubCommand {
             return false; // unknown option
         }
         messages.getListHeaderMessage().getMessage().sendTo(sender);
-        SDCDoubleContextMessageFactory<MobType, Boolean> lmf = messages.getListItemMessage();
+        SDCSingleContextMessageFactory<MobType> lmf;
         for (MobTypeSettings settings : manager.getUsedSettings()) {
             if (!target.shouldInclude(settings)) {
                 continue; // ignore
             }
-            SDCDoubleContextFactory<MobType, Boolean> cf = lmf.getContextFactory();
-            lmf.getMessage(cf.getContext(settings.entityType(), settings.enabled())).sendTo(sender);
+            lmf = messages.getListItemMessage(settings.enabled());
+            SDCSingleContextFactory<MobType> cf = lmf.getContextFactory();
+            lmf.getMessage(cf.getContext(settings.entityType())).sendTo(sender);
         }
         return true;
     }

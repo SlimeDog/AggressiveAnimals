@@ -12,7 +12,6 @@ import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.slimedogcore.api.SlimeDogPlugin;
 import dev.ratas.slimedogcore.api.messaging.SDCMessage;
 import dev.ratas.slimedogcore.api.messaging.context.SDCVoidContext;
-import dev.ratas.slimedogcore.api.messaging.factory.SDCDoubleContextMessageFactory;
 import dev.ratas.slimedogcore.api.messaging.factory.SDCSingleContextMessageFactory;
 import dev.ratas.slimedogcore.api.messaging.factory.SDCVoidContextMessageFactory;
 import dev.ratas.slimedogcore.impl.messaging.MessagesBase;
@@ -24,7 +23,8 @@ public class Messages extends MessagesBase {
     private SDCVoidContextMessageFactory reloadMessage;
     private SDCVoidContextMessageFactory reloadFailMessage;
     private SDCVoidContextMessageFactory listHeaderMessage;
-    private SDCDoubleContextMessageFactory<MobType, Boolean> listItemMessage;
+    private SDCSingleContextMessageFactory<MobType> listEnabledItemMessage;
+    private SDCSingleContextMessageFactory<MobType> listDisabledItemMessage;
     private SDCVoidContextMessageFactory enabledMessage;
     private SDCVoidContextMessageFactory disabledMessage;
     private SDCSingleContextMessageFactory<String> mobTypeNotFoundMessage;
@@ -45,8 +45,10 @@ public class Messages extends MessagesBase {
             SDCMessage<SDCVoidContext> m = (b ? enabledMessage : disabledMessage).getMessage(VoidContext.INSTANCE);
             return m.getFilled();
         };
-        this.listItemMessage = MsgUtil.doubleContext("%mob-type%", t -> t.name(), "%status%", enabledStringGetter,
-                getRawMessage("list-format", "&6%mob-type% &f- %status%"));
+        this.listEnabledItemMessage = MsgUtil.singleContext("%mob-type%", t -> t.name(),
+                getRawMessage("list-format-enabled", "&a%mob-type% - enabled"));
+        this.listDisabledItemMessage = MsgUtil.singleContext("%mob-type%", t -> t.name(),
+                getRawMessage("list-format-disabled", "%mob-type% - disabled"));
         this.enabledMessage = MsgUtil.voidContext(getRawMessage("enabled", "enabled"));
         this.disabledMessage = MsgUtil.voidContext(getRawMessage("disabled", "disabled"));
         this.mobTypeNotFoundMessage = MsgUtil.singleContext("%mob-type%", t -> t,
@@ -132,8 +134,8 @@ public class Messages extends MessagesBase {
         return listHeaderMessage;
     }
 
-    public SDCDoubleContextMessageFactory<MobType, Boolean> getListItemMessage() {
-        return listItemMessage;
+    public SDCSingleContextMessageFactory<MobType> getListItemMessage(boolean enabled) {
+        return enabled ? listEnabledItemMessage : listDisabledItemMessage;
     }
 
     public SDCVoidContextMessageFactory getEnabledMessage() {
