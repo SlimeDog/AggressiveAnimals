@@ -4,9 +4,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-// #   acquisition-range: 12              How close will mobs acquire a player and start an attack?
-// #   deacquisition-range: 20            How far away must the player run to stop an attack?
-
 public record MobAcquisitionSettings(double acquisitionRange, double deacquisitionRange) {
 
     public boolean isInRange(Entity mob, Player target) {

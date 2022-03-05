@@ -5,15 +5,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-// #   player-movement:                   Mob should attack only if the player is
-// #     standing: true
-// #     sneaking: true
-// #     walking: true
-// #     sprinting: true
-// #     looking: true                    Like Enderman
-// #     sleeping: true
-// #     gliding: true
-
 public record PlayerStateSettings(boolean attackStanding, boolean attackSneaking, boolean attackWalking,
         boolean attackSprinting, boolean attackLooking, boolean attackSleeping, boolean attackGliding) {
 

@@ -5,37 +5,6 @@ import java.util.HashSet;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.slimedogcore.api.config.SDCConfiguration;
 
-// # mob-type:
-// #   enabled: true                      If true, this mob-type should engage in attacks against players
-// #   always-aggressive: false           If true, mobs should attack only in retaliation for player attack
-// #   speed-multiplier: 1.0              Multiple of vanilla movement speed (examples: 1.0 is regular speed, 0.5 is half speed, 2.0 is double speed)
-// #   attack-damage: 1.0                 Damage inflicted on the target on each attack (in half-hearts)
-// #   attack-damage-limit: 2             The attacker will leave the target alive with the specified amount of health (in half hearts)
-// #   attack-speed: 20                   Frequency of attack, same as vanilla except for zombies (in ticks)
-// #   attack-leap-height: 0.0            Height attacker may leap when attacking (in blocks; 0.0 or below means disabled)
-// #   acquisition-range: 16              Distance at which the attaker can detect a target
-// #   deacquisition-range: 20            Distance at which the victim can escape attack
-// #   attacker-health-threshold: 5       Attack should stop when the health of the attacker falls below the threshold (in half-hearts)
-// #   age:                               Attacks may be waged by adults and/or babies
-// #     adult: true                      If true, adult mobs should attack
-// #     baby: false                      If true, baby mobs should attack
-// #   include-npcs: false                If true, include NPCs created by NPC managers, such as Citizens, EliteMobs, InfernalMobs, and Shopkeepers
-// #   include-tamed-mobs: false          If true, include tamed animals as well (in the case the animal is tameable)
-// #   include-named-mobs: false          If true, include named mobs
-// #   override-targeting: false          If true, remove vanilla targeting behavior and use only attack-conditions; useful for hostile mob-types
-// #   group-aggression-range: 20         If other mobs of the same type are within range of the attacker, they should join the attack (in blocks)
-// #   player-movement:                   Mob should attack if the player is
-// #     standing: true
-// #     sneaking: true
-// #     walking: true
-// #     sprinting: true
-// #     looking: true                    Like locking eyes with an Enderman
-// #     sleeping: true
-// #     gliding: true
-// #   enabled-worlds: []                 Worlds in which attacks by this mob-type is enabled; if empty, it is enabled in all worlds
-// #   disabled-worlds:                   Worlds in which attacks by this mob-type is disabled; must be set explicitly; takes precedence over enabled_worlds
-// #     - "world_example"
-
 public class Builder {
     private final SDCConfiguration section;
     private MobType type;
