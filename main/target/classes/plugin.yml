@@ -1,0 +1,32 @@
+name: AggressiveAnimals
+version: 0.1.7-SNAPSHOT
+api-version: 1.18
+main: dev.ratas.aggressiveanimals.main.AggressiveAnimals
+description: Those cute little animals can kill you!
+softdepend: [Citizens, EliteMobs, InfernalMobs, Shopkeepers]
+authors:
+  - drives_a_ford
+  - SlimeDog
+commands:
+  aggressiveanimals:
+    usage: /<command>
+    description: Main command for plugin (allowing one to reload its state)
+    permissions: aggressiveanimals.command
+    aliases: [aggro]
+
+permissions:
+  aggressiveanimals.command:
+    description: Allows using the command
+    default: op
+  aggressiveanimals.reload:
+    description: Allows reloading the plugin
+    default: op
+  aggressiveanimals.list:
+    description: Allows showing list of aggressive animals
+    default: op
+  aggressiveanimals.info:
+    description: Allows showing info regarrding a specific mob type
+    default: op
+  aggressiveanimals.use:
+    description: Allows using the help command
+    default: op
