@@ -82,7 +82,7 @@ public class DefaultConfigTest {
         Assertions.assertTrue(chicken.hasSimilarSettings(pig), "Pig and chicken settings should be similar (2)");
     }
 
-    private static final class MockResourceProvider implements SDCResourceProvider {
+    public static final class MockResourceProvider implements SDCResourceProvider {
 
         @Override
         public InputStream getResource(String filename) {
