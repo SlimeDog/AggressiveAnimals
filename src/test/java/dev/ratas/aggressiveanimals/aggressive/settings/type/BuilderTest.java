@@ -44,6 +44,16 @@ public class BuilderTest {
     }
 
     @Test
+    public void test_builderBuildsFoxWithIncludeTameable() {
+        SDCConfiguration config = this.config.getConfig().getConfigurationSection("mobs.fox");
+        Builder builder = new Builder(config);
+        MobTypeSettings mts = builder.build();
+        Assertions.assertTrue(mts.entityType() == MobType.fox, "Expected fox");
+        Assertions.assertNotNull(mts, "Expected to build a non-null settings with including tameables (fox)");
+        Assertions.assertTrue(mts.miscSettings().includeTamed(), "Expected to include tameables");
+    }
+
+    @Test
     public void test_builderFailsNonTameableWithIncludeTameable() {
         SDCConfiguration config = this.config.getConfig().getConfigurationSection("mobs.pig");
         Builder builder = new Builder(config);
