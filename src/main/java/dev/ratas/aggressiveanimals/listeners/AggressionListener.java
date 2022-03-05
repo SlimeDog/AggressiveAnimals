@@ -86,7 +86,7 @@ public class AggressionListener implements Listener {
         }
         MobTypeSettings settings = aggressivityManager.getMobTypeManager()
                 .getEnabledSettings(MobType.fromBukkit(mob.getType()));
-        if (!settings.shouldAttack(mob, target)) {
+        if (!settings.shouldAttack(mob, target, plugin.getNPCHookManager())) {
             plugin.getDebugLogger().log("Removing target of " + mob + " : " + target);
             aggressivityManager.untargetPlayer(target);
             event.setCancelled(true);

@@ -93,7 +93,7 @@ public class AggressivityManager {
         plugin.getDebugLogger()
                 .log("Attempting to set attacking: " + wrapper.getSettings().entityType() + " -> "
                         + entity.getEntityId() + " because " + reason + " (target " + target + ")");
-        if (settings.shouldAttack(entity, target)) {
+        if (settings.shouldAttack(entity, target, npcHooks)) {
             setter.setAttackingGoals(wrapper);
             wrapper.markAttacking(target, reason != AttackReason.GROUP_AGGRESSION);
             plugin.getDebugLogger().log("The mob is now attacking: " + wrapper.getSettings().entityType() + " -> "
@@ -200,7 +200,7 @@ public class AggressivityManager {
         for (Entity entity : bukkitLoc.getWorld().getNearbyEntities(bukkitLoc, dist, dist, dist,
                 e -> e instanceof Player)) {
             Player player = (Player) entity;
-            if (mob.getSettings().shouldAttack(mob.getBukkitEntity(), player)) {
+            if (mob.getSettings().shouldAttack(mob.getBukkitEntity(), player, npcHooks)) {
                 attemptAttacking(mob.getBukkitEntity(), player, AttackReason.ALWAYS_AGGRESSIVE_NEW_TARGET);
                 return;
             }

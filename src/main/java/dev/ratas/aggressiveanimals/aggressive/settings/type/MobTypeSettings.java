@@ -31,18 +31,6 @@ public record MobTypeSettings(MobType entityType, boolean enabled, double speedM
         if (!miscSettings.shouldBeAggressive(npcHooks, mob, target)) {
             return false;
         }
-        return true;
-    }
-
-    public boolean shouldAttack(Mob mob, Player target) {
-        if (mob.getType() != entityType.getBukkitType()) {
-            throw new IllegalArgumentException(
-                    "Mob is of wrong type (at attack time). Expected " + entityType.name() + " and got "
-                            + mob.getType());
-        }
-        if (!enabled) {
-            return false;
-        }
         if (mob.getHealth() < attackerHealthThreshold) {
             return false;
         }
