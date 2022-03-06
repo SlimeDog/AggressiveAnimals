@@ -25,6 +25,10 @@
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
     </repository>
     <repository>
+        <id>nms-repo</id>
+        <url>https://repo.codemc.io/repository/nms/</url>
+    </repository>
+    <repository>
       <id>jitpack.io</id> <!-- For automated building of SlimeDogCore-->
       <url>https://jitpack.io</url>
     </repository>
