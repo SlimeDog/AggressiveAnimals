@@ -42,7 +42,7 @@ enable-metrics: true
 #     adult: true                      If true, adult mobs should attack
 #     baby: false                      If true, baby mobs should attack
 #   include-npcs: false                If true, include NPCs created by NPC managers, such as Citizens, EliteMobs, InfernalMobs, and Shopkeepers
-#   include-tamed-mobs: false          If true, include tamed mobs; legal only for tameable mob-types: cat, donkey, fox, horse, llama, mule, parrot, wolf
+#   include-tamed-mobs: true           If true, include tamed mobs; legal only for tameable mob-types: cat, donkey, fox, horse, llama, mule, parrot, wolf
 #   include-named-mobs: false          If true, include named mobs
 #   override-targeting: false          If true, remove vanilla targeting behavior and use only attack-conditions; useful for hostile mob-types
 #   group-aggression-range: 20         If other mobs of the same type are within range of the attacker, they should join the attack (in blocks)
@@ -89,7 +89,8 @@ mobs:
     disabled-worlds:
       - "world_example"
 
-# Additional passive mob-types. Missing parameters will use defaults.
+# Passive mob-types. Missing parameters will use defaults.
+# If you want to alter their behaviors, enable them and adjust their attributes as desired.
   axolotl:
     enabled: false
     attack-leap-height: 0.3
@@ -107,15 +108,12 @@ mobs:
   fox:
     enabled: false
     attack-leap-height: 0.3
-  frog:
+  frog:                         # available MC 1.19
     enabled: false
   glow_squid:
     enabled: false
   horse:
     enabled: false
-  llama:
-    enabled: false
-    include-tamed-mobs: true
   mooshroom:
     enabled: false
   mule:
@@ -129,6 +127,7 @@ mobs:
     enabled: false
   pufferfish:
     enabled: false
+    always-aggressive: true    # vanilla behavior
   rabbit:
     enabled: false
     attack-leap-height: 0.3
@@ -144,7 +143,7 @@ mobs:
     enabled: false
   strider:
     enabled: false
-  tadpole:
+  tadpole:                      # available MC 1.19
     enabled: false
   tropical_fish:
     enabled: false
@@ -154,6 +153,35 @@ mobs:
     enabled: false
   wandering_trader:
     enabled: false
+
+# Neutral mob-types. Missing parameters will use defaults.
+# Neutral mobs have vanilla targeting and attack behaviors, so nothing more is needed.
+# If you want to alter their behaviors, enable them and adjust their attributes as desired.
+  bee:
+    enabled: false
+  cave_spider:
+    enabled: false
+  dolphin:
+    enabled: false
+  enderman:
+    enabled: false
+  goat:
+    enabled: false
+  iron_golem:
+    enabled: false
+  llama:
+    enabled: false
+    include-tamed-mobs: true   # vanilla behavior
+  panda:
+    enabled: false
+  piglin:
+    enabled: false
+  polar_bear:
+    enabled: false
+  spider:
+    enabled: false
   wolf:
     enabled: false
-    attack-leap-height: 0.3
+    include-tamed-mobs: true   # vanilla behavior
+  zombified_piglin:
+    enabled: false
