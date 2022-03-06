@@ -12,6 +12,17 @@
 
   <name>v1_18_R1</name>
 
+  <repositories>
+    <repository>
+      <id>spigot-repo</id>
+      <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    </repository>
+    <repository>
+      <id>nms-repo</id>
+      <url>https://repo.codemc.io/repository/nms/</url>
+    </repository>
+  </repositories>
+
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>

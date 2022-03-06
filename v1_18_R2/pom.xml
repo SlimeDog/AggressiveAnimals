@@ -20,6 +20,17 @@
     <used.spigot.version>1.18.2-R0.1-SNAPSHOT</used.spigot.version>
   </properties>
 
+  <repositories>
+    <repository>
+      <id>spigot-repo</id>
+      <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    </repository>
+    <repository>
+      <id>nms-repo</id>
+      <url>https://repo.codemc.io/repository/nms/</url>
+    </repository>
+  </repositories>
+
   <dependencies>
     <dependency>
       <groupId>dev.ratas.aggressiveanimals</groupId>
