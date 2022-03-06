@@ -89,7 +89,8 @@ mobs:
     disabled-worlds:
       - "world_example"
 
-# Additional passive mob-types. Missing parameters will use defaults.
+# Passive mob-types. Missing parameters will use defaults.
+# If you want to alter their behaviors, enable them and adjust their attributes as desired.
   axolotl:
     enabled: false
     attack-leap-height: 0.3
