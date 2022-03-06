@@ -185,3 +185,4 @@ mobs:
     include-tamed-mobs: true   # vanilla behavior
   zombified_piglin:
     enabled: false
+
