@@ -107,7 +107,7 @@ mobs:
   fox:
     enabled: false
     attack-leap-height: 0.3
-  frog:
+  frog:                         # available MC 1.19
     enabled: false
   glow_squid:
     enabled: false
@@ -115,7 +115,7 @@ mobs:
     enabled: false
   llama:
     enabled: false
-    include-tamed-mobs: true
+    include-tamed-mobs: true    # vanilla behavior
   mooshroom:
     enabled: false
   mule:
@@ -129,6 +129,7 @@ mobs:
     enabled: false
   pufferfish:
     enabled: false
+    always-aggressive: true    # vanilla behavior
   rabbit:
     enabled: false
     attack-leap-height: 0.3
@@ -144,7 +145,7 @@ mobs:
     enabled: false
   strider:
     enabled: false
-  tadpole:
+  tadpole:                      # available MC 1.19
     enabled: false
   tropical_fish:
     enabled: false
