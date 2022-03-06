@@ -2,6 +2,7 @@ package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
 import org.bukkit.entity.Fox;
 import org.bukkit.entity.Mob;
+import org.bukkit.entity.Ocelot;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
 
@@ -33,6 +34,8 @@ public record MobMiscSettings(boolean includeNpcs, boolean includeNamedMobs, boo
         if (mob instanceof Fox fox) {
             boolean hasTrusted = fox.getFirstTrustedPlayer() != null || fox.getSecondTrustedPlayer() != null;
             return !hasTrusted;
+        } else if (mob instanceof Ocelot ocelot) {
+            return !ocelot.isTrusting();
         } else if (!(mob instanceof Tameable)) {
             return true;
         }

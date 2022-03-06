@@ -9,3 +9,6 @@ mobs:
   fox:
     enabled: true
     include-tamed-mobs: false # should NOT produce error (even though does not implement Tameable)
+  ocelot:
+    enabled: true
+    include-tamed-mobs: false # should NOT produce error (even though does not implement Tameable)

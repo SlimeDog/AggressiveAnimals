@@ -122,7 +122,7 @@ public class Builder {
         loadWorldSettings();
         loadPlayerStateSettings();
         loadWorldSettings();
-        if ((!type.isTameable() && type != MobType.fox) && !miscSettings.includeTamed()) {
+        if ((!type.isTameable() && type != MobType.fox && type != MobType.ocelot) && !miscSettings.includeTamed()) {
             throw new IllegalMobTypeSettingsException(
                     "Cannot include tameable of " + type.name() + " since the mobtype is not tameable");
         }
