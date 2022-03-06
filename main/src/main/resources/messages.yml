@@ -10,30 +10,29 @@ enabled: "enabled"
 disabled: "disabled"
 mob-type-not-found: "Mob type not found: %mob-type%"
 mob-type-not-defined: "No information defined for mon type: %mob-type%"
-mob-type-info: >
-  enabled: %enabled%
-  always-aggressive: %always-aggressive%
-  speed-multiplier: %speed-multiplier%
-  attack-damage: %attack-damage%
-  attack-damage-limit: %attack-damage-limit%
-  attack-speed: %attack-speed%
-  attack-leap-height: %attack-leap-height%
-  acquisition-range: %acquisition-range%
-  deacquisition-range: %deacquisition-range%
-  attacker-health-threshold: %attacker-health-threshold%
-  age.adult: %age.adult%
-  age.baby: %age.baby%
-  include-npcs: %include-npcs%
-  include-tamed-mobs: %include-tamed-mobs%
-  include-named-mobs: %include-named-mobs%
-  override-targeting: %override-targeting%
-  group-aggression-range: %group-aggression-range%
-  player-movement.standing: %player-movement.standing%
-  player-movement.sneaking: %player-movement.sneaking%
-  player-movement.walking: %player-movement.walking%
-  player-movement.sprinting: %player-movement.sprinting%
-  player-movement.looking: %player-movement.looking%
-  player-movement.sleeping: %player-movement.sleeping%
-  player-movement.gliding: %player-movement.gliding%
-  enabled-worlds: %enabled-worlds%
-  disabled-worlds: %disabled-worlds%
+mob-type-info: "enabled: %enabled%\n
+always-aggressive: %always-aggressive%\n
+speed-multiplier: %speed-multiplier%\n
+attack-damage: %attack-damage%\n
+attack-damage-limit: %attack-damage-limit%\n
+attack-speed: %attack-speed%\n
+attack-leap-height: %attack-leap-height%\n
+acquisition-range: %acquisition-range%\n
+deacquisition-range: %deacquisition-range%\n
+attacker-health-threshold: %attacker-health-threshold%\n
+age.adult: %age.adult%\n
+age.baby: %age.baby%\n
+include-npcs: %include-npcs%\n
+include-tamed-mobs: %include-tamed-mobs%\n
+include-named-mobs: %include-named-mobs%\n
+override-targeting: %override-targeting%\n
+group-aggression-range: %group-aggression-range%\n
+player-movement.standing: %player-movement.standing%\n
+player-movement.sneaking: %player-movement.sneaking%\n
+player-movement.walking: %player-movement.walking%\n
+player-movement.sprinting: %player-movement.sprinting%\n
+player-movement.looking: %player-movement.looking%\n
+player-movement.sleeping: %player-movement.sleeping%\n
+player-movement.gliding: %player-movement.gliding%\n
+enabled-worlds: %enabled-worlds%\n
+disabled-worlds: %disabled-worlds%"
