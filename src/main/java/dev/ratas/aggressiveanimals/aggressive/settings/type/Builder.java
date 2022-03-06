@@ -73,7 +73,7 @@ public class Builder {
     private void loadMiscSettings() {
         boolean includeNpcs = section.getBoolean("include-npcs", false);
         boolean includeNamedMobs = section.getBoolean("include-named-mobs", false);
-        boolean includeTamed = section.getBoolean("include-tamed-mobs", false);
+        boolean includeTamed = section.getBoolean("include-tamed-mobs", true);
         miscSettings = new MobMiscSettings(includeNpcs, includeNamedMobs, includeTamed);
     }
 
@@ -122,7 +122,7 @@ public class Builder {
         loadWorldSettings();
         loadPlayerStateSettings();
         loadWorldSettings();
-        if ((!type.isTameable() && type != MobType.fox) && miscSettings.includeTamed()) {
+        if ((!type.isTameable() && type != MobType.fox) && !miscSettings.includeTamed()) {
             throw new IllegalMobTypeSettingsException(
                     "Cannot include tameable of " + type.name() + " since the mobtype is not tameable");
         }

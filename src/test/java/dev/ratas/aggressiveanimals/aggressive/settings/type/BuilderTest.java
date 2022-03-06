@@ -30,7 +30,7 @@ public class BuilderTest {
         MobTypeSettings mts = builder.build();
         Assertions.assertTrue(mts.entityType() == MobType.wolf, "Expected wolf");
         Assertions.assertNotNull(mts, "Expected to build a non-null settings from empty (wolf)");
-        Assertions.assertFalse(mts.miscSettings().includeTamed(), "Did not expect to include tameables");
+        Assertions.assertTrue(mts.miscSettings().includeTamed(), "Tameables should beincluded by default");
     }
 
     @Test
