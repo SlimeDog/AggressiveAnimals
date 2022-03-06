@@ -68,4 +68,18 @@ public class MobTypeManager {
         return sorted;
     }
 
+    public Collection<MobTypeSettings> getEnabledSettings() {
+        List<MobTypeSettings> sorted = new ArrayList<>(types.values());
+        sorted.removeIf(mts -> !mts.enabled());
+        sorted.sort((mts1, mts2) -> mts1.entityType().name().compareTo(mts2.entityType().name()));
+        return sorted;
+    }
+
+    public Collection<MobTypeSettings> getDisabledSettings() {
+        List<MobTypeSettings> sorted = new ArrayList<>(types.values());
+        sorted.removeIf(mts -> mts.enabled());
+        sorted.sort((mts1, mts2) -> mts1.entityType().name().compareTo(mts2.entityType().name()));
+        return sorted;
+    }
+
 }
