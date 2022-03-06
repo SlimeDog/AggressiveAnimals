@@ -50,7 +50,17 @@ public class BuilderTest {
         MobTypeSettings mts = builder.build();
         Assertions.assertTrue(mts.entityType() == MobType.fox, "Expected fox");
         Assertions.assertNotNull(mts, "Expected to build a non-null settings with including tameables (fox)");
-        Assertions.assertTrue(mts.miscSettings().includeTamed(), "Expected to include tameables");
+        Assertions.assertFalse(mts.miscSettings().includeTamed(), "Expected to include tameables");
+    }
+
+    @Test
+    public void test_builderBuildsOcelotWithIncludeTameable() {
+        SDCConfiguration config = this.config.getConfig().getConfigurationSection("mobs.ocelot");
+        Builder builder = new Builder(config);
+        MobTypeSettings mts = builder.build();
+        Assertions.assertTrue(mts.entityType() == MobType.ocelot, "Expected ocelot");
+        Assertions.assertNotNull(mts, "Expected to build a non-null settings with including tameables (ocelot)");
+        Assertions.assertFalse(mts.miscSettings().includeTamed(), "Expected not to include tameables");
     }
 
     @Test
