@@ -113,9 +113,6 @@ mobs:
     enabled: false
   horse:
     enabled: false
-  llama:
-    enabled: false
-    include-tamed-mobs: true    # vanilla behavior
   mooshroom:
     enabled: false
   mule:
@@ -155,6 +152,35 @@ mobs:
     enabled: false
   wandering_trader:
     enabled: false
+
+# Neutral mob-types. Missing parameters will use defaults.
+# Neutral mobs have vanilla targeting and attack behaviors, so nothing more is needed.
+# If you want to alter their behaviors, enable them and adjust their attributes as desired.
+  bee:
+    enabled: false
+  cave_spider:
+    enabled: false
+  dolphin:
+    enabled: false
+  enderman:
+    enabled: false
+  goat:
+    enabled: false
+  iron_golem:
+    enabled: false
+  llama:
+    enabled: false
+    include-tamed-mobs: true   # vanilla behavior
+  panda:
+    enabled: false
+  piglin:
+    enabled: false
+  polar_bear:
+    enabled: false
+  spider:
+    enabled: false
   wolf:
     enabled: false
-    attack-leap-height: 0.3
+    include-tamed-mobs: true   # vanilla behavior
+  zombified_piglin:
+    enabled: false
