@@ -8,7 +8,10 @@ import org.bukkit.util.StringUtil;
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
+import dev.ratas.aggressiveanimals.aggressive.settings.type.Setting;
 import dev.ratas.aggressiveanimals.config.messaging.Messages;
+import dev.ratas.slimedogcore.api.messaging.SDCMessage;
+import dev.ratas.slimedogcore.api.messaging.context.SDCSingleContext;
 import dev.ratas.slimedogcore.api.messaging.factory.SDCSingleContextMessageFactory;
 import dev.ratas.slimedogcore.api.messaging.recipient.SDCRecipient;
 import dev.ratas.slimedogcore.impl.commands.AbstractSubCommand;
@@ -52,9 +55,15 @@ public class InfoSub extends AbstractSubCommand {
             mf.getMessage(mf.getContextFactory().getContext(type)).sendTo(sender);
             return true;
         }
-
-        SDCSingleContextMessageFactory<MobTypeSettings> mf = messages.getInfoMessage();
-        mf.getMessage(mf.getContextFactory().getContext(settings)).sendTo(sender);
+        SDCSingleContextMessageFactory<Setting<?>> nonDef = messages.getNonDefaultInfoMessagePart();
+        SDCSingleContextMessageFactory<Setting<?>> def = messages.getDefaultInfoMessagePart();
+        for (Setting<?> setting : settings.getAllSettings()) {
+            SDCSingleContextMessageFactory<Setting<?>> cur = setting.isDefault() ? def : nonDef;
+            SDCMessage<SDCSingleContext<Setting<?>>> msg = cur.getMessage(cur.getContextFactory().getContext(setting));
+            if (!msg.getFilled().isEmpty()) {
+                msg.sendTo(sender);
+            }
+        }
         return true;
     }
 

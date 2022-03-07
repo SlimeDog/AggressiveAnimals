@@ -12,29 +12,5 @@ disabled: "disabled"
 mob-type-not-found: "Mob type not found: %mob-type%"
 mob-type-not-defined: "No information defined for mon type: %mob-type%"
 no-such-page: "Page does not exist: %page%"
-mob-type-info: "enabled: %enabled%\n
-always-aggressive: %always-aggressive%\n
-speed-multiplier: %speed-multiplier%\n
-attack-damage: %attack-damage%\n
-attack-damage-limit: %attack-damage-limit%\n
-attack-speed: %attack-speed%\n
-attack-leap-height: %attack-leap-height%\n
-acquisition-range: %acquisition-range%\n
-deacquisition-range: %deacquisition-range%\n
-attacker-health-threshold: %attacker-health-threshold%\n
-age.adult: %age.adult%\n
-age.baby: %age.baby%\n
-include-npcs: %include-npcs%\n
-include-tamed-mobs: %include-tamed-mobs%\n
-include-named-mobs: %include-named-mobs%\n
-override-targeting: %override-targeting%\n
-group-aggression-range: %group-aggression-range%\n
-player-movement.standing: %player-movement.standing%\n
-player-movement.sneaking: %player-movement.sneaking%\n
-player-movement.walking: %player-movement.walking%\n
-player-movement.sprinting: %player-movement.sprinting%\n
-player-movement.looking: %player-movement.looking%\n
-player-movement.sleeping: %player-movement.sleeping%\n
-player-movement.gliding: %player-movement.gliding%\n
-enabled-worlds: %enabled-worlds%\n
-disabled-worlds: %disabled-worlds%"
+info-non-default-setting: "%setting-path%: %setting-value%"
+info-default-setting: ""

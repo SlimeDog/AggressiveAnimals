@@ -8,15 +8,12 @@ import java.util.function.Function;
 import org.bukkit.configuration.InvalidConfigurationException;
 
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
-import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
+import dev.ratas.aggressiveanimals.aggressive.settings.type.Setting;
 import dev.ratas.aggressiveanimals.utils.Paginator;
 import dev.ratas.slimedogcore.api.SlimeDogPlugin;
-import dev.ratas.slimedogcore.api.messaging.SDCMessage;
-import dev.ratas.slimedogcore.api.messaging.context.SDCVoidContext;
 import dev.ratas.slimedogcore.api.messaging.factory.SDCSingleContextMessageFactory;
 import dev.ratas.slimedogcore.api.messaging.factory.SDCVoidContextMessageFactory;
 import dev.ratas.slimedogcore.impl.messaging.MessagesBase;
-import dev.ratas.slimedogcore.impl.messaging.context.VoidContext;
 import dev.ratas.slimedogcore.impl.messaging.factory.MsgUtil;
 
 public class Messages extends MessagesBase {
@@ -31,7 +28,8 @@ public class Messages extends MessagesBase {
     private SDCVoidContextMessageFactory disabledMessage;
     private SDCSingleContextMessageFactory<String> mobTypeNotFoundMessage;
     private SDCSingleContextMessageFactory<MobType> mobTypeNotDefined;
-    private SDCSingleContextMessageFactory<MobTypeSettings> infoMessage;
+    private SDCSingleContextMessageFactory<Setting<?>> infoNonDefaultMessagePart;
+    private SDCSingleContextMessageFactory<Setting<?>> infoDefaultMessagePart;
     private SDCSingleContextMessageFactory<Integer> noSuchPageMessage;
 
     public Messages(SlimeDogPlugin plugin) throws InvalidConfigurationException {
@@ -50,10 +48,6 @@ public class Messages extends MessagesBase {
         pagedHeaderBuilder.with("%start%", p -> String.valueOf(p.getPageStart() + 1));
         pagedHeaderBuilder.with("%end%", p -> String.valueOf(p.getPageEnd()));
         this.pagedListHeaderMessage = pagedHeaderBuilder.build();
-        Function<Boolean, String> enabledStringGetter = b -> {
-            SDCMessage<SDCVoidContext> m = (b ? enabledMessage : disabledMessage).getMessage(VoidContext.INSTANCE);
-            return m.getFilled();
-        };
         this.listEnabledItemMessage = MsgUtil.singleContext("%mob-type%", t -> t.name(),
                 getRawMessage("list-format-enabled", "&a%mob-type% - enabled"));
         this.listDisabledItemMessage = MsgUtil.singleContext("%mob-type%", t -> t.name(),
@@ -66,79 +60,35 @@ public class Messages extends MessagesBase {
                 getRawMessage("mob-type-not-defined", "No information defined for mon type: %mob-type%"));
         this.noSuchPageMessage = MsgUtil.singleContext("%page%", p -> String.valueOf(p),
                 getRawMessage("no-such-page", "Page does not exist: %page%"));
-        MsgUtil.MultipleToOneBuilder<MobTypeSettings> builder = new MsgUtil.MultipleToOneBuilder<>(
-                getRawMessage("mob-type-info",
-                        String.join("\n", "enabled: %enabled%", "always-aggressive: %always-aggressive%",
-                                "speed-multiplier: %speed-multiplier%", "attack-damage: %attack-damage%",
-                                "attack-damage-limit: %attack-damage-limit%", "attack-speed: %attack-speed%",
-                                "attack-leap-height: %attack-leap-height%", "acquisition-range: %acquisition-range%",
-                                "deacquisition-range: %deacquisition-range%",
-                                "attacker-health-threshold: %attacker-health-threshold%", "age.adult: %age.adult%",
-                                "age.baby: %age.baby%", "include-npcs: %include-npcs%",
-                                "include-tamed-mobs: %include-tamed-mobs%",
-                                "include-named-mobs: %include-named-mobs%", "override-targeting: %override-targeting%",
-                                "group-aggression-range: %group-aggression-range%",
-                                "player-movement.standing: %player-movement.standing%", //
-                                "player-movement.sneaking: %player-movement.sneaking%",
-                                "player-movement.walking: %player-movement.walking%",
-                                "player-movement.sprinting: %player-movement.sprinting%",
-                                "player-movement.looking: %player-movement.looking%",
-                                "player-movement.sleeping: %player-movement.sleeping%",
-                                "player-movement.gliding: %player-movement.gliding%",
-                                "enabled-worlds: %enabled-worlds%",
-                                "disabled-worlds: %disabled-worlds%")));
-        builder.with("%enabled%", mts -> enabledStringGetter.apply(mts.enabled().value()));
-        builder.with("%always-aggressive%", mts -> String.valueOf(mts.alwaysAggressive().value()));
-        builder.with("%speed-multiplier%", mts -> formatDouble(mts.speedMultiplier().value()));
-        builder.with("%attack-damage%", mts -> formatDouble(mts.attackSettings().damage().value()));
-        builder.with("%attack-damage-limit%", mts -> formatDouble(mts.attackSettings().attackDamageLimit().value()));
-        builder.with("%attack-speed%", mts -> formatDouble(mts.attackSettings().speed().value()));
-        builder.with("%attack-leap-height%", mts -> formatDouble(mts.attackSettings().attackLeapHeight().value()));
-        builder.with("%acquisition-range%", mts -> formatDouble(mts.acquisitionSettings().acquisitionRange().value()));
-        builder.with("%deacquisition-range%",
-                mts -> formatDouble(mts.acquisitionSettings().deacquisitionRange().value()));
-        builder.with("%attacker-health-threshold%", mts -> formatDouble(mts.attackerHealthThreshold().value()));
-        builder.with("%age.adult%", mts -> String.valueOf(mts.ageSettings().attackAsAdult()));
-        builder.with("%age.baby%", mts -> String.valueOf(mts.ageSettings().attackAsBaby()));
-        builder.with("%include-npcs%", mts -> String.valueOf(mts.miscSettings().includeNpcs()));
-        builder.with("%include-tamed-mobs%", mts -> {
-            if (!mts.entityType().value().isTameable() && mts.entityType().value() != MobType.fox) {
-                return "N/A";
+        MsgUtil.MultipleToOneBuilder<Setting<?>> builder2 = new MsgUtil.MultipleToOneBuilder<>(
+                getRawMessage("info-non-default-setting", "%setting-path%: %setting-value%"));
+        builder2.with("%setting-path%", s -> s.path());
+        Function<Setting<?>, String> valueParser = s -> {
+            Object val = s.value();
+            if (val instanceof Double) {
+                return formatDouble((double) val);
+            } else if (val instanceof List) {
+                @SuppressWarnings("unchecked")
+                List<String> list = (List<String>) val;
+                if (list.isEmpty()) {
+                    if (s.path().equals("enabled-worlds")) {
+                        return "all";
+                    } else {
+                        return "none";
+                    }
+                } else {
+                    return String.join(", ", list);
+                }
             }
-            return String.valueOf(mts.miscSettings().includeTamed());
-        });
-        builder.with("%include-named-mobs%", mts -> String.valueOf(mts.miscSettings().includeNamedMobs().value()));
-        builder.with("%override-targeting%", mts -> String.valueOf(mts.overrideTargets().value()));
-        builder.with("%group-aggression-range%", mts -> formatDouble(mts.groupAgressionDistance().value()));
-        builder.with("%player-movement.standing%",
-                mts -> String.valueOf(mts.playerStateSettings().attackStanding().value()));
-        builder.with("%player-movement.sneaking%",
-                mts -> String.valueOf(mts.playerStateSettings().attackSneaking().value()));
-        builder.with("%player-movement.walking%",
-                mts -> String.valueOf(mts.playerStateSettings().attackWalking().value()));
-        builder.with("%player-movement.sprinting%",
-                mts -> String.valueOf(mts.playerStateSettings().attackSprinting().value()));
-        builder.with("%player-movement.looking%",
-                mts -> String.valueOf(mts.playerStateSettings().attackLooking().value()));
-        builder.with("%player-movement.sleeping%",
-                mts -> String.valueOf(mts.playerStateSettings().attackSleeping().value()));
-        builder.with("%player-movement.gliding%",
-                mts -> String.valueOf(mts.playerStateSettings().attackGliding().value()));
-        builder.with("%enabled-worlds%", mts -> {
-            List<String> enabled = sort(mts.worldSettings().enabledWorlds().value());
-            if (enabled.isEmpty()) {
-                return "all"; // TODO - configurable?
-            }
-            return String.join(", ", enabled);
-        });
-        builder.with("%disabled-worlds%", mts -> {
-            List<String> enabled = sort(mts.worldSettings().disabledWorlds().value());
-            if (enabled.isEmpty()) {
-                return "none"; // TODO - configurable?
-            }
-            return String.join(", ", enabled);
-        });
-        infoMessage = builder.build();
+            return String.valueOf(val);
+        };
+        builder2.with("%setting-value%", valueParser);
+        infoNonDefaultMessagePart = builder2.build();
+        MsgUtil.MultipleToOneBuilder<Setting<?>> builder3 = new MsgUtil.MultipleToOneBuilder<>(
+                getRawMessage("info-default-setting", "")); // placeholder "%setting-path%: %default-value%"
+        builder3.with("%setting-path%", s -> s.path());
+        builder3.with("%default-value%", valueParser);
+        infoDefaultMessagePart = builder3.build();
     }
 
     public SDCVoidContextMessageFactory getReloadMessage() {
@@ -177,8 +127,12 @@ public class Messages extends MessagesBase {
         return mobTypeNotDefined;
     }
 
-    public SDCSingleContextMessageFactory<MobTypeSettings> getInfoMessage() {
-        return infoMessage;
+    public SDCSingleContextMessageFactory<Setting<?>> getNonDefaultInfoMessagePart() {
+        return infoNonDefaultMessagePart;
+    }
+
+    public SDCSingleContextMessageFactory<Setting<?>> getDefaultInfoMessagePart() {
+        return infoDefaultMessagePart;
     }
 
     public SDCSingleContextMessageFactory<Integer> getNoSuchPageMessage() {
