@@ -26,6 +26,9 @@ public class ListSub extends AbstractSubCommand {
     private static final String USAGE = "/aggro list [enabled | disabled] [page]";
     private static final String PERMS = "aggressiveanimals.list";
     private static final List<String> OPTIONS = Collections.unmodifiableList(Arrays.asList("enabled", "disabled"));
+    // Currently (as of 1.18.2), 4 is the lasst page. But this may change in the
+    // future
+    private static final List<String> OPTION_PAGES = Collections.unmodifiableList(Arrays.asList("1", "2", "3", "4"));
     private final MobTypeManager manager;
     private final Messages messages;
 
@@ -38,7 +41,19 @@ public class ListSub extends AbstractSubCommand {
     @Override
     public List<String> onTabComplete(SDCRecipient sender, String[] args) {
         if (args.length == 1) {
-            return StringUtil.copyPartialMatches(args[0], OPTIONS, new ArrayList<>());
+            if (!(sender instanceof SDCPlayerRecipient)) {
+                return StringUtil.copyPartialMatches(args[0], OPTIONS, new ArrayList<>());
+            }
+            List<String> options = new ArrayList<>(OPTIONS);
+            options.addAll(OPTION_PAGES);
+            return StringUtil.copyPartialMatches(args[0], options, new ArrayList<>());
+        }
+        if (args.length == 2 && (sender instanceof SDCPlayerRecipient)) {
+            if (NUMBER_PATTERN.matcher(args[0]).matches()) {
+                return StringUtil.copyPartialMatches(args[1], OPTIONS, new ArrayList<>());
+            } else {
+                return StringUtil.copyPartialMatches(args[1], OPTION_PAGES, new ArrayList<>());
+            }
         }
         return Collections.emptyList();
     }
