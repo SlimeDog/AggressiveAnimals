@@ -99,7 +99,12 @@ public class ListSub extends AbstractSubCommand {
             msg.getMessage(msg.getContextFactory().getContext(page)).sendTo(sender);
             return true;
         }
-        messages.getListHeaderMessage().getMessage().sendTo(sender);
+        if (perPage == PER_PAGE) { // in game
+            SDCSingleContextMessageFactory<Paginator<?>> msg = messages.getPagedListHeaderMessage();
+            msg.getMessage(msg.getContextFactory().getContext(paginator)).sendTo(sender);
+        } else {
+            messages.getListHeaderMessage().getMessage().sendTo(sender);
+        }
         for (MobTypeSettings settings : paginator.getOnPage()) {
             if (!target.shouldInclude(settings)) {
                 // this should no longer happen

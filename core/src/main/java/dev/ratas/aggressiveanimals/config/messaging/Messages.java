@@ -9,6 +9,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
+import dev.ratas.aggressiveanimals.utils.Paginator;
 import dev.ratas.slimedogcore.api.SlimeDogPlugin;
 import dev.ratas.slimedogcore.api.messaging.SDCMessage;
 import dev.ratas.slimedogcore.api.messaging.context.SDCVoidContext;
@@ -23,6 +24,7 @@ public class Messages extends MessagesBase {
     private SDCVoidContextMessageFactory reloadMessage;
     private SDCVoidContextMessageFactory reloadFailMessage;
     private SDCVoidContextMessageFactory listHeaderMessage;
+    private SDCSingleContextMessageFactory<Paginator<?>> pagedListHeaderMessage;
     private SDCSingleContextMessageFactory<MobType> listEnabledItemMessage;
     private SDCSingleContextMessageFactory<MobType> listDisabledItemMessage;
     private SDCVoidContextMessageFactory enabledMessage;
@@ -42,6 +44,12 @@ public class Messages extends MessagesBase {
         this.reloadFailMessage = MsgUtil.voidContext(getRawMessage("problem-reloading-config",
                 "There was an issue while reloading the config - check the console log"));
         this.listHeaderMessage = MsgUtil.voidContext(getRawMessage("list-header", "&8Configured mobs"));
+        MsgUtil.MultipleToOneBuilder<Paginator<?>> pagedHeaderBuilder = new MsgUtil.MultipleToOneBuilder<>(
+                getRawMessage("list-header-paged", "Configured mobs - page %page% (%start%-%end%)"));
+        pagedHeaderBuilder.with("%page%", p -> String.valueOf(p.getPage()));
+        pagedHeaderBuilder.with("%start%", p -> String.valueOf(p.getPageStart() + 1));
+        pagedHeaderBuilder.with("%end%", p -> String.valueOf(p.getPageEnd()));
+        this.pagedListHeaderMessage = pagedHeaderBuilder.build();
         Function<Boolean, String> enabledStringGetter = b -> {
             SDCMessage<SDCVoidContext> m = (b ? enabledMessage : disabledMessage).getMessage(VoidContext.INSTANCE);
             return m.getFilled();
@@ -135,6 +143,10 @@ public class Messages extends MessagesBase {
 
     public SDCVoidContextMessageFactory getListHeaderMessage() {
         return listHeaderMessage;
+    }
+
+    public SDCSingleContextMessageFactory<Paginator<?>> getPagedListHeaderMessage() {
+        return pagedListHeaderMessage;
     }
 
     public SDCSingleContextMessageFactory<MobType> getListItemMessage(boolean enabled) {
