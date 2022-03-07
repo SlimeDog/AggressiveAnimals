@@ -89,7 +89,8 @@ public enum MobType {
     zombified_piglin(EntityType.ZOMBIFIED_PIGLIN),
     // New in next version(s):
     frog("FROG"),
-    tadpole("TADPOLE");
+    tadpole("TADPOLE"),
+    __INVALID("_INVALD");
 
     private static final Map<EntityType, MobType> REVERSE_MAP = new EnumMap<>(EntityType.class);
     private static final Map<String, MobType> NAME_MAP = new HashMap<>();
@@ -154,6 +155,9 @@ public enum MobType {
         for (MobType type : values()) {
             if (type.getBukkitType() == null) {
                 continue; // ignore
+            }
+            if (type == __INVALID) {
+                continue; // ingored
             }
             NAME_MAP.put(type.name(), type);
             NAMES.add(type.name());
