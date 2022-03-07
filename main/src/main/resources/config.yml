@@ -86,7 +86,7 @@ mobs:
       sleeping: true
       gliding: true
     enabled-worlds: []
-    disabled-worlds []
+    disabled-worlds: []
 
 # Passive mob-types. Missing parameters will use defaults.
 # If you want to alter their behaviors, enable them and adjust their attributes as desired.
