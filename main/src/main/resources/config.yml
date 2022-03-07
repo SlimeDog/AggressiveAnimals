@@ -54,9 +54,9 @@ enable-metrics: true
 #     looking: true                    Like locking eyes with an Enderman
 #     sleeping: true
 #     gliding: true
-#   enabled-worlds: []                 Worlds in which attacks by this mob-type is enabled; if empty, it is enabled in all worlds
-#   disabled-worlds:                   Worlds in which attacks by this mob-type is disabled; must be set explicitly; takes precedence over enabled_worlds
-#     - "world_example"
+#   enabled-worlds: []                 Worlds in which attacks by this mob-type are enabled; if empty, it is enabled in all worlds
+#   disabled-worlds:                   Worlds in which attacks by this mob-type are disabled; must be set explicitly; takes precedence over enabled_worlds
+#     - "world_example"                World lists may be empty, like the enabled-worlds example above, or a list of worlds, like this disabled-worlds example
 
 mobs:
   chicken:
@@ -86,8 +86,7 @@ mobs:
       sleeping: true
       gliding: true
     enabled-worlds: []
-    disabled-worlds:
-      - "world_example"
+    disabled-worlds []
 
 # Passive mob-types. Missing parameters will use defaults.
 # If you want to alter their behaviors, enable them and adjust their attributes as desired.
