@@ -1,5 +1,8 @@
 package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -140,6 +143,42 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
             return false;
         }
         return true;
+    }
+
+    public List<Setting<?>> getAllSettings() {
+        List<Setting<?>> settings = new ArrayList<>();
+        // settings.add(entityType); // ignore for now
+        settings.add(enabled);
+        // settings.add(entityType); // ignored for now
+        settings.add(speedMultiplier);
+        settings.add(attackSettings.damage());
+        settings.add(attackSettings.attackDamageLimit());
+        settings.add(attackSettings.speed());
+        settings.add(attackSettings.attackLeapHeight());
+        settings.add(acquisitionSettings.acquisitionRange());
+        settings.add(acquisitionSettings.deacquisitionRange());
+        settings.add(attackerHealthThreshold);
+        settings.add(ageSettings.attackAsAdult());
+        settings.add(ageSettings.attackAsBaby());
+        settings.add(miscSettings.includeNpcs());
+        settings.add(miscSettings.includeNamedMobs());
+        if (entityType.value().isTameable()) {
+            settings.add(miscSettings.includeTamed());
+        }
+        settings.add(overrideTargets);
+        settings.add(groupAgressionDistance);
+        settings.add(playerStateSettings.attackStanding());
+        settings.add(playerStateSettings.attackSneaking());
+        settings.add(playerStateSettings.attackWalking());
+        settings.add(playerStateSettings.attackSprinting());
+        settings.add(playerStateSettings.attackLooking());
+        settings.add(playerStateSettings.attackSleeping());
+        settings.add(playerStateSettings.attackGliding());
+        settings.add(attackSettings.attackDamageLimit());
+        settings.add(attackSettings.attackLeapHeight());
+        settings.add(worldSettings.enabledWorlds());
+        settings.add(worldSettings.disabledWorlds());
+        return settings;
     }
 
 }
