@@ -31,6 +31,8 @@ public class Messages extends MessagesBase {
     private SDCSingleContextMessageFactory<Setting<?>> infoNonDefaultMessagePart;
     private SDCSingleContextMessageFactory<Setting<?>> infoDefaultMessagePart;
     private SDCSingleContextMessageFactory<Integer> noSuchPageMessage;
+    private SDCVoidContextMessageFactory defaultsNotShown;
+    private SDCVoidContextMessageFactory allDefaults;
 
     public Messages(SlimeDogPlugin plugin) throws InvalidConfigurationException {
         super(plugin.getCustomConfigManager().getConfig(FILE_NAME));
@@ -89,6 +91,10 @@ public class Messages extends MessagesBase {
         builder3.with("%setting-path%", s -> s.path());
         builder3.with("%default-value%", valueParser);
         infoDefaultMessagePart = builder3.build();
+        defaultsNotShown = MsgUtil.voidContext(getRawMessage("info-default-settings-not-shown",
+                "(The rest of the settings have default values and are not shown here)"));
+        allDefaults = MsgUtil.voidContext(getRawMessage("info-all-defaults-not-shown",
+                "All the settings have default values and are thus not shown"));
     }
 
     public SDCVoidContextMessageFactory getReloadMessage() {
@@ -137,6 +143,14 @@ public class Messages extends MessagesBase {
 
     public SDCSingleContextMessageFactory<Integer> getNoSuchPageMessage() {
         return noSuchPageMessage;
+    }
+
+    public SDCVoidContextMessageFactory getDefaultsNotShown() {
+        return defaultsNotShown;
+    }
+
+    public SDCVoidContextMessageFactory getAllDefaults() {
+        return allDefaults;
     }
 
     public void reloadConfig() {

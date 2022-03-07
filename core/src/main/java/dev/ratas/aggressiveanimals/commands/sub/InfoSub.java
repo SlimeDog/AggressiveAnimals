@@ -57,11 +57,23 @@ public class InfoSub extends AbstractSubCommand {
         }
         SDCSingleContextMessageFactory<Setting<?>> nonDef = messages.getNonDefaultInfoMessagePart();
         SDCSingleContextMessageFactory<Setting<?>> def = messages.getDefaultInfoMessagePart();
+        boolean ignored = false;
+        boolean shownSomething = false;
         for (Setting<?> setting : settings.getAllSettings()) {
             SDCSingleContextMessageFactory<Setting<?>> cur = setting.isDefault() ? def : nonDef;
             SDCMessage<SDCSingleContext<Setting<?>>> msg = cur.getMessage(cur.getContextFactory().getContext(setting));
             if (!msg.getFilled().isEmpty()) {
                 msg.sendTo(sender);
+                shownSomething = true;
+            } else {
+                ignored = true;
+            }
+        }
+        if (ignored) {
+            if (!shownSomething) {
+                messages.getAllDefaults().getMessage().sendTo(sender);
+            } else {
+                messages.getDefaultsNotShown().getMessage().sendTo(sender);
             }
         }
         return true;
