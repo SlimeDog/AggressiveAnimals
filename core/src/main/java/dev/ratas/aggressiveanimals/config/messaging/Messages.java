@@ -30,6 +30,7 @@ public class Messages extends MessagesBase {
     private SDCSingleContextMessageFactory<String> mobTypeNotFoundMessage;
     private SDCSingleContextMessageFactory<MobType> mobTypeNotDefined;
     private SDCSingleContextMessageFactory<MobTypeSettings> infoMessage;
+    private SDCSingleContextMessageFactory<Integer> noSuchPageMessage;
 
     public Messages(SlimeDogPlugin plugin) throws InvalidConfigurationException {
         super(plugin.getCustomConfigManager().getConfig(FILE_NAME));
@@ -55,6 +56,8 @@ public class Messages extends MessagesBase {
                 getRawMessage("mob-type-not-found", "Mob type not found: %mob-type%"));
         this.mobTypeNotDefined = MsgUtil.singleContext("%mob-type%", mt -> mt.name(),
                 getRawMessage("mob-type-not-defined", "No information defined for mon type: %mob-type%"));
+        this.noSuchPageMessage = MsgUtil.singleContext("%page%", p -> String.valueOf(p),
+                getRawMessage("no-such-page", "Page does not exist: %page%"));
         MsgUtil.MultipleToOneBuilder<MobTypeSettings> builder = new MsgUtil.MultipleToOneBuilder<>(
                 getRawMessage("mob-type-info",
                         String.join("\n", "enabled: %enabled%", "always-aggressive: %always-aggressive%",
@@ -156,6 +159,10 @@ public class Messages extends MessagesBase {
 
     public SDCSingleContextMessageFactory<MobTypeSettings> getInfoMessage() {
         return infoMessage;
+    }
+
+    public SDCSingleContextMessageFactory<Integer> getNoSuchPageMessage() {
+        return noSuchPageMessage;
     }
 
     public void reloadConfig() {

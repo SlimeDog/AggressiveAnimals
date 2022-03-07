@@ -10,6 +10,7 @@ enabled: "enabled"
 disabled: "disabled"
 mob-type-not-found: "Mob type not found: %mob-type%"
 mob-type-not-defined: "No information defined for mon type: %mob-type%"
+no-such-page: "Page does not exist: %page%"
 mob-type-info: "enabled: %enabled%\n
 always-aggressive: %always-aggressive%\n
 speed-multiplier: %speed-multiplier%\n
