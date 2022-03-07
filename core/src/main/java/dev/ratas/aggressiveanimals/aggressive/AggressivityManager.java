@@ -60,7 +60,13 @@ public class AggressivityManager {
     }
 
     public void unregister(Mob mob, MobTypeSettings settings, PacificationReason reason) {
-        setPassive(registry.getTrackedMob(mob), reason);
+        TrackedMob tracked = registry.getTrackedMob(mob);
+        if (tracked == null) {
+            plugin.getLogger().warning("Unable to unregister mob " + mob.getType() + "(" + mob.getEntityId()
+                    + ") (unregister reason " + reason + ") because the mob was not registered");
+            return;
+        }
+        setPassive(tracked, reason);
         registry.unregister(mob, settings);
     }
 
