@@ -27,106 +27,125 @@ public class Builder {
     }
 
     private void loadType() {
-        String tpyeName = section.getName();
+        String typeName = section.getName();
         try {
-            type = new Setting<>("", MobType.from(tpyeName.toLowerCase()));
+            type = new Setting<>("", MobType.from(typeName.toLowerCase()), MobType.__INVALID);
         } catch (IllegalArgumentException e) {
-            throw new IllegalMobTypeSettingsException("Unknown entity type " + tpyeName + " (" + e.getMessage() + ")");
+            throw new IllegalMobTypeSettingsException("Unknown entity type " + typeName + " (" + e.getMessage() + ")");
         }
     }
 
     private void loadEnabled() {
         String path = "enabled";
-        enabled = new Setting<>(path, section.getBoolean(path, false));
+        boolean def = false;
+        enabled = new Setting<>(path, section.getBoolean(path, def), def);
     }
 
     private void loadAlwaysAggressive() {
         String path = "always-aggressive";
-        alwaysAggressive = new Setting<>(path, section.getBoolean(path, false));
+        boolean def = false;
+        alwaysAggressive = new Setting<>(path, section.getBoolean(path, def), def);
     }
 
     private void loadSpeed() {
         String path = "speed-multiplier";
-        speedMultiplier = new Setting<>(path, section.getDouble(path, 1.0));
+        double def = 1.0D;
+        speedMultiplier = new Setting<>(path, section.getDouble(path, def), def);
     }
 
     private void loadAttackSettings() {
         String path = "attack-damage";
-        Setting<Double> damage = new Setting<>(path, section.getDouble(path, 1.0D));
+        double def = 1.0D;
+        Setting<Double> damage = new Setting<>(path, section.getDouble(path, def), def);
         path = "attack-damage-limit";
-        Setting<Double> attackDamageLimit = new Setting<>(path, section.getDouble(path, 2.0));
+        def = 2.0D;
+        Setting<Double> attackDamageLimit = new Setting<>(path, section.getDouble(path, def), def);
         path = "attack-speed";
-        Setting<Double> speed = new Setting<>(path, section.getDouble(path, 20));
+        def = 20.0D;
+        Setting<Double> speed = new Setting<>(path, section.getDouble(path, def), def);
         path = "attack-leap-height";
-        Setting<Float> attackLeapHeight = new Setting<>(path, (float) section.getDouble(path, 0.0F));
+        float deff = 0.0F;
+        Setting<Float> attackLeapHeight = new Setting<>(path, (float) section.getDouble(path, deff), deff);
         attackSettings = new MobAttackSettings(damage, attackDamageLimit, speed, attackLeapHeight);
     }
 
     private void loadAcquisitionSettings() {
         String path = "acquisition-range";
-        Setting<Double> acquisitionRange = new Setting<>(path, section.getDouble(path, 16.0D));
+        double def = 16.0D;
+        Setting<Double> acquisitionRange = new Setting<>(path, section.getDouble(path, def), def);
         path = "deacquisition-range";
-        Setting<Double> deacquisitionRange = new Setting<>(path, section.getDouble(path, 20.0D));
+        def = 20.0D;
+        Setting<Double> deacquisitionRange = new Setting<>(path, section.getDouble(path, def), def);
         acquisitionSettings = new MobAcquisitionSettings(acquisitionRange, deacquisitionRange);
     }
 
     private void loatAttackerHealthThreshold() {
         String path = "attacker-health-threshold";
-        attackerHealthThreshold = new Setting<>(path, section.getDouble(path, 25));
+        double def = 25.0D;
+        attackerHealthThreshold = new Setting<>(path, section.getDouble(path, def), def);
     }
 
     private void loadMobAgeSettings() {
         String path = "age.adult";
-        Setting<Boolean> attackAsAdult = new Setting<>(path, section.getBoolean(path, true));
+        boolean def = true;
+        Setting<Boolean> attackAsAdult = new Setting<>(path, section.getBoolean(path, def), def);
         path = "age.baby";
-        Setting<Boolean> attackAsBaby = new Setting<>(path, section.getBoolean(path, false));
+        def = false;
+        Setting<Boolean> attackAsBaby = new Setting<>(path, section.getBoolean(path, def), def);
         ageSettings = new MobAgeSettings(attackAsAdult, attackAsBaby);
     }
 
     private void loadMiscSettings() {
         String path = "include-npcs";
-        Setting<Boolean> includeNpcs = new Setting<>(path, section.getBoolean(path, false));
+        boolean def = false;
+        Setting<Boolean> includeNpcs = new Setting<>(path, section.getBoolean(path, def), def);
         path = "include-named-mobs";
-        Setting<Boolean> includeNamedMobs = new Setting<>(path, section.getBoolean(path, false));
+        def = false;
+        Setting<Boolean> includeNamedMobs = new Setting<>(path, section.getBoolean(path, def), def);
         path = "include-tamed-mobs";
-        Setting<Boolean> includeTamed = new Setting<>(path, section.getBoolean(path, true));
+        def = true;
+        Setting<Boolean> includeTamed = new Setting<>(path, section.getBoolean(path, def), def);
         miscSettings = new MobMiscSettings(includeNpcs, includeNamedMobs, includeTamed);
     }
 
     private void loadOverrideTargets() {
         String path = "override-targeting";
-        overrideTargets = new Setting<>(path, section.getBoolean(path, false));
+        boolean def = false;
+        overrideTargets = new Setting<>(path, section.getBoolean(path, def), def);
     }
 
     private void loadGroupAgrewssionDistance() {
         String path = "group-aggression-distance";
-        groupAgressionDistance = new Setting<>(path, section.getDouble(path, 20.0D));
+        double def = 20.0D;
+        groupAgressionDistance = new Setting<>(path, section.getDouble(path, def), def);
     }
 
     public void loadPlayerStateSettings() {
         String path = "player-movement.standing";
-        Setting<Boolean> attackStanding = new Setting<>(path, section.getBoolean(path, true));
+        boolean def = true; // same default for all for now
+        Setting<Boolean> attackStanding = new Setting<>(path, section.getBoolean(path, def), def);
         path = "player-movement.sneaking";
-        Setting<Boolean> attackSneaking = new Setting<>(path, section.getBoolean(path, true));
+        Setting<Boolean> attackSneaking = new Setting<>(path, section.getBoolean(path, def), def);
         path = "player-movement.walking";
-        Setting<Boolean> attackWalking = new Setting<>(path, section.getBoolean(path, true));
+        Setting<Boolean> attackWalking = new Setting<>(path, section.getBoolean(path, def), def);
         path = "player-movement.sprinting";
-        Setting<Boolean> attackSprinting = new Setting<>(path, section.getBoolean(path, true));
+        Setting<Boolean> attackSprinting = new Setting<>(path, section.getBoolean(path, def), def);
         path = "player-movement.looking";
-        Setting<Boolean> attackLooking = new Setting<>(path, section.getBoolean(path, true));
+        Setting<Boolean> attackLooking = new Setting<>(path, section.getBoolean(path, def), def);
         path = "player-movement.sleeping";
-        Setting<Boolean> attackSleeping = new Setting<>(path, section.getBoolean(path, true));
+        Setting<Boolean> attackSleeping = new Setting<>(path, section.getBoolean(path, def), def);
         path = "player-movement.guiding";
-        Setting<Boolean> attackGliding = new Setting<>(path, section.getBoolean(path, true));
+        Setting<Boolean> attackGliding = new Setting<>(path, section.getBoolean(path, def), def);
         playerStateSettings = new PlayerStateSettings(attackStanding, attackSneaking, attackWalking, attackSprinting,
                 attackLooking, attackSleeping, attackGliding);
     }
 
     private void loadWorldSettings() {
         String path = "enabled-worlds";
-        Setting<Set<String>> enabled = new Setting<>(path, new HashSet<>(section.getStringList(path)));
+        Set<String> def = new HashSet<>(); // empty for both for now
+        Setting<Set<String>> enabled = new Setting<>(path, new HashSet<>(section.getStringList(path)), def);
         path = "disabled-worlds";
-        Setting<Set<String>> disabled = new Setting<>(path, new HashSet<>(section.getStringList(path)));
+        Setting<Set<String>> disabled = new Setting<>(path, new HashSet<>(section.getStringList(path)), def);
         worldSettings = new MobWorldSettings(enabled, disabled);
     }
 
