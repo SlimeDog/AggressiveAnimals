@@ -23,7 +23,7 @@ public class ListSub extends AbstractSubCommand {
     private static final int PER_PAGE = 8;
     private static final Pattern NUMBER_PATTERN = Pattern.compile("\\d*");
     private static final String NAME = "list";
-    private static final String USAGE = "/aggro list [enabled | disabled]";
+    private static final String USAGE = "/aggro list [enabled | disabled] [page]";
     private static final String PERMS = "aggressiveanimals.list";
     private static final List<String> OPTIONS = Collections.unmodifiableList(Arrays.asList("enabled", "disabled"));
     private final MobTypeManager manager;
@@ -58,8 +58,17 @@ public class ListSub extends AbstractSubCommand {
             }
             page = Integer.parseInt(args[0]);
         } else {
-            target = getTarget(args[0]);
-            page = 1;
+            if (args.length > 1) {
+                if (NUMBER_PATTERN.matcher(args[1]).matches()) {
+                    page = Integer.parseInt(args[1]);
+                    target = getTarget(args[0]);
+                } else {
+                    return false; // garbage
+                }
+            } else { // only target specified
+                target = getTarget(args[0]);
+                page = 1;
+            }
         }
         if (target == null) {
             return false;
