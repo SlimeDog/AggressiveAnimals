@@ -87,44 +87,52 @@ public class Messages extends MessagesBase {
                                 "player-movement.gliding: %player-movement.gliding%",
                                 "enabled-worlds: %enabled-worlds%",
                                 "disabled-worlds: %disabled-worlds%")));
-        builder.with("%enabled%", mts -> enabledStringGetter.apply(mts.enabled()));
-        builder.with("%always-aggressive%", mts -> String.valueOf(mts.alwaysAggressive()));
-        builder.with("%speed-multiplier%", mts -> formatDouble(mts.speedMultiplier()));
-        builder.with("%attack-damage%", mts -> formatDouble(mts.attackSettings().damage()));
-        builder.with("%attack-damage-limit%", mts -> formatDouble(mts.attackSettings().attackDamageLimit()));
-        builder.with("%attack-speed%", mts -> formatDouble(mts.attackSettings().speed()));
-        builder.with("%attack-leap-height%", mts -> formatDouble(mts.attackSettings().attackLeapHeight()));
-        builder.with("%acquisition-range%", mts -> formatDouble(mts.acquisitionSettings().acquisitionRange()));
-        builder.with("%deacquisition-range%", mts -> formatDouble(mts.acquisitionSettings().deacquisitionRange()));
-        builder.with("%attacker-health-threshold%", mts -> formatDouble(mts.attackerHealthThreshold()));
+        builder.with("%enabled%", mts -> enabledStringGetter.apply(mts.enabled().value()));
+        builder.with("%always-aggressive%", mts -> String.valueOf(mts.alwaysAggressive().value()));
+        builder.with("%speed-multiplier%", mts -> formatDouble(mts.speedMultiplier().value()));
+        builder.with("%attack-damage%", mts -> formatDouble(mts.attackSettings().damage().value()));
+        builder.with("%attack-damage-limit%", mts -> formatDouble(mts.attackSettings().attackDamageLimit().value()));
+        builder.with("%attack-speed%", mts -> formatDouble(mts.attackSettings().speed().value()));
+        builder.with("%attack-leap-height%", mts -> formatDouble(mts.attackSettings().attackLeapHeight().value()));
+        builder.with("%acquisition-range%", mts -> formatDouble(mts.acquisitionSettings().acquisitionRange().value()));
+        builder.with("%deacquisition-range%",
+                mts -> formatDouble(mts.acquisitionSettings().deacquisitionRange().value()));
+        builder.with("%attacker-health-threshold%", mts -> formatDouble(mts.attackerHealthThreshold().value()));
         builder.with("%age.adult%", mts -> String.valueOf(mts.ageSettings().attackAsAdult()));
         builder.with("%age.baby%", mts -> String.valueOf(mts.ageSettings().attackAsBaby()));
         builder.with("%include-npcs%", mts -> String.valueOf(mts.miscSettings().includeNpcs()));
         builder.with("%include-tamed-mobs%", mts -> {
-            if (!mts.entityType().isTameable() && mts.entityType() != MobType.fox) {
+            if (!mts.entityType().value().isTameable() && mts.entityType().value() != MobType.fox) {
                 return "N/A";
             }
             return String.valueOf(mts.miscSettings().includeTamed());
         });
-        builder.with("%include-named-mobs%", mts -> String.valueOf(mts.miscSettings().includeNamedMobs()));
-        builder.with("%override-targeting%", mts -> String.valueOf(mts.overrideTargets()));
-        builder.with("%group-aggression-range%", mts -> formatDouble(mts.groupAgressionDistance()));
-        builder.with("%player-movement.standing%", mts -> String.valueOf(mts.playerStateSettings().attackStanding()));
-        builder.with("%player-movement.sneaking%", mts -> String.valueOf(mts.playerStateSettings().attackSneaking()));
-        builder.with("%player-movement.walking%", mts -> String.valueOf(mts.playerStateSettings().attackWalking()));
-        builder.with("%player-movement.sprinting%", mts -> String.valueOf(mts.playerStateSettings().attackSprinting()));
-        builder.with("%player-movement.looking%", mts -> String.valueOf(mts.playerStateSettings().attackLooking()));
-        builder.with("%player-movement.sleeping%", mts -> String.valueOf(mts.playerStateSettings().attackSleeping()));
-        builder.with("%player-movement.gliding%", mts -> String.valueOf(mts.playerStateSettings().attackGliding()));
+        builder.with("%include-named-mobs%", mts -> String.valueOf(mts.miscSettings().includeNamedMobs().value()));
+        builder.with("%override-targeting%", mts -> String.valueOf(mts.overrideTargets().value()));
+        builder.with("%group-aggression-range%", mts -> formatDouble(mts.groupAgressionDistance().value()));
+        builder.with("%player-movement.standing%",
+                mts -> String.valueOf(mts.playerStateSettings().attackStanding().value()));
+        builder.with("%player-movement.sneaking%",
+                mts -> String.valueOf(mts.playerStateSettings().attackSneaking().value()));
+        builder.with("%player-movement.walking%",
+                mts -> String.valueOf(mts.playerStateSettings().attackWalking().value()));
+        builder.with("%player-movement.sprinting%",
+                mts -> String.valueOf(mts.playerStateSettings().attackSprinting().value()));
+        builder.with("%player-movement.looking%",
+                mts -> String.valueOf(mts.playerStateSettings().attackLooking().value()));
+        builder.with("%player-movement.sleeping%",
+                mts -> String.valueOf(mts.playerStateSettings().attackSleeping().value()));
+        builder.with("%player-movement.gliding%",
+                mts -> String.valueOf(mts.playerStateSettings().attackGliding().value()));
         builder.with("%enabled-worlds%", mts -> {
-            List<String> enabled = sort(mts.worldSettings().enabledWorlds());
+            List<String> enabled = sort(mts.worldSettings().enabledWorlds().value());
             if (enabled.isEmpty()) {
                 return "all"; // TODO - configurable?
             }
             return String.join(", ", enabled);
         });
         builder.with("%disabled-worlds%", mts -> {
-            List<String> enabled = sort(mts.worldSettings().disabledWorlds());
+            List<String> enabled = sort(mts.worldSettings().disabledWorlds().value());
             if (enabled.isEmpty()) {
                 return "none"; // TODO - configurable?
             }

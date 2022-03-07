@@ -147,7 +147,7 @@ public class AggressivityManager {
         if (!settings.shouldAttack(entity, null, npcHooks)) {
             return false;
         }
-        return settings.alwaysAggressive();
+        return settings.alwaysAggressive().value();
     }
 
     public boolean shouldBeAggressiveOnAttack(Mob entity, Player target) {
@@ -200,10 +200,10 @@ public class AggressivityManager {
      * @throws IllegalArgumentException if the mob is not always aggressive
      */
     public void findNewTarget(TrackedMob mob) {
-        Validate.isTrue(mob.getSettings().alwaysAggressive(),
+        Validate.isTrue(mob.getSettings().alwaysAggressive().value(),
                 "Mobs that are not always aggressive will not look for a new target");
         Location bukkitLoc = mob.getBukkitEntity().getLocation();
-        double dist = mob.getSettings().acquisitionSettings().acquisitionRange();
+        double dist = mob.getSettings().acquisitionSettings().acquisitionRange().value();
         for (Entity entity : bukkitLoc.getWorld().getNearbyEntities(bukkitLoc, dist, dist, dist,
                 e -> e instanceof Player)) {
             Player player = (Player) entity;

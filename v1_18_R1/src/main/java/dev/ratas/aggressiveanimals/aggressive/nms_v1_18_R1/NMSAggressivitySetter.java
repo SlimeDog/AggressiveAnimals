@@ -60,29 +60,30 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         AttributeInstance moveSpeedAttr = mob.getAttribute(Attributes.MOVEMENT_SPEED);
         if (moveSpeedAttr != null) {
             savedAttributes.prevValues.put(Attributes.MOVEMENT_SPEED, moveSpeedAttr.getBaseValue());
-            moveSpeedAttr.setBaseValue(moveSpeedAttr.getBaseValue() * settings.speedMultiplier());
+            moveSpeedAttr.setBaseValue(moveSpeedAttr.getBaseValue() * settings.speedMultiplier().value());
         }
 
         AttributeInstance followRangeAttr = mob.getAttribute(Attributes.FOLLOW_RANGE);
         if (followRangeAttr != null) {
             savedAttributes.prevValues.put(Attributes.FOLLOW_RANGE, followRangeAttr.getBaseValue());
-            followRangeAttr.setBaseValue(settings.acquisitionSettings().acquisitionRange());
+            followRangeAttr.setBaseValue(settings.acquisitionSettings().acquisitionRange().value());
         }
 
         AttributeInstance attackDamageAttr = mob.getAttribute(Attributes.ATTACK_DAMAGE);
         if (attackDamageAttr != null) {
             savedAttributes.prevValues.put(Attributes.ATTACK_DAMAGE, attackDamageAttr.getBaseValue());
-            attackDamageAttr.setBaseValue(settings.attackSettings().damage());
+            attackDamageAttr.setBaseValue(settings.attackSettings().damage().value());
         } else {
             savedAttributes.prevValues.put(Attributes.ATTACK_DAMAGE, 0.0);
             NMS_RESOLVER.setAttribute(mob, new AttributeInstance(Attributes.ATTACK_DAMAGE,
-                    attr -> attr.setBaseValue(settings.attackSettings().damage())));
+                    attr -> attr.setBaseValue(settings.attackSettings().damage().value())));
         }
 
         AttributeInstance attackSpeedAttribute = mob.getAttribute(Attributes.ATTACK_SPEED);
         if (attackSpeedAttribute != null) {
             savedAttributes.prevValues.put(Attributes.ATTACK_SPEED, attackSpeedAttribute.getBaseValue());
-            attackSpeedAttribute.setBaseValue(attackSpeedAttribute.getBaseValue() * settings.attackSettings().speed());
+            attackSpeedAttribute
+                    .setBaseValue(attackSpeedAttribute.getBaseValue() * settings.attackSettings().speed().value());
         }
         addon.attributes = savedAttributes;
         plugin.getDebugLogger().log("[NMS Setter] Previous attributes: " + savedAttributes);
@@ -99,7 +100,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         Mob mob = NMS_RESOLVER.getNMSEntity(entity);
         MobTypeSettings settings = wrapper.getSettings();
 
-        float range = (float) settings.acquisitionSettings().acquisitionRange();
+        float range = (float) (double) settings.acquisitionSettings().acquisitionRange().value();
         mob.targetSelector.getAvailableGoals().removeIf(goal -> {
             return goal.getGoal() instanceof PanicGoal;
         });
@@ -117,7 +118,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         addon.goals.add(cur);
         mob.targetSelector.addGoal(2, cur = new NearestAttackableTargetGoal<Player>(mob, Player.class, true));
         addon.goals.add(cur);
-        float leapHeight = settings.attackSettings().attackLeapHeight();
+        float leapHeight = settings.attackSettings().attackLeapHeight().value();
         if (leapHeight > 0) {
             mob.targetSelector.addGoal(9, cur = new LeapAtTargetGoal(mob, leapHeight));
             addon.goals.add(cur);

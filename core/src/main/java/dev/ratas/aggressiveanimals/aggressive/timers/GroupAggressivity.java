@@ -27,7 +27,7 @@ public class GroupAggressivity extends AbstractQueuedRunnable<TrackedMob> {
     }
 
     public void checkMob(TrackedMob mob) {
-        double dist = mob.getSettings().groupAgressionDistance();
+        double dist = mob.getSettings().groupAgressionDistance().value();
         if (dist <= 0) {
             return;
         }

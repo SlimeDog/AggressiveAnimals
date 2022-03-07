@@ -5,32 +5,33 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-public record PlayerStateSettings(boolean attackStanding, boolean attackSneaking, boolean attackWalking,
-        boolean attackSprinting, boolean attackLooking, boolean attackSleeping, boolean attackGliding) {
+public record PlayerStateSettings(Setting<Boolean> attackStanding, Setting<Boolean> attackSneaking,
+        Setting<Boolean> attackWalking, Setting<Boolean> attackSprinting, Setting<Boolean> attackLooking,
+        Setting<Boolean> attackSleeping, Setting<Boolean> attackGliding) {
 
     private static final double MAX_DISTANCE = 20; // TODO - read from data?
     private static final double MIN_ALLOWED_DOT_PRODUCT = 0.99D;
 
     public boolean shouldAttack(Entity mob, Player target) {
-        if (isStanding(target) && attackStanding) {
+        if (isStanding(target) && attackStanding.value()) {
             return true;
         }
-        if (target.isSneaking() && attackSneaking) {
+        if (target.isSneaking() && attackSneaking.value()) {
             return true;
         }
-        if (isWalking(target) && attackWalking) {
+        if (isWalking(target) && attackWalking.value()) {
             return true;
         }
-        if (target.isSprinting() && attackSprinting) {
+        if (target.isSprinting() && attackSprinting.value()) {
             return true;
         }
-        if (target.isSleeping() && attackSleeping) {
+        if (target.isSleeping() && attackSleeping.value()) {
             return true;
         }
-        if (target.isGliding() && attackGliding) {
+        if (target.isGliding() && attackGliding.value()) {
             return true;
         }
-        if (isLookingAt(target, mob, MAX_DISTANCE, MIN_ALLOWED_DOT_PRODUCT) && attackLooking) {
+        if (isLookingAt(target, mob, MAX_DISTANCE, MIN_ALLOWED_DOT_PRODUCT) && attackLooking.value()) {
             return true;
         }
         return false;

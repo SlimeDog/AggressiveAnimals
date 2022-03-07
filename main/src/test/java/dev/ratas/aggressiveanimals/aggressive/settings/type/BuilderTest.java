@@ -28,9 +28,9 @@ public class BuilderTest {
         SDCConfiguration config = this.config.getConfig().getConfigurationSection("mobs.wolf");
         Builder builder = new Builder(config);
         MobTypeSettings mts = builder.build();
-        Assertions.assertTrue(mts.entityType() == MobType.wolf, "Expected wolf");
+        Assertions.assertTrue(mts.entityType().value() == MobType.wolf, "Expected wolf");
         Assertions.assertNotNull(mts, "Expected to build a non-null settings from empty (wolf)");
-        Assertions.assertTrue(mts.miscSettings().includeTamed(), "Tameables are included by default");
+        Assertions.assertTrue(mts.miscSettings().includeTamed().value(), "Tameables are included by default");
     }
 
     @Test
@@ -38,9 +38,9 @@ public class BuilderTest {
         SDCConfiguration config = this.config.getConfig().getConfigurationSection("mobs.cat");
         Builder builder = new Builder(config);
         MobTypeSettings mts = builder.build();
-        Assertions.assertTrue(mts.entityType() == MobType.cat, "Expected cat");
+        Assertions.assertTrue(mts.entityType().value() == MobType.cat, "Expected cat");
         Assertions.assertNotNull(mts, "Expected to build a non-null settings with including tameables (cat)");
-        Assertions.assertTrue(mts.miscSettings().includeTamed(), "Expected to include tameables");
+        Assertions.assertTrue(mts.miscSettings().includeTamed().value(), "Expected to include tameables");
     }
 
     @Test
@@ -48,9 +48,9 @@ public class BuilderTest {
         SDCConfiguration config = this.config.getConfig().getConfigurationSection("mobs.fox");
         Builder builder = new Builder(config);
         MobTypeSettings mts = builder.build();
-        Assertions.assertTrue(mts.entityType() == MobType.fox, "Expected fox");
+        Assertions.assertTrue(mts.entityType().value() == MobType.fox, "Expected fox");
         Assertions.assertNotNull(mts, "Expected to build a non-null settings with including tameables (fox)");
-        Assertions.assertFalse(mts.miscSettings().includeTamed(), "Expected not to include tameables");
+        Assertions.assertFalse(mts.miscSettings().includeTamed().value(), "Expected not to include tameables");
     }
 
     @Test
@@ -58,9 +58,9 @@ public class BuilderTest {
         SDCConfiguration config = this.config.getConfig().getConfigurationSection("mobs.ocelot");
         Builder builder = new Builder(config);
         MobTypeSettings mts = builder.build();
-        Assertions.assertTrue(mts.entityType() == MobType.ocelot, "Expected ocelot");
+        Assertions.assertTrue(mts.entityType().value() == MobType.ocelot, "Expected ocelot");
         Assertions.assertNotNull(mts, "Expected to build a non-null settings with including tameables (ocelot)");
-        Assertions.assertFalse(mts.miscSettings().includeTamed(), "Expected not to include tameables");
+        Assertions.assertFalse(mts.miscSettings().includeTamed().value(), "Expected not to include tameables");
     }
 
     @Test

@@ -4,10 +4,10 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-public record MobAcquisitionSettings(double acquisitionRange, double deacquisitionRange) {
+public record MobAcquisitionSettings(Setting<Double> acquisitionRange, Setting<Double> deacquisitionRange) {
 
     public boolean isInRange(Entity mob, Player target) {
-        double max2 = deacquisitionRange * deacquisitionRange;
+        double max2 = deacquisitionRange.value() * deacquisitionRange.value();
         Location mobLoc = mob.getLocation();
         Location targetLoc = target.getLocation();
         if (mobLoc.getWorld() != targetLoc.getWorld()) {

@@ -60,7 +60,7 @@ public class DefaultConfigTest {
         CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
         Builder builder = new Builder(config.getConfig().getConfigurationSection("mobs.chicken"));
         MobTypeSettings settings = builder.build();
-        Assertions.assertTrue(settings.enabled(), "Default chicken section should be enabled");
+        Assertions.assertTrue(settings.enabled().value(), "Default chicken section should be enabled");
     }
 
     @Test

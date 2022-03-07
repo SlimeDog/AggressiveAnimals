@@ -37,7 +37,7 @@ public class MobTypeManager {
                         + ": unknown entity type; please check the configuration");
                 continue;
             }
-            types.put(typeSettings.entityType(), typeSettings);
+            types.put(typeSettings.entityType().value(), typeSettings);
         }
     }
 
@@ -54,7 +54,7 @@ public class MobTypeManager {
         if (settings == null) {
             return null;
         }
-        return settings.enabled() ? settings : null;
+        return settings.enabled().value() ? settings : null;
     }
 
     public void reload(Settings settings) {
@@ -64,21 +64,21 @@ public class MobTypeManager {
 
     public Collection<MobTypeSettings> getUsedSettings() {
         List<MobTypeSettings> sorted = new ArrayList<>(types.values());
-        sorted.sort((mts1, mts2) -> mts1.entityType().name().compareTo(mts2.entityType().name()));
+        sorted.sort((mts1, mts2) -> mts1.entityType().value().name().compareTo(mts2.entityType().value().name()));
         return sorted;
     }
 
     public Collection<MobTypeSettings> getEnabledSettings() {
         List<MobTypeSettings> sorted = new ArrayList<>(types.values());
-        sorted.removeIf(mts -> !mts.enabled());
-        sorted.sort((mts1, mts2) -> mts1.entityType().name().compareTo(mts2.entityType().name()));
+        sorted.removeIf(mts -> !mts.enabled().value());
+        sorted.sort((mts1, mts2) -> mts1.entityType().value().name().compareTo(mts2.entityType().value().name()));
         return sorted;
     }
 
     public Collection<MobTypeSettings> getDisabledSettings() {
         List<MobTypeSettings> sorted = new ArrayList<>(types.values());
-        sorted.removeIf(mts -> mts.enabled());
-        sorted.sort((mts1, mts2) -> mts1.entityType().name().compareTo(mts2.entityType().name()));
+        sorted.removeIf(mts -> mts.enabled().value());
+        sorted.sort((mts1, mts2) -> mts1.entityType().value().name().compareTo(mts2.entityType().value().name()));
         return sorted;
     }
 

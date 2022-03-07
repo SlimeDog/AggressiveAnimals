@@ -1,5 +1,6 @@
 package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
-public record MobAttackSettings(double damage, double attackDamageLimit, double speed, float attackLeapHeight) {
+public record MobAttackSettings(Setting<Double> damage, Setting<Double> attackDamageLimit, Setting<Double> speed,
+        Setting<Float> attackLeapHeight) {
 
 }

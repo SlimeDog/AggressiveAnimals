@@ -1,25 +1,26 @@
 package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.slimedogcore.api.config.SDCConfiguration;
 
 public class Builder {
     private final SDCConfiguration section;
-    private MobType type;
-    private boolean enabled;
-    private double speedMultiplier;
+    private Setting<MobType> type;
+    private Setting<Boolean> enabled;
+    private Setting<Double> speedMultiplier;
     private MobAttackSettings attackSettings;
     private MobAcquisitionSettings acquisitionSettings;
-    private double attackerHealthThreshold;
+    private Setting<Double> attackerHealthThreshold;
     private MobAgeSettings ageSettings;
     private MobMiscSettings miscSettings;
-    private boolean overrideTargets;
-    private double groupAgressionDistance;
+    private Setting<Boolean> overrideTargets;
+    private Setting<Double> groupAgressionDistance;
     private PlayerStateSettings playerStateSettings;
     private MobWorldSettings worldSettings;
-    private boolean alwaysAggressive;
+    private Setting<Boolean> alwaysAggressive;
 
     public Builder(SDCConfiguration section) {
         this.section = section;
@@ -28,78 +29,105 @@ public class Builder {
     private void loadType() {
         String tpyeName = section.getName();
         try {
-            type = MobType.from(tpyeName.toLowerCase());
+            type = new Setting<>("", MobType.from(tpyeName.toLowerCase()));
         } catch (IllegalArgumentException e) {
             throw new IllegalMobTypeSettingsException("Unknown entity type " + tpyeName + " (" + e.getMessage() + ")");
         }
     }
 
     private void loadEnabled() {
-        enabled = section.getBoolean("enabled", false);
+        String path = "enabled";
+        enabled = new Setting<>(path, section.getBoolean(path, false));
     }
 
     private void loadAlwaysAggressive() {
-        alwaysAggressive = section.getBoolean("always-aggressive", false);
+        String path = "always-aggressive";
+        alwaysAggressive = new Setting<>(path, section.getBoolean(path, false));
     }
 
     private void loadSpeed() {
-        speedMultiplier = section.getDouble("speed-multiplier", 1.0);
+        String path = "speed-multiplier";
+        speedMultiplier = new Setting<>(path, section.getDouble(path, 1.0));
     }
 
     private void loadAttackSettings() {
-        double damage = section.getDouble("attack-damage", 1.0D);
-        double attackDamageLimit = section.getDouble("attack-damage-limit", 2.0);
-        double speed = section.getDouble("attack-speed", 20);
-        float attackLeapHeight = (float) section.getDouble("attack-leap-height", 0.0F);
+        String path = "attack-damage";
+        Setting<Double> damage = new Setting<>(path, section.getDouble(path, 1.0D));
+        path = "attack-damage-limit";
+        Setting<Double> attackDamageLimit = new Setting<>(path, section.getDouble(path, 2.0));
+        path = "attack-speed";
+        Setting<Double> speed = new Setting<>(path, section.getDouble(path, 20));
+        path = "attack-leap-height";
+        Setting<Float> attackLeapHeight = new Setting<>(path, (float) section.getDouble(path, 0.0F));
         attackSettings = new MobAttackSettings(damage, attackDamageLimit, speed, attackLeapHeight);
     }
 
     private void loadAcquisitionSettings() {
-        double acquisitionRange = section.getDouble("acquisition-range", 16.0D);
-        double deacquisitionRange = section.getDouble("deacquisition-range", 20.0D);
+        String path = "acquisition-range";
+        Setting<Double> acquisitionRange = new Setting<>(path, section.getDouble(path, 16.0D));
+        path = "deacquisition-range";
+        Setting<Double> deacquisitionRange = new Setting<>(path, section.getDouble(path, 20.0D));
         acquisitionSettings = new MobAcquisitionSettings(acquisitionRange, deacquisitionRange);
     }
 
     private void loatAttackerHealthThreshold() {
-        attackerHealthThreshold = section.getDouble("attacker-health-threshold", 25);
+        String path = "attacker-health-threshold";
+        attackerHealthThreshold = new Setting<>(path, section.getDouble(path, 25));
     }
 
     private void loadMobAgeSettings() {
-        boolean attackAsAdult = section.getBoolean("age.adult", true);
-        boolean attackAsBaby = section.getBoolean("age.baby", false);
+        String path = "age.adult";
+        Setting<Boolean> attackAsAdult = new Setting<>(path, section.getBoolean(path, true));
+        path = "age.baby";
+        Setting<Boolean> attackAsBaby = new Setting<>(path, section.getBoolean(path, false));
         ageSettings = new MobAgeSettings(attackAsAdult, attackAsBaby);
     }
 
     private void loadMiscSettings() {
-        boolean includeNpcs = section.getBoolean("include-npcs", false);
-        boolean includeNamedMobs = section.getBoolean("include-named-mobs", false);
-        boolean includeTamed = section.getBoolean("include-tamed-mobs", true);
+        String path = "include-npcs";
+        Setting<Boolean> includeNpcs = new Setting<>(path, section.getBoolean(path, false));
+        path = "include-named-mobs";
+        Setting<Boolean> includeNamedMobs = new Setting<>(path, section.getBoolean(path, false));
+        path = "include-tamed-mobs";
+        Setting<Boolean> includeTamed = new Setting<>(path, section.getBoolean(path, true));
         miscSettings = new MobMiscSettings(includeNpcs, includeNamedMobs, includeTamed);
     }
 
     private void loadOverrideTargets() {
-        overrideTargets = section.getBoolean("override-targeting", false);
+        String path = "override-targeting";
+        overrideTargets = new Setting<>(path, section.getBoolean(path, false));
     }
 
     private void loadGroupAgrewssionDistance() {
-        groupAgressionDistance = section.getDouble("group-aggression-distance", 20.0D);
+        String path = "group-aggression-distance";
+        groupAgressionDistance = new Setting<>(path, section.getDouble(path, 20.0D));
     }
 
     public void loadPlayerStateSettings() {
-        boolean attackStanding = section.getBoolean("player-movement.standing", true);
-        boolean attackSneaking = section.getBoolean("player-movement.sneaking", true);
-        boolean attackWalking = section.getBoolean("player-movement.walking", true);
-        boolean attackSprinting = section.getBoolean("player-movement.sprinting", true);
-        boolean attackLooking = section.getBoolean("player-movement.looking", true);
-        boolean attackSleeping = section.getBoolean("player-movement.sleeping", true);
-        boolean attackGliding = section.getBoolean("player-movement.guiding", true);
+        String path = "player-movement.standing";
+        Setting<Boolean> attackStanding = new Setting<>(path, section.getBoolean(path, true));
+        path = "player-movement.sneaking";
+        Setting<Boolean> attackSneaking = new Setting<>(path, section.getBoolean(path, true));
+        path = "player-movement.walking";
+        Setting<Boolean> attackWalking = new Setting<>(path, section.getBoolean(path, true));
+        path = "player-movement.sprinting";
+        Setting<Boolean> attackSprinting = new Setting<>(path, section.getBoolean(path, true));
+        path = "player-movement.looking";
+        Setting<Boolean> attackLooking = new Setting<>(path, section.getBoolean(path, true));
+        path = "player-movement.sleeping";
+        Setting<Boolean> attackSleeping = new Setting<>(path, section.getBoolean(path, true));
+        path = "player-movement.guiding";
+        Setting<Boolean> attackGliding = new Setting<>(path, section.getBoolean(path, true));
         playerStateSettings = new PlayerStateSettings(attackStanding, attackSneaking, attackWalking, attackSprinting,
                 attackLooking, attackSleeping, attackGliding);
     }
 
     private void loadWorldSettings() {
-        worldSettings = new MobWorldSettings(new HashSet<>(section.getStringList("enabled-worlds")), new HashSet<>(
-                section.getStringList("disabled-worlds")));
+        String path = "enabled-worlds";
+        Setting<Set<String>> enabled = new Setting<>(path, new HashSet<>(section.getStringList(path)));
+        path = "disabled-worlds";
+        Setting<Set<String>> disabled = new Setting<>(path, new HashSet<>(section.getStringList(path)));
+        worldSettings = new MobWorldSettings(enabled, disabled);
     }
 
     public MobTypeSettings build() throws IllegalMobTypeSettingsException {
@@ -122,9 +150,10 @@ public class Builder {
         loadWorldSettings();
         loadPlayerStateSettings();
         loadWorldSettings();
-        if ((!type.isTameable() && type != MobType.fox && type != MobType.ocelot) && !miscSettings.includeTamed()) {
+        if ((!type.value().isTameable() && type.value() != MobType.fox && type.value() != MobType.ocelot)
+                && !miscSettings.includeTamed().value()) {
             throw new IllegalMobTypeSettingsException(
-                    "Cannot include tameable of " + type.name() + " since the mobtype is not tameable");
+                    "Cannot include tameable of " + type.value().name() + " since the mobtype is not tameable");
         }
         return new MobTypeSettings(type, enabled, speedMultiplier, attackSettings, acquisitionSettings,
                 attackerHealthThreshold, ageSettings, miscSettings, alwaysAggressive, overrideTargets,

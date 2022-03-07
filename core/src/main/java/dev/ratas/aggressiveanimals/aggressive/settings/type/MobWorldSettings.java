@@ -4,17 +4,17 @@ import java.util.Set;
 
 import org.bukkit.World;
 
-public record MobWorldSettings(Set<String> enabledWorlds, Set<String> disabledWorlds) {
+public record MobWorldSettings(Setting<Set<String>> enabledWorlds, Setting<Set<String>> disabledWorlds) {
 
     public boolean isEnabledInWorld(World world) {
         return isEnabledInWorld(world.getName());
     }
 
     public boolean isEnabledInWorld(String worldName) {
-        if (disabledWorlds.contains(worldName)) {
+        if (disabledWorlds.value().contains(worldName)) {
             return false;
         }
-        if (enabledWorlds.isEmpty() || enabledWorlds.contains(worldName)) {
+        if (enabledWorlds.value().isEmpty() || enabledWorlds.value().contains(worldName)) {
             return true;
         }
         return false;

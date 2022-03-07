@@ -21,7 +21,7 @@ public class WorldRegistry implements TrackedMobRegistry {
 
     @Override
     public TrackedMob register(Mob mob, MobTypeSettings settings) {
-        if (settings.entityType().getBukkitType() != mob.getType()) {
+        if (settings.entityType().value().getBukkitType() != mob.getType()) {
             throw new IllegalArgumentException(
                     "Mob and settings do not match: " + mob.getType() + " vs " + settings.entityType());
         }
@@ -37,7 +37,7 @@ public class WorldRegistry implements TrackedMobRegistry {
 
     @Override
     public void unregister(Mob mob, MobTypeSettings settings) {
-        if (settings.entityType().getBukkitType() != mob.getType()) {
+        if (settings.entityType().value().getBukkitType() != mob.getType()) {
             throw new IllegalArgumentException(
                     "Mob and settings do not match: " + mob.getType() + " vs " + settings.entityType());
         }

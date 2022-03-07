@@ -110,9 +110,9 @@ public class ListSub extends AbstractSubCommand {
                 // this should no longer happen
                 continue; // ignore
             }
-            lmf = messages.getListItemMessage(settings.enabled());
+            lmf = messages.getListItemMessage(settings.enabled().value());
             SDCSingleContextFactory<MobType> cf = lmf.getContextFactory();
-            lmf.getMessage(cf.getContext(settings.entityType())).sendTo(sender);
+            lmf.getMessage(cf.getContext(settings.entityType().value())).sendTo(sender);
         }
         return true;
     }
@@ -134,9 +134,9 @@ public class ListSub extends AbstractSubCommand {
                 case BOTH:
                     return true;
                 case ENABLED:
-                    return settings.enabled();
+                    return settings.enabled().value();
                 case DISABLED:
-                    return !settings.enabled();
+                    return !settings.enabled().value();
             }
             throw new IllegalStateException("Unknown type of SettingTarget: " + this);
         }
