@@ -15,6 +15,7 @@ import dev.ratas.aggressiveanimals.config.messaging.Messages;
 import dev.ratas.aggressiveanimals.utils.Paginator;
 import dev.ratas.slimedogcore.api.messaging.context.factory.SDCSingleContextFactory;
 import dev.ratas.slimedogcore.api.messaging.factory.SDCSingleContextMessageFactory;
+import dev.ratas.slimedogcore.api.messaging.recipient.SDCPlayerRecipient;
 import dev.ratas.slimedogcore.api.messaging.recipient.SDCRecipient;
 import dev.ratas.slimedogcore.impl.commands.AbstractSubCommand;
 
@@ -63,11 +64,12 @@ public class ListSub extends AbstractSubCommand {
         if (target == null) {
             return false;
         }
+        int perPage = (sender instanceof SDCPlayerRecipient) ? PER_PAGE : Integer.MAX_VALUE;
 
         SDCSingleContextMessageFactory<MobType> lmf;
         Paginator<MobTypeSettings> paginator;
         try {
-            paginator = new Paginator<>(target.getSettings(manager), page, PER_PAGE);
+            paginator = new Paginator<>(target.getSettings(manager), page, perPage);
         } catch (IllegalArgumentException e) {
             SDCSingleContextMessageFactory<Integer> msg = messages.getNoSuchPageMessage();
             msg.getMessage(msg.getContextFactory().getContext(page)).sendTo(sender);
