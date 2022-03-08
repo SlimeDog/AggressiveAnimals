@@ -70,4 +70,20 @@ public class BuilderTest {
         Assertions.assertThrows(IllegalMobTypeSettingsException.class, () -> builder.build());
     }
 
+    @Test
+    public void test_builderGetDefaultSettingsWorks() {
+        MobTypeSettings def = Builder.getDefaultSettings();
+        Assertions.assertNotNull(def);
+    }
+
+    @Test
+    public void test_builderGetDefaultSettingsCorrect() {
+        MobTypeSettings def = Builder.getDefaultSettings();
+        Assertions.assertSame(def.entityType().def(), def.entityType().value());
+        Assertions.assertSame(MobType.__INVALID, def.entityType().value());
+        for (Setting<?> set : def.getAllSettings()) {
+            Assertions.assertTrue(set.isDefault());
+        }
+    }
+
 }
