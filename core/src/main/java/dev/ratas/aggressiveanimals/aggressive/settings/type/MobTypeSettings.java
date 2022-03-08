@@ -162,7 +162,8 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         settings.add(ageSettings.attackAsBaby());
         settings.add(miscSettings.includeNpcs());
         settings.add(miscSettings.includeNamedMobs());
-        if (entityType.value().isTameable()) {
+        if (entityType.value().isTameable() || entityType.value() == MobType.fox
+                || entityType.value() == MobType.ocelot) {
             settings.add(miscSettings.includeTamed());
         }
         settings.add(overrideTargets);
@@ -175,7 +176,6 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         settings.add(playerStateSettings.attackSleeping());
         settings.add(playerStateSettings.attackGliding());
         settings.add(attackSettings.attackDamageLimit());
-        settings.add(attackSettings.attackLeapHeight());
         settings.add(worldSettings.enabledWorlds());
         settings.add(worldSettings.disabledWorlds());
         return settings;
