@@ -15,9 +15,11 @@ import dev.ratas.slimedogcore.api.config.SDCConfiguration;
 public class MobTypeManager {
     private final SlimeDogPlugin plugin;
     private final Map<MobType, MobTypeSettings> types = new EnumMap<>(MobType.class);
+    private final MobTypeSettings defaultSettings;
 
     public MobTypeManager(SlimeDogPlugin plugin, Settings settings) {
         this.plugin = plugin;
+        defaultSettings = Builder.getDefaultSettings();
         loadMobs(settings);
     }
 
@@ -43,6 +45,10 @@ public class MobTypeManager {
 
     public boolean isManaged(MobType type) {
         return getEnabledSettings(type) != null;
+    }
+
+    public MobTypeSettings getDefaultSettings() {
+        return defaultSettings;
     }
 
     public MobTypeSettings getDefinedSettings(MobType type) {

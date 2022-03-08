@@ -3,8 +3,11 @@ package dev.ratas.aggressiveanimals.aggressive.settings.type;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.bukkit.configuration.MemoryConfiguration;
+
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.slimedogcore.api.config.SDCConfiguration;
+import dev.ratas.slimedogcore.impl.config.ConfigurationWrapper;
 
 public class Builder {
     private final SDCConfiguration section;
@@ -169,8 +172,9 @@ public class Builder {
         loadWorldSettings();
         loadPlayerStateSettings();
         loadWorldSettings();
-        if ((!type.value().isTameable() && type.value() != MobType.fox && type.value() != MobType.ocelot)
-                && !miscSettings.includeTamed().value()) {
+        if (type.value() != MobType.__INVALID && // let the invalid type be for now
+                ((!type.value().isTameable() && type.value() != MobType.fox && type.value() != MobType.ocelot)
+                        && !miscSettings.includeTamed().value())) {
             throw new IllegalMobTypeSettingsException(
                     "Cannot include tameable of " + type.value().name() + " since the mobtype is not tameable");
         }
@@ -178,6 +182,11 @@ public class Builder {
                 attackerHealthThreshold, ageSettings, miscSettings, alwaysAggressive, overrideTargets,
                 groupAgressionDistance,
                 playerStateSettings, worldSettings);
+    }
+
+    public static MobTypeSettings getDefaultSettings() {
+        SDCConfiguration emptySection = new ConfigurationWrapper(new MemoryConfiguration().createSection("__INVALID"));
+        return new Builder(emptySection).build();
     }
 
     public static class IllegalMobTypeSettingsException extends IllegalStateException {

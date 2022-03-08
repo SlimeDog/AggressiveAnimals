@@ -124,6 +124,9 @@ public enum MobType {
      * @return whether or not the mob represented by this type is tameable
      */
     public boolean isTameable() {
+        if (this == __INVALID) {
+            return false;
+        }
         return Tameable.class.isAssignableFrom(delegate.getEntityClass());
     }
 
@@ -132,8 +135,22 @@ public enum MobType {
     }
 
     public static MobType from(String name) throws IllegalArgumentException {
-        MobType type = Enum.valueOf(MobType.class, name);
-        if (type.getBukkitType() == null) {
+        MobType type;
+        try {
+            type = Enum.valueOf(MobType.class, name);
+        } catch (IllegalArgumentException e) {
+            // try again with upper case
+            try {
+                type = Enum.valueOf(MobType.class, name.toUpperCase());
+            } catch (IllegalArgumentException e2) {
+                throw e; // original
+            }
+        }
+        if (type == __INVALID) {
+            // exception for the __INVALID type which does not have a bukkit type
+            // (obviously)
+            return type;
+        } else if (type.getBukkitType() == null) {
             throw new IllegalArgumentException("Disabled/unavailable mob type: " + name);
         }
         return type;
