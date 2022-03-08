@@ -92,9 +92,9 @@ public class Messages extends MessagesBase {
         builder3.with("%default-value%", valueParser);
         infoDefaultMessagePart = builder3.build();
         defaultsNotShown = MsgUtil.voidContext(getRawMessage("info-default-settings-not-shown",
-                "(The rest of the settings have default values and are not shown here)"));
+                "Remaining settings are defaults; type /aggro info defaults"));
         allDefaults = MsgUtil.voidContext(getRawMessage("info-all-defaults-not-shown",
-                "All the settings have default values and are thus not shown"));
+                "All settings are defaults; type /aggro info defaults"));
     }
 
     public SDCVoidContextMessageFactory getReloadMessage() {
