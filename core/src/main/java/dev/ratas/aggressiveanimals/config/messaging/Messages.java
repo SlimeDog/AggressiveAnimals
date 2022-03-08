@@ -87,14 +87,14 @@ public class Messages extends MessagesBase {
         builder2.with("%setting-value%", valueParser);
         infoNonDefaultMessagePart = builder2.build();
         MsgUtil.MultipleToOneBuilder<Setting<?>> builder3 = new MsgUtil.MultipleToOneBuilder<>(
-                getRawMessage("info-default-setting", "")); // placeholder "%setting-path%: %default-value%"
+                getRawMessage("info-default-setting", "%setting-path%: %default-value%"));
         builder3.with("%setting-path%", s -> s.path());
         builder3.with("%default-value%", valueParser);
         infoDefaultMessagePart = builder3.build();
         defaultsNotShown = MsgUtil.voidContext(getRawMessage("info-default-settings-not-shown",
-                "Remaining settings are defaults; type /aggro info defaults"));
+                "Remaining settings are defaults; type &a/aggro info defaults"));
         allDefaults = MsgUtil.voidContext(getRawMessage("info-all-defaults-not-shown",
-                "All settings are defaults; type /aggro info defaults"));
+                "All settings are defaults; type &a/aggro info defaults"));
     }
 
     public SDCVoidContextMessageFactory getReloadMessage() {

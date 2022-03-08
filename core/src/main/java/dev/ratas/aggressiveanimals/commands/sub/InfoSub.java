@@ -1,6 +1,8 @@
 package dev.ratas.aggressiveanimals.commands.sub;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.util.StringUtil;
@@ -20,6 +22,7 @@ public class InfoSub extends AbstractSubCommand {
     private static final String NAME = "info";
     private static final String PERMS = "aggressiveanimals.info";
     private static final String USAGE = "/aggro info <mob type>";
+    private static final List<String> OPTIONS = Collections.unmodifiableList(Arrays.asList("full"));
     private final AggressivityManager manager;
     private final Messages messages;
 
@@ -34,6 +37,9 @@ public class InfoSub extends AbstractSubCommand {
         List<String> list = new ArrayList<>();
         if (args.length == 1) {
             return StringUtil.copyPartialMatches(args[0], MobType.names(), list);
+        }
+        if (args.length == 2) {
+            return StringUtil.copyPartialMatches(args[1], OPTIONS, list);
         }
         return list;
     }
@@ -55,14 +61,16 @@ public class InfoSub extends AbstractSubCommand {
             mf.getMessage(mf.getContextFactory().getContext(type)).sendTo(sender);
             return true;
         }
+        boolean showFull = args.length > 1 && args[1].equalsIgnoreCase("full");
         SDCSingleContextMessageFactory<Setting<?>> nonDef = messages.getNonDefaultInfoMessagePart();
         SDCSingleContextMessageFactory<Setting<?>> def = messages.getDefaultInfoMessagePart();
         boolean ignored = false;
         boolean shownSomething = false;
         for (Setting<?> setting : settings.getAllSettings()) {
-            SDCSingleContextMessageFactory<Setting<?>> cur = setting.isDefault() ? def : nonDef;
+            boolean defaultVals = setting.isDefault();
+            SDCSingleContextMessageFactory<Setting<?>> cur = defaultVals ? def : nonDef;
             SDCMessage<SDCSingleContext<Setting<?>>> msg = cur.getMessage(cur.getContextFactory().getContext(setting));
-            if (!msg.getFilled().isEmpty()) {
+            if (!defaultVals || showFull) {
                 msg.sendTo(sender);
                 shownSomething = true;
             } else {
