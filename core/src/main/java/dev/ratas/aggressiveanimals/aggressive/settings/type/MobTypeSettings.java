@@ -149,7 +149,7 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         List<Setting<?>> settings = new ArrayList<>();
         // settings.add(entityType); // ignore for now
         settings.add(enabled);
-        // settings.add(entityType); // ignored for now
+        settings.add(alwaysAggressive);
         settings.add(speedMultiplier);
         settings.add(attackSettings.damage());
         settings.add(attackSettings.attackDamageLimit());
@@ -175,7 +175,6 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         settings.add(playerStateSettings.attackLooking());
         settings.add(playerStateSettings.attackSleeping());
         settings.add(playerStateSettings.attackGliding());
-        settings.add(attackSettings.attackDamageLimit());
         settings.add(worldSettings.enabledWorlds());
         settings.add(worldSettings.disabledWorlds());
         return settings;
