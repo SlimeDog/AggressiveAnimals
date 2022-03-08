@@ -6,6 +6,7 @@ mobs:
   pig:
     enabled: true
     include-tamed-mobs: false # should produce error
+  chicken: {}
   fox:
     enabled: true
     include-tamed-mobs: false # should NOT produce error (even though does not implement Tameable)
