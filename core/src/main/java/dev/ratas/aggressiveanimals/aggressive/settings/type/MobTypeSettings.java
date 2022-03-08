@@ -162,8 +162,7 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         settings.add(ageSettings.attackAsBaby());
         settings.add(miscSettings.includeNpcs());
         settings.add(miscSettings.includeNamedMobs());
-        if (entityType.value().isTameable() || entityType.value() == MobType.fox
-                || entityType.value() == MobType.ocelot) {
+        if (entityType.value().isTameable()) {
             settings.add(miscSettings.includeTamed());
         }
         settings.add(overrideTargets);

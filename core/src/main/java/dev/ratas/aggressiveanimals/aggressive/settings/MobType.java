@@ -127,7 +127,7 @@ public enum MobType {
         if (this == __INVALID) {
             return false;
         }
-        return Tameable.class.isAssignableFrom(delegate.getEntityClass());
+        return Tameable.class.isAssignableFrom(delegate.getEntityClass()) || this == fox || this == ocelot;
     }
 
     public EntityType getBukkitType() {
