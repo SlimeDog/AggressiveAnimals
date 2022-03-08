@@ -19,9 +19,11 @@ import dev.ratas.slimedogcore.api.messaging.recipient.SDCRecipient;
 import dev.ratas.slimedogcore.impl.commands.AbstractSubCommand;
 
 public class InfoSub extends AbstractSubCommand {
+    private static final String DEFAULTS = "defaults";
     private static final String NAME = "info";
     private static final String PERMS = "aggressiveanimals.info";
     private static final String USAGE = "/aggro info <mob type>";
+    private static final List<String> NAMES_PLUS = Collections.unmodifiableList(getMobTypeNamesOrDefault());
     private static final List<String> OPTIONS = Collections.unmodifiableList(Arrays.asList("full"));
     private final AggressivityManager manager;
     private final Messages messages;
@@ -36,7 +38,7 @@ public class InfoSub extends AbstractSubCommand {
     public List<String> onTabComplete(SDCRecipient sender, String[] args) {
         List<String> list = new ArrayList<>();
         if (args.length == 1) {
-            return StringUtil.copyPartialMatches(args[0], MobType.names(), list);
+            return StringUtil.copyPartialMatches(args[0], NAMES_PLUS, list);
         }
         if (args.length == 2) {
             return StringUtil.copyPartialMatches(args[1], OPTIONS, list);
@@ -49,17 +51,25 @@ public class InfoSub extends AbstractSubCommand {
         if (args.length < 1) {
             return false;
         }
-        MobType type = MobType.matchType(args[0]);
-        if (type == null) {
-            SDCSingleContextMessageFactory<String> mf = messages.getMobTypeNotFoundMessage();
-            mf.getMessage(mf.getContextFactory().getContext(args[0])).sendTo(sender);
-            return true;
-        }
-        MobTypeSettings settings = manager.getMobTypeManager().getDefinedSettings(type);
-        if (settings == null) {
-            SDCSingleContextMessageFactory<MobType> mf = messages.getMobTypeNotDefined();
-            mf.getMessage(mf.getContextFactory().getContext(type)).sendTo(sender);
-            return true;
+        MobTypeSettings settings;
+        boolean showingDefaults;
+        if (args[0].equalsIgnoreCase(DEFAULTS)) {
+            settings = manager.getMobTypeManager().getDefaultSettings();
+            showingDefaults = true;
+        } else {
+            MobType type = MobType.matchType(args[0]);
+            if (type == null) {
+                SDCSingleContextMessageFactory<String> mf = messages.getMobTypeNotFoundMessage();
+                mf.getMessage(mf.getContextFactory().getContext(args[0])).sendTo(sender);
+                return true;
+            }
+            settings = manager.getMobTypeManager().getDefinedSettings(type);
+            if (settings == null) {
+                SDCSingleContextMessageFactory<MobType> mf = messages.getMobTypeNotDefined();
+                mf.getMessage(mf.getContextFactory().getContext(type)).sendTo(sender);
+                return true;
+            }
+            showingDefaults = false;
         }
         boolean showFull = args.length > 1 && args[1].equalsIgnoreCase("full");
         SDCSingleContextMessageFactory<Setting<?>> nonDef = messages.getNonDefaultInfoMessagePart();
@@ -70,7 +80,7 @@ public class InfoSub extends AbstractSubCommand {
             boolean defaultVals = setting.isDefault();
             SDCSingleContextMessageFactory<Setting<?>> cur = defaultVals ? def : nonDef;
             SDCMessage<SDCSingleContext<Setting<?>>> msg = cur.getMessage(cur.getContextFactory().getContext(setting));
-            if (!defaultVals || showFull) {
+            if (!defaultVals || showFull || showingDefaults) {
                 msg.sendTo(sender);
                 shownSomething = true;
             } else {
@@ -85,6 +95,12 @@ public class InfoSub extends AbstractSubCommand {
             }
         }
         return true;
+    }
+
+    private static final List<String> getMobTypeNamesOrDefault() {
+        List<String> list = new ArrayList<>(MobType.names());
+        list.add(DEFAULTS);
+        return list;
     }
 
 }
