@@ -11,6 +11,7 @@ import dev.ratas.aggressiveanimals.aggressive.settings.DefaultConfigTest.MockRes
 import dev.ratas.aggressiveanimals.aggressive.settings.type.Builder;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.Setting;
+import dev.ratas.slimedogcore.api.config.SDCConfiguration;
 import dev.ratas.slimedogcore.impl.config.CustomYamlConfig;
 
 public class MobTypeSettingSettingsTest {
@@ -66,6 +67,26 @@ public class MobTypeSettingSettingsTest {
                 Assertions.assertNotSame(s1, s2);
                 Assertions.assertNotEquals(s1, s2);
             }
+        }
+    }
+
+    @Test
+    public void test_realConfigBuildingAllMobsSuccessful() {
+        configFile = DefaultConfigTest.getFrom("src/main/resources/config.yml".split("/"));
+        config = new CustomYamlConfig(new MockResourceProvider(), configFile);
+        SDCConfiguration section = config.getConfig().getConfigurationSection("mobs");
+        Assertions.assertNotNull(section);
+        for (String key : section.getKeys(false)) {
+            if ((key.equals("frog") || key.equals("tadpole")) && MobType.matchType(key) != null
+                    && MobType.matchType(key).getBukkitType() == null) {
+                System.out.println(
+                        "The following mob section is ignored since it is not supported in the current version of MC: "
+                                + key);
+                continue;
+            }
+            Builder builder = new Builder(section.getConfigurationSection(key));
+            // can thrhow Builder.IllegalMobTypeSettingsException e)
+            builder.build();
         }
     }
 
