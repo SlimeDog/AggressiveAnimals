@@ -24,7 +24,7 @@ public class InfoSub extends AbstractSubCommand {
     private static final String PERMS = "aggressiveanimals.info";
     private static final String USAGE = "/aggro info <mob type>";
     private static final List<String> NAMES_PLUS = Collections.unmodifiableList(getMobTypeNamesOrDefault());
-    private static final List<String> OPTIONS = Collections.unmodifiableList(Arrays.asList("full"));
+    private static final List<String> OPTIONS = Collections.unmodifiableList(Arrays.asList("all"));
     private final AggressivityManager manager;
     private final Messages messages;
 
@@ -71,7 +71,7 @@ public class InfoSub extends AbstractSubCommand {
             }
             showingDefaults = false;
         }
-        boolean showFull = args.length > 1 && args[1].equalsIgnoreCase("full");
+        boolean showFull = args.length > 1 && args[1].equalsIgnoreCase("all");
         SDCSingleContextMessageFactory<Setting<?>> nonDef = messages.getNonDefaultInfoMessagePart();
         SDCSingleContextMessageFactory<Setting<?>> def = messages.getDefaultInfoMessagePart();
         boolean ignored = false;
