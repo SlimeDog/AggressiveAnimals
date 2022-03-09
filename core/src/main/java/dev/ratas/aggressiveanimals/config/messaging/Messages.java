@@ -29,6 +29,7 @@ public class Messages extends MessagesBase {
     private SDCSingleContextMessageFactory<String> mobTypeNotFoundMessage;
     private SDCSingleContextMessageFactory<MobType> mobTypeNotDefined;
     private SDCSingleContextMessageFactory<Setting<?>> infoNonDefaultMessagePart;
+    private SDCSingleContextMessageFactory<Setting<?>> infoNonDefaultMessagePartInAll;
     private SDCSingleContextMessageFactory<Setting<?>> infoDefaultMessagePart;
     private SDCSingleContextMessageFactory<Integer> noSuchPageMessage;
     private SDCVoidContextMessageFactory defaultsNotShown;
@@ -62,13 +63,12 @@ public class Messages extends MessagesBase {
                 getRawMessage("mob-type-not-defined", "No information defined for mon type: %mob-type%"));
         this.noSuchPageMessage = MsgUtil.singleContext("%page%", p -> String.valueOf(p),
                 getRawMessage("no-such-page", "Page does not exist: %page%"));
-        MsgUtil.MultipleToOneBuilder<Setting<?>> builder2 = new MsgUtil.MultipleToOneBuilder<>(
-                getRawMessage("info-non-default-setting", "%setting-path%: %setting-value%"));
-        builder2.with("%setting-path%", s -> s.path());
         Function<Setting<?>, String> valueParser = s -> {
             Object val = s.value();
-            if (val instanceof Double || val instanceof Float) {
+            if (val instanceof Double) {
                 return formatDouble((double) val);
+            } else if (val instanceof Float) {
+                return formatDouble((float) val);
             } else if (val instanceof List) {
                 @SuppressWarnings("unchecked")
                 List<String> list = (List<String>) val;
@@ -84,8 +84,16 @@ public class Messages extends MessagesBase {
             }
             return String.valueOf(val);
         };
+        MsgUtil.MultipleToOneBuilder<Setting<?>> builder2 = new MsgUtil.MultipleToOneBuilder<>(
+                getRawMessage("info-non-default-setting", "%setting-path%: %setting-value%"));
+        builder2.with("%setting-path%", s -> s.path());
         builder2.with("%setting-value%", valueParser);
         infoNonDefaultMessagePart = builder2.build();
+        MsgUtil.MultipleToOneBuilder<Setting<?>> builderNDA = new MsgUtil.MultipleToOneBuilder<>(
+                getRawMessage("info-non-default-setting-in-all", "&a%setting-path%: %setting-value%"));
+        builderNDA.with("%setting-path%", s -> s.path());
+        builderNDA.with("%setting-value%", valueParser);
+        infoNonDefaultMessagePartInAll = builderNDA.build();
         MsgUtil.MultipleToOneBuilder<Setting<?>> builder3 = new MsgUtil.MultipleToOneBuilder<>(
                 getRawMessage("info-default-setting", "%setting-path%: %default-value%"));
         builder3.with("%setting-path%", s -> s.path());
@@ -135,6 +143,10 @@ public class Messages extends MessagesBase {
 
     public SDCSingleContextMessageFactory<Setting<?>> getNonDefaultInfoMessagePart() {
         return infoNonDefaultMessagePart;
+    }
+
+    public SDCSingleContextMessageFactory<Setting<?>> getNonDefaultInfoMessagePartInAll() {
+        return infoNonDefaultMessagePartInAll;
     }
 
     public SDCSingleContextMessageFactory<Setting<?>> getDefaultInfoMessagePart() {

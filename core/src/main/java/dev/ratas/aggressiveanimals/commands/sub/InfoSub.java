@@ -72,7 +72,8 @@ public class InfoSub extends AbstractSubCommand {
             showingDefaults = false;
         }
         boolean showFull = args.length > 1 && args[1].equalsIgnoreCase("all");
-        SDCSingleContextMessageFactory<Setting<?>> nonDef = messages.getNonDefaultInfoMessagePart();
+        SDCSingleContextMessageFactory<Setting<?>> nonDef = showFull ? messages.getNonDefaultInfoMessagePartInAll()
+                : messages.getNonDefaultInfoMessagePart();
         SDCSingleContextMessageFactory<Setting<?>> def = messages.getDefaultInfoMessagePart();
         boolean ignored = false;
         boolean shownSomething = false;
