@@ -154,6 +154,7 @@ public class Messages extends MessagesBase {
     }
 
     public void reloadConfig() {
+        getConfig().saveDefaultConfig(); // TODO - remove when bumping SDC
         super.reloadConfig();
         loadMessages();
     }
