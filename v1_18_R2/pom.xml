@@ -8,7 +8,7 @@
   </parent>
 
   <artifactId>v1_18_R2</artifactId>
-  <version>0.1.10-SNAPSHOT</version>
+  <version>${project-version}</version>
 
   <name>v1_18_R2</name>
 
@@ -35,7 +35,7 @@
     <dependency>
       <groupId>dev.ratas.aggressiveanimals</groupId>
       <artifactId>core</artifactId>
-      <version>0.1.10-SNAPSHOT</version>
+      <version>${project-version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
