@@ -67,7 +67,7 @@ public class Messages extends MessagesBase {
         builder2.with("%setting-path%", s -> s.path());
         Function<Setting<?>, String> valueParser = s -> {
             Object val = s.value();
-            if (val instanceof Double) {
+            if (val instanceof Double || val instanceof Float) {
                 return formatDouble((double) val);
             } else if (val instanceof List) {
                 @SuppressWarnings("unchecked")
@@ -160,7 +160,12 @@ public class Messages extends MessagesBase {
     }
 
     public static String formatDouble(double val) {
-        return String.format("%.2f", val);
+        String f1 = String.format("%.1f", val);
+        String f2 = String.format("%.2f", val);
+        if ((f1 + "0").equals(f2)) {
+            return f1;
+        }
+        return f2;
     }
 
     public static List<String> sort(Collection<String> names) {
