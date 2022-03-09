@@ -11,9 +11,17 @@ import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.Setting;
 import dev.ratas.aggressiveanimals.utils.Paginator;
 import dev.ratas.slimedogcore.api.SlimeDogPlugin;
+import dev.ratas.slimedogcore.api.messaging.context.factory.SDCDoubleContextFactory;
+import dev.ratas.slimedogcore.api.messaging.context.factory.SDCSingleContextFactory;
+import dev.ratas.slimedogcore.api.messaging.delivery.MessageTarget;
+import dev.ratas.slimedogcore.api.messaging.factory.SDCDoubleContextMessageFactory;
 import dev.ratas.slimedogcore.api.messaging.factory.SDCSingleContextMessageFactory;
 import dev.ratas.slimedogcore.api.messaging.factory.SDCVoidContextMessageFactory;
 import dev.ratas.slimedogcore.impl.messaging.MessagesBase;
+import dev.ratas.slimedogcore.impl.messaging.context.factory.SingleContextFactory;
+import dev.ratas.slimedogcore.impl.messaging.context.factory.delegating.DelegatingDoubleContextFactory;
+import dev.ratas.slimedogcore.impl.messaging.context.factory.delegating.DelegatingMultipleToOneContextFactory;
+import dev.ratas.slimedogcore.impl.messaging.factory.DoubleContextMessageFactory;
 import dev.ratas.slimedogcore.impl.messaging.factory.MsgUtil;
 
 public class Messages extends MessagesBase {
@@ -34,6 +42,8 @@ public class Messages extends MessagesBase {
     private SDCSingleContextMessageFactory<Integer> noSuchPageMessage;
     private SDCVoidContextMessageFactory defaultsNotShown;
     private SDCVoidContextMessageFactory allDefaults;
+    private SDCSingleContextMessageFactory<MobType> infoHeader;
+    private SDCDoubleContextMessageFactory<MobType, Paginator<Setting<?>>> pagedInfoHeader;
 
     public Messages(SlimeDogPlugin plugin) throws InvalidConfigurationException {
         super(plugin.getCustomConfigManager().getConfig(FILE_NAME));
@@ -103,6 +113,17 @@ public class Messages extends MessagesBase {
                 "{\"extra\":[{\"text\":\"Remaining settings are defaults; type \"},{\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/aggro info defaults\"},\"text\":\"/aggro info defaults\"}],\"text\":\"\"}"));
         allDefaults = MsgUtil.voidContext(getRawMessage("info-all-defaults-not-shown",
                 "{\"extra\":[{\"text\":\"All settings are defaults; type \"},{\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/aggro info defaults\"},\"text\":\"/aggro info defaults\"}],\"text\":\"\"}"));
+        infoHeader = MsgUtil.singleContext("%mob-type%", mt -> mt.name(),
+                getRawMessage("info-header", "Info for %mob-type%"));
+        SDCSingleContextFactory<MobType> mtcf = new SingleContextFactory<>("%mob-type%", mt -> mt.name());
+        SDCSingleContextFactory<Paginator<Setting<?>>> pcf = new DelegatingMultipleToOneContextFactory<>(
+                new SingleContextFactory<>("%page%", p -> String.valueOf(p.getPage())),
+                new SingleContextFactory<>("%start%", p -> String.valueOf(p.getPageStart())),
+                new SingleContextFactory<>("%end%", p -> String.valueOf(p.getPageEnd())));
+        SDCDoubleContextFactory<MobType, Paginator<Setting<?>>> cf = new DelegatingDoubleContextFactory<>(mtcf, pcf);
+        pagedInfoHeader = new DoubleContextMessageFactory<>(cf,
+                getRawMessage("info-header-paged", "Info for %mob-type% - page %page% (%start%-%end%)"),
+                MessageTarget.TEXT);
     }
 
     public SDCVoidContextMessageFactory getReloadMessage() {
@@ -163,6 +184,14 @@ public class Messages extends MessagesBase {
 
     public SDCVoidContextMessageFactory getAllDefaults() {
         return allDefaults;
+    }
+
+    public SDCSingleContextMessageFactory<MobType> getInfoHeader() {
+        return infoHeader;
+    }
+
+    public SDCDoubleContextMessageFactory<MobType, Paginator<Setting<?>>> getPagedInfoHeader() {
+        return pagedInfoHeader;
     }
 
     public void reloadConfig() {

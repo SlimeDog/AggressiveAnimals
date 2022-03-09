@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.bukkit.util.StringUtil;
 
@@ -12,19 +13,24 @@ import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.Setting;
 import dev.ratas.aggressiveanimals.config.messaging.Messages;
+import dev.ratas.aggressiveanimals.utils.Paginator;
 import dev.ratas.slimedogcore.api.messaging.SDCMessage;
 import dev.ratas.slimedogcore.api.messaging.context.SDCSingleContext;
+import dev.ratas.slimedogcore.api.messaging.factory.SDCDoubleContextMessageFactory;
 import dev.ratas.slimedogcore.api.messaging.factory.SDCSingleContextMessageFactory;
+import dev.ratas.slimedogcore.api.messaging.recipient.SDCPlayerRecipient;
 import dev.ratas.slimedogcore.api.messaging.recipient.SDCRecipient;
 import dev.ratas.slimedogcore.impl.commands.AbstractSubCommand;
 
 public class InfoSub extends AbstractSubCommand {
+    private static final int PER_PAGE = 8;
     private static final String DEFAULTS = "defaults";
     private static final String NAME = "info";
     private static final String PERMS = "aggressiveanimals.info";
-    private static final String USAGE = "/aggro info <mob type>";
+    private static final String USAGE = "/aggro info <mob type> [all] [page]";
     private static final List<String> NAMES_PLUS = Collections.unmodifiableList(getMobTypeNamesOrDefault());
     private static final List<String> OPTIONS = Collections.unmodifiableList(Arrays.asList("all"));
+    private static final List<String> PAGES = Collections.unmodifiableList(Arrays.asList("1", "2", "3", "4"));
     private final AggressivityManager manager;
     private final Messages messages;
 
@@ -42,6 +48,9 @@ public class InfoSub extends AbstractSubCommand {
         }
         if (args.length == 2) {
             return StringUtil.copyPartialMatches(args[1], OPTIONS, list);
+        }
+        if (args.length == 3 && (sender instanceof SDCPlayerRecipient) && args[1].equalsIgnoreCase("all")) {
+            return StringUtil.copyPartialMatches(args[2], PAGES, list);
         }
         return list;
     }
@@ -72,24 +81,54 @@ public class InfoSub extends AbstractSubCommand {
             showingDefaults = false;
         }
         boolean showFull = args.length > 1 && args[1].equalsIgnoreCase("all");
+        int page = 1;
+        if (showFull && (sender instanceof SDCPlayerRecipient) && args.length > 2) {
+            try {
+                page = Integer.parseInt(args[2]);
+            } catch (IllegalArgumentException e) {
+                return false; // garbage
+            }
+        }
         SDCSingleContextMessageFactory<Setting<?>> nonDef = showFull ? messages.getNonDefaultInfoMessagePartInAll()
                 : messages.getNonDefaultInfoMessagePart();
         SDCSingleContextMessageFactory<Setting<?>> def = messages.getDefaultInfoMessagePart();
-        boolean ignored = false;
-        boolean shownSomething = false;
-        for (Setting<?> setting : settings.getAllSettings()) {
+        AtomicBoolean ignored = new AtomicBoolean(false);
+        int perPage;
+        if (showFull && sender instanceof SDCPlayerRecipient) {
+            perPage = PER_PAGE;
+        } else {
+            perPage = Integer.MAX_VALUE;
+        }
+        Paginator<Setting<?>> paginator;
+        try {
+            paginator = new Paginator<>(settings.getAllSettings(), page, perPage);
+        } catch (IllegalArgumentException e) {
+            SDCSingleContextMessageFactory<Integer> msg = messages.getNoSuchPageMessage();
+            msg.getMessage(msg.getContextFactory().getContext(page)).sendTo(sender);
+            return true;
+        }
+        AtomicBoolean shownSomething = new AtomicBoolean(false);
+        if (perPage == PER_PAGE) { // in game and showing all
+            SDCDoubleContextMessageFactory<MobType, Paginator<Setting<?>>> header = messages.getPagedInfoHeader();
+            header.getMessage(header.getContextFactory().getContext(settings.entityType().value(), paginator))
+                    .sendTo(sender);
+        } else { // console
+            SDCSingleContextMessageFactory<MobType> header = messages.getInfoHeader();
+            header.getMessage(header.getContextFactory().getContext(settings.entityType().value())).sendTo(sender);
+        }
+        for (Setting<?> setting : paginator.getOnPage()) {
             boolean defaultVals = setting.isDefault();
             SDCSingleContextMessageFactory<Setting<?>> cur = defaultVals ? def : nonDef;
             SDCMessage<SDCSingleContext<Setting<?>>> msg = cur.getMessage(cur.getContextFactory().getContext(setting));
             if (!defaultVals || showFull || showingDefaults) {
                 msg.sendTo(sender);
-                shownSomething = true;
+                shownSomething.set(true);
             } else {
-                ignored = true;
+                ignored.set(true);
             }
         }
-        if (ignored) {
-            if (!shownSomething) {
+        if (ignored.get()) {
+            if (!shownSomething.get()) {
                 messages.getAllDefaults().getMessage().sendTo(sender);
             } else {
                 messages.getDefaultsNotShown().getMessage().sendTo(sender);
