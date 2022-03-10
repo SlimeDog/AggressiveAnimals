@@ -47,6 +47,9 @@ public class InfoSub extends AbstractSubCommand {
             return StringUtil.copyPartialMatches(args[0], NAMES_PLUS, list);
         }
         if (args.length == 2) {
+            if (args[0].equalsIgnoreCase(DEFAULTS)) {
+                return StringUtil.copyPartialMatches(args[1], PAGES, list);
+            }
             return StringUtil.copyPartialMatches(args[1], OPTIONS, list);
         }
         if (args.length == 3 && (sender instanceof SDCPlayerRecipient) && args[1].equalsIgnoreCase("all")) {
@@ -82,11 +85,21 @@ public class InfoSub extends AbstractSubCommand {
         }
         boolean showFull = args.length > 1 && args[1].equalsIgnoreCase("all");
         int page = 1;
-        if (showFull && (sender instanceof SDCPlayerRecipient) && args.length > 2) {
-            try {
-                page = Integer.parseInt(args[2]);
-            } catch (IllegalArgumentException e) {
-                return false; // garbage
+        if (sender instanceof SDCPlayerRecipient) {
+            String toParse;
+            if (showFull && args.length > 2) {
+                toParse = args[2];
+            } else if (showingDefaults && args.length > 1) {
+                toParse = args[1];
+            } else {
+                toParse = null;
+            }
+            if (toParse != null) {
+                try {
+                    page = Integer.parseInt(toParse);
+                } catch (IllegalArgumentException e) {
+                    return false; // garbage
+                }
             }
         }
         SDCSingleContextMessageFactory<Setting<?>> nonDef = showFull ? messages.getNonDefaultInfoMessagePartInAll()
@@ -94,7 +107,7 @@ public class InfoSub extends AbstractSubCommand {
         SDCSingleContextMessageFactory<Setting<?>> def = messages.getDefaultInfoMessagePart();
         AtomicBoolean ignored = new AtomicBoolean(false);
         int perPage;
-        if (showFull && sender instanceof SDCPlayerRecipient) {
+        if ((showFull || showingDefaults) && sender instanceof SDCPlayerRecipient) {
             perPage = PER_PAGE;
         } else {
             perPage = Integer.MAX_VALUE;
