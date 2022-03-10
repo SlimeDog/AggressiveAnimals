@@ -9,7 +9,6 @@ import org.bukkit.configuration.InvalidConfigurationException;
 
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.Setting;
-import dev.ratas.aggressiveanimals.utils.Paginator;
 import dev.ratas.slimedogcore.api.SlimeDogPlugin;
 import dev.ratas.slimedogcore.api.messaging.context.factory.SDCDoubleContextFactory;
 import dev.ratas.slimedogcore.api.messaging.context.factory.SDCSingleContextFactory;
@@ -23,6 +22,7 @@ import dev.ratas.slimedogcore.impl.messaging.context.factory.delegating.Delegati
 import dev.ratas.slimedogcore.impl.messaging.context.factory.delegating.DelegatingMultipleToOneContextFactory;
 import dev.ratas.slimedogcore.impl.messaging.factory.DoubleContextMessageFactory;
 import dev.ratas.slimedogcore.impl.messaging.factory.MsgUtil;
+import dev.ratas.slimedogcore.impl.utils.Paginator;
 
 public class Messages extends MessagesBase {
     private static final String FILE_NAME = "messages.yml";
@@ -195,7 +195,6 @@ public class Messages extends MessagesBase {
     }
 
     public void reloadConfig() {
-        getConfig().saveDefaultConfig(); // TODO - remove when bumping SDC
         super.reloadConfig();
         loadMessages();
     }

@@ -81,7 +81,6 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
     @Override
     public ConfigLoadIssueResolver reload() {
         ConfigLoadIssueResolver issues = ConfigLoadIssueResolver.atReload();
-        config.saveDefaultConfig(); // TODO - remove when bumping SDC
         try {
             config.reloadConfig();
         } catch (ConfigException e) {

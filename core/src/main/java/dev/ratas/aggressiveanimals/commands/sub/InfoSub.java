@@ -13,7 +13,6 @@ import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.Setting;
 import dev.ratas.aggressiveanimals.config.messaging.Messages;
-import dev.ratas.aggressiveanimals.utils.Paginator;
 import dev.ratas.slimedogcore.api.messaging.SDCMessage;
 import dev.ratas.slimedogcore.api.messaging.context.SDCSingleContext;
 import dev.ratas.slimedogcore.api.messaging.factory.SDCDoubleContextMessageFactory;
@@ -21,6 +20,7 @@ import dev.ratas.slimedogcore.api.messaging.factory.SDCSingleContextMessageFacto
 import dev.ratas.slimedogcore.api.messaging.recipient.SDCPlayerRecipient;
 import dev.ratas.slimedogcore.api.messaging.recipient.SDCRecipient;
 import dev.ratas.slimedogcore.impl.commands.AbstractSubCommand;
+import dev.ratas.slimedogcore.impl.utils.Paginator;
 
 public class InfoSub extends AbstractSubCommand {
     private static final int PER_PAGE = 8;

@@ -12,12 +12,12 @@ import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobTypeManager;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.aggressiveanimals.config.messaging.Messages;
-import dev.ratas.aggressiveanimals.utils.Paginator;
 import dev.ratas.slimedogcore.api.messaging.context.factory.SDCSingleContextFactory;
 import dev.ratas.slimedogcore.api.messaging.factory.SDCSingleContextMessageFactory;
 import dev.ratas.slimedogcore.api.messaging.recipient.SDCPlayerRecipient;
 import dev.ratas.slimedogcore.api.messaging.recipient.SDCRecipient;
 import dev.ratas.slimedogcore.impl.commands.AbstractSubCommand;
+import dev.ratas.slimedogcore.impl.utils.Paginator;
 
 public class ListSub extends AbstractSubCommand {
     private static final int PER_PAGE = 8;
