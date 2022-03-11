@@ -1,9 +1,7 @@
-package dev.ratas.aggressiveanimals.aggressive.config.messaging;
+package dev.ratas.aggressiveanimals.config.messaging;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import dev.ratas.aggressiveanimals.config.messaging.Messages;
 
 public class MessagesUtilTest {
 
