@@ -90,8 +90,6 @@ mobs:
 
 # Passive mob-types. Missing parameters will use defaults.
 # If you want to alter their behaviors, enable them and adjust their attributes as desired.
-  allay:                        # available MC 1.19
-    enabled: false
   axolotl:
     enabled: false
     attack-leap-height: 0.3
@@ -109,8 +107,6 @@ mobs:
   fox:
     enabled: false
     attack-leap-height: 0.3
-  frog:                         # available MC 1.19
-    enabled: false
   glow_squid:
     enabled: false
   horse:
@@ -143,8 +139,6 @@ mobs:
   squid:
     enabled: false
   strider:
-    enabled: false
-  tadpole:                      # available MC 1.19
     enabled: false
   tropical_fish:
     enabled: false
