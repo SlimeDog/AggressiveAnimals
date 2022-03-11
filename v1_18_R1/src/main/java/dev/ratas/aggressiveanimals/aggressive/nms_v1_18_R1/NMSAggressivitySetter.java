@@ -101,9 +101,10 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         MobTypeSettings settings = wrapper.getSettings();
 
         float range = (float) (double) settings.acquisitionSettings().acquisitionRange().value();
-        mob.targetSelector.getAvailableGoals().removeIf(goal -> {
-            return goal.getGoal() instanceof PanicGoal;
-        });
+        mob.targetSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof PanicGoal);
+        if (settings.overrideTargets().value()) {
+            mob.targetSelector.getAvailableGoals().clear();
+        }
 
         Goal cur;
         mob.targetSelector.addGoal(2,
