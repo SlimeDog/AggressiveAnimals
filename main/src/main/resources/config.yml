@@ -140,10 +140,12 @@ mobs:
     enabled: false
   strider:
     enabled: false
+    speed-multiplier: 1.5
   tropical_fish:
     enabled: false
   turtle:
     enabled: false
+    speed-multiplier: 1.5
   villager:
     enabled: false
   wandering_trader:
