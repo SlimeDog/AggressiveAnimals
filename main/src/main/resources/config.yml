@@ -107,8 +107,6 @@ mobs:
   fox:
     enabled: false
     attack-leap-height: 0.3
-  frog:                         # available MC 1.19
-    enabled: false
   glow_squid:
     enabled: false
   horse:
@@ -142,8 +140,6 @@ mobs:
     enabled: false
   strider:
     enabled: false
-  tadpole:                      # available MC 1.19
-    enabled: false
   tropical_fish:
     enabled: false
   turtle:
@@ -151,6 +147,8 @@ mobs:
   villager:
     enabled: false
   wandering_trader:
+    enabled: false
+  zombie_horse:
     enabled: false
 
 # Neutral mob-types. Missing parameters will use defaults.
