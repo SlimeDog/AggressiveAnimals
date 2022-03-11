@@ -62,9 +62,9 @@ public class Messages extends MessagesBase {
         pagedHeaderBuilder.with("%end%", p -> String.valueOf(p.getPageEnd()));
         this.pagedListHeaderMessage = pagedHeaderBuilder.build();
         this.listEnabledItemMessage = MsgUtil.singleContext("%mob-type%", t -> t.name(),
-                getRawMessage("list-format-enabled", "&a%mob-type% - enabled"));
+                getRawMessage("list-format-enabled", "&6%mob-type% - enabled"));
         this.listDisabledItemMessage = MsgUtil.singleContext("%mob-type%", t -> t.name(),
-                getRawMessage("list-format-disabled", "%mob-type% - disabled"));
+                getRawMessage("list-format-disabled", "&7%mob-type% - disabled"));
         this.enabledMessage = MsgUtil.voidContext(getRawMessage("enabled", "enabled"));
         this.disabledMessage = MsgUtil.voidContext(getRawMessage("disabled", "disabled"));
         this.mobTypeNotFoundMessage = MsgUtil.singleContext("%mob-type%", t -> t,
@@ -95,17 +95,17 @@ public class Messages extends MessagesBase {
             return String.valueOf(val);
         };
         MsgUtil.MultipleToOneBuilder<Setting<?>> builder2 = new MsgUtil.MultipleToOneBuilder<>(
-                getRawMessage("info-non-default-setting", "%setting-path%: %setting-value%"));
+                getRawMessage("info-non-default-setting", "%setting-path%: &a%setting-value%"));
         builder2.with("%setting-path%", s -> s.path());
         builder2.with("%setting-value%", valueParser);
         infoNonDefaultMessagePart = builder2.build();
         MsgUtil.MultipleToOneBuilder<Setting<?>> builderNDA = new MsgUtil.MultipleToOneBuilder<>(
-                getRawMessage("info-non-default-setting-in-all", "&a%setting-path%: %setting-value%"));
+                getRawMessage("info-non-default-setting-in-all", "&a%setting-path%: &a%setting-value%"));
         builderNDA.with("%setting-path%", s -> s.path());
         builderNDA.with("%setting-value%", valueParser);
         infoNonDefaultMessagePartInAll = builderNDA.build();
         MsgUtil.MultipleToOneBuilder<Setting<?>> builder3 = new MsgUtil.MultipleToOneBuilder<>(
-                getRawMessage("info-default-setting", "%setting-path%: %default-value%"));
+                getRawMessage("info-default-setting", "&7%setting-path%: &7%default-value%"));
         builder3.with("%setting-path%", s -> s.path());
         builder3.with("%default-value%", valueParser);
         infoDefaultMessagePart = builder3.build();
