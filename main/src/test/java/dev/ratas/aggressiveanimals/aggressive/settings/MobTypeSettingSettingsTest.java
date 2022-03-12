@@ -1,7 +1,9 @@
 package dev.ratas.aggressiveanimals.aggressive.settings;
 
 import java.io.File;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -88,6 +90,33 @@ public class MobTypeSettingSettingsTest {
             // can thrhow Builder.IllegalMobTypeSettingsException e)
             builder.build();
         }
+    }
+
+    @Test
+    public void test_allMobsInDefaultConfigExactlyOnce() {
+        Set<MobType> allMobTypes = EnumSet.noneOf(MobType.class);
+        for (MobType type : MobType.values()) {
+            if (type.getBukkitType() == null) {
+                continue; // ignore
+            }
+            allMobTypes.add(type);
+        }
+        configFile = DefaultConfigTest.getFrom("src/main/resources/config.yml".split("/"));
+        config = new CustomYamlConfig(new MockResourceProvider(), configFile);
+        SDCConfiguration section = config.getConfig().getConfigurationSection("mobs");
+        Assertions.assertNotNull(section);
+        for (String key : section.getKeys(false)) {
+            if ((key.equals("frog") || key.equals("tadpole")) && MobType.matchType(key) != null
+                    && MobType.matchType(key).getBukkitType() == null) {
+                continue;
+            }
+            Builder builder = new Builder(section.getConfigurationSection(key));
+            MobTypeSettings settings = builder.build();
+            Assertions.assertTrue(allMobTypes.contains(settings.entityType().value()));
+            allMobTypes.remove(settings.entityType().value());
+        }
+        Assertions.assertTrue(allMobTypes.isEmpty(),
+                "Expected all mob types to appear in config, missing: " + allMobTypes);
     }
 
 }
