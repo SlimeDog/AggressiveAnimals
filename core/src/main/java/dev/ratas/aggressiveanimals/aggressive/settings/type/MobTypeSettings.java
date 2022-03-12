@@ -134,8 +134,9 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         if ((boolean) alwaysAggressive.value() != (boolean) other.alwaysAggressive.value()) {
             return false;
         }
-        // if ((boolean) overrideTargets.value() != (boolean) other.overrideTargets.value()) {
-        //     return false;
+        // if ((boolean) overrideTargets.value() != (boolean)
+        // other.overrideTargets.value()) {
+        // return false;
         // }
         if ((double) groupAgressionDistance.value() != (double) other.groupAgressionDistance.value()) {
             return false;
@@ -144,6 +145,44 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
             return false;
         }
         return true;
+    }
+
+    public int getSettingSimilarities(MobTypeSettings other) {
+        int similarities = 0;
+        // need to cast to double because otherwise they are wrappers and NOT the same
+        // instance of the wrapper
+        if ((double) speedMultiplier.value() == (double) other.speedMultiplier.value()) {
+            similarities++;
+        }
+        if (attackSettings.equals(other.attackSettings)) {
+            similarities++;
+        }
+        if (acquisitionSettings.equals(other.acquisitionSettings)) {
+            similarities++;
+        }
+        if ((double) attackerHealthThreshold.value() == (double) other.attackerHealthThreshold.value()) {
+            similarities++;
+        }
+        if (ageSettings.equals(other.ageSettings)) {
+            similarities++;
+        }
+        if (miscSettings.equals(other.miscSettings)) {
+            similarities++;
+        }
+        if ((boolean) alwaysAggressive.value() == (boolean) other.alwaysAggressive.value()) {
+            similarities++;
+        }
+        // if ((boolean) overrideTargets.value() == (boolean)
+        // other.overrideTargets.value()) {
+        // similarities++;
+        // }
+        if ((double) groupAgressionDistance.value() == (double) other.groupAgressionDistance.value()) {
+            similarities++;
+        }
+        if (playerStateSettings.equals(other.playerStateSettings)) {
+            similarities++;
+        }
+        return similarities;
     }
 
     public List<Setting<?>> getAllSettings() {

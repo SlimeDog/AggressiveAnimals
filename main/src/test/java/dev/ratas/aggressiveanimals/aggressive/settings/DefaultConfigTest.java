@@ -78,8 +78,11 @@ public class DefaultConfigTest {
         MobTypeSettings chicken = chickenBuilder.build();
         Builder pigBuilder = new Builder(config.getConfig().getConfigurationSection("mobs.pig"));
         MobTypeSettings pig = pigBuilder.build();
-        Assertions.assertTrue(pig.hasSimilarSettings(chicken), "Pig and chicken settings should be similar (1)");
-        Assertions.assertTrue(chicken.hasSimilarSettings(pig), "Pig and chicken settings should be similar (2)");
+        int maxSims = chicken.getSettingSimilarities(chicken);
+        Assertions.assertEquals(maxSims - 1, pig.getSettingSimilarities(chicken),
+                "Pig and chicken settings should be similar (1)");
+        Assertions.assertEquals(maxSims - 1, chicken.getSettingSimilarities(pig),
+                "Pig and chicken settings should be similar (2)");
     }
 
     public static final class MockResourceProvider implements SDCResourceProvider {

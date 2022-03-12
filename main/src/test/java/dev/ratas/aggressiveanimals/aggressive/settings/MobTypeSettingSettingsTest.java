@@ -29,7 +29,7 @@ public class MobTypeSettingSettingsTest {
         Builder builder = new Builder(config.getConfig().getConfigurationSection("mobs.chicken"));
         MobTypeSettings settings = builder.build();
         List<Setting<?>> allSettings = settings.getAllSettings();
-        Assertions.assertEquals(25, allSettings.size());
+        Assertions.assertEquals(24, allSettings.size());
     }
 
     @Test
@@ -52,7 +52,7 @@ public class MobTypeSettingSettingsTest {
         Builder builder = new Builder(config.getConfig().getConfigurationSection("mobs.ocelot"));
         MobTypeSettings settings = builder.build();
         List<Setting<?>> allSettings = settings.getAllSettings();
-        Assertions.assertEquals(26, allSettings.size()); // has tamability one
+        Assertions.assertEquals(25, allSettings.size()); // has tamability one
     }
 
     @Test
