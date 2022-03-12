@@ -176,6 +176,9 @@ mobs:
     enabled: false
   spider:
     enabled: false
+  trader_llama:
+    enabled: false
+    include-tamed-mobs: true   # vanilla behavior
   wolf:
     enabled: false
     include-tamed-mobs: true   # vanilla behavior
