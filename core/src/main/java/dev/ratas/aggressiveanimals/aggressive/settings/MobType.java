@@ -15,7 +15,7 @@ import org.bukkit.entity.Tameable;
 
 public enum MobType {
     axolotl(EntityType.AXOLOTL),
-    bat(EntityType.BAT),
+    // bat(EntityType.BAT),
     bee(EntityType.BEE),
     // blaze(EntityType.BLAZE),
     cat(EntityType.CAT),
