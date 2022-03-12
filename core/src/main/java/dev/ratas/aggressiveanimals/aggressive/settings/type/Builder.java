@@ -19,7 +19,7 @@ public class Builder {
     private Setting<Double> attackerHealthThreshold;
     private MobAgeSettings ageSettings;
     private MobMiscSettings miscSettings;
-    private Setting<Boolean> overrideTargets;
+    // private Setting<Boolean> overrideTargets;
     private Setting<Double> groupAgressionDistance;
     private PlayerStateSettings playerStateSettings;
     private MobWorldSettings worldSettings;
@@ -111,11 +111,11 @@ public class Builder {
         miscSettings = new MobMiscSettings(includeNpcs, includeNamedMobs, includeTamed);
     }
 
-    private void loadOverrideTargets() {
-        String path = "override-targeting";
-        boolean def = false;
-        overrideTargets = new Setting<>(path, section.getBoolean(path, def), def);
-    }
+    // private void loadOverrideTargets() {
+    //     String path = "override-targeting";
+    //     boolean def = false;
+    //     overrideTargets = new Setting<>(path, section.getBoolean(path, def), def);
+    // }
 
     private void loadGroupAgrewssionDistance() {
         String path = "group-aggression-distance";
@@ -165,7 +165,7 @@ public class Builder {
         loadMobAgeSettings();
         loadMiscSettings();
         loadAlwaysAggressive();
-        loadOverrideTargets();
+        // loadOverrideTargets();
         loadGroupAgrewssionDistance();
         loadPlayerStateSettings();
         loadPlayerStateSettings();
@@ -179,7 +179,7 @@ public class Builder {
                     "Cannot include tameable of " + type.value().name() + " since the mobtype is not tameable");
         }
         return new MobTypeSettings(type, enabled, speedMultiplier, attackSettings, acquisitionSettings,
-                attackerHealthThreshold, ageSettings, miscSettings, alwaysAggressive, overrideTargets,
+                attackerHealthThreshold, ageSettings, miscSettings, alwaysAggressive, // overrideTargets,
                 groupAgressionDistance,
                 playerStateSettings, worldSettings);
     }

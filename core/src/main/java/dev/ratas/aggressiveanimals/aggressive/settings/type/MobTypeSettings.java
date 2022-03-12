@@ -18,7 +18,8 @@ import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enabled, Setting<Double> speedMultiplier,
         MobAttackSettings attackSettings, MobAcquisitionSettings acquisitionSettings,
         Setting<Double> attackerHealthThreshold, MobAgeSettings ageSettings, MobMiscSettings miscSettings,
-        Setting<Boolean> alwaysAggressive, Setting<Boolean> overrideTargets, Setting<Double> groupAgressionDistance,
+        Setting<Boolean> alwaysAggressive, // Setting<Boolean> overrideTargets, // may be (re)implemented later
+        Setting<Double> groupAgressionDistance,
         PlayerStateSettings playerStateSettings, MobWorldSettings worldSettings) {
 
     public boolean shouldAttack(Mob mob, Player target, NPCHookManager npcHooks) {
@@ -133,9 +134,9 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         if ((boolean) alwaysAggressive.value() != (boolean) other.alwaysAggressive.value()) {
             return false;
         }
-        if ((boolean) overrideTargets.value() != (boolean) other.overrideTargets.value()) {
-            return false;
-        }
+        // if ((boolean) overrideTargets.value() != (boolean) other.overrideTargets.value()) {
+        //     return false;
+        // }
         if ((double) groupAgressionDistance.value() != (double) other.groupAgressionDistance.value()) {
             return false;
         }
@@ -165,7 +166,7 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         if (entityType.value().isTameable()) {
             settings.add(miscSettings.includeTamed());
         }
-        settings.add(overrideTargets);
+        // settings.add(overrideTargets);
         settings.add(groupAgressionDistance);
         settings.add(playerStateSettings.attackStanding());
         settings.add(playerStateSettings.attackSneaking());
