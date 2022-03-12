@@ -51,7 +51,8 @@ public class Messages extends MessagesBase {
     }
 
     private void loadMessages() {
-        this.reloadMessage = MsgUtil.voidContext(getRawMessage("reloaded-config", "Plugin was successfully reloaded"));
+        this.reloadMessage = MsgUtil
+                .voidContext(getRawMessage("reloaded-config", "Configuration and messages were successfully reloaded"));
         this.reloadFailMessage = MsgUtil.voidContext(getRawMessage("problem-reloading-config",
                 "There was an issue while reloading the config - check the console log"));
         this.listHeaderMessage = MsgUtil.voidContext(getRawMessage("list-header", "&8Configured mobs"));
