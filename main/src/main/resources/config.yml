@@ -44,7 +44,6 @@ enable-metrics: true
 #   include-npcs: false                If true, include NPCs created by NPC managers, such as Citizens, EliteMobs, InfernalMobs, and Shopkeepers
 #   include-tamed-mobs: true           If true, include tamed mobs; legal only for tameable mob-types: cat, donkey, fox, horse, llama, mule, parrot, wolf
 #   include-named-mobs: false          If true, include named mobs
-#   override-targeting: false          If true, remove vanilla targeting behavior and use only attack-conditions; useful for hostile mob-types
 #   group-aggression-range: 20         If other mobs of the same type are within range of the attacker, they should join the attack (in blocks)
 #   player-movement:                   Mob should attack if the player is
 #     standing: true
@@ -75,7 +74,6 @@ mobs:
       baby: false
     include-npcs: false
     include-named-mobs: false
-    override-targeting: false
     group-aggression-range: 20
     player-movement:
       standing: true
