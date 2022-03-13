@@ -61,7 +61,7 @@ mobs:
   chicken:
     enabled: true
     always-aggressive: false
-    speed-multiplier: 1.5
+    speed-multiplier: 1.25
     attack-damage: 1.0
     attack-damage-limit: 2
     attack-speed: 20
@@ -90,10 +90,11 @@ mobs:
 # If you want to alter their behaviors, enable them and adjust their attributes as desired.
   axolotl:
     enabled: false
-    speed-multiplier: 1.5
+    speed-multiplier: 1.05
     attack-leap-height: 0.3
   cat:
     enabled: false
+    speed-multiplier: 1.5
     attack-leap-height: 0.3
   cod:
     enabled: false
@@ -101,6 +102,7 @@ mobs:
     enabled: false
   donkey:
     enabled: false
+    speed-multiplier: 1.5
   fox:
     enabled: false
     attack-leap-height: 0.3
@@ -108,29 +110,36 @@ mobs:
     enabled: false
   horse:
     enabled: false
+    speed-multiplier: 1.5
   mooshroom:
     enabled: false
   mule:
     enabled: false
+    speed-multiplier: 1.5
   ocelot:
     enabled: false
     attack-leap-height: 0.3
   parrot:
     enabled: false
+    speed-multiplier: 1.5
   pig:
     enabled: false
+    speed-multiplier: 1.1
   pufferfish:
     enabled: false
     always-aggressive: true    # vanilla behavior
   rabbit:
     enabled: false
+    speed-multiplier: 1.25
     attack-leap-height: 0.3
   salmon:
     enabled: false
   sheep:
     enabled: false
+    speed-multiplier: 1.1
   skeleton_horse:
     enabled: false
+    speed-multiplier: 1.5
   snow_golem:
     enabled: false
   squid:
@@ -142,11 +151,13 @@ mobs:
     enabled: false
   turtle:
     enabled: false
-    speed-multiplier: 1.5
+    speed-multiplier: 1.25
   villager:
     enabled: false
+    speed-multiplier: 0.5
   wandering_trader:
     enabled: false
+    speed-multiplier: 0.5
   zombie_horse:
     enabled: false
 
