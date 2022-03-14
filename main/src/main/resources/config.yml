@@ -4,14 +4,7 @@
 # original AggressiveAnimals.
 
 # AggressiveAnimals does not rewrite the configuration files if they exist, so changes must be made
-# manually. Undefined configuration nodes default to the values found in the original comments (for
-# sanity, it would be wise not to edit them). The default values will be adequate in many cases, so
-# configuration for additional mob-types can be very simple -- for example:
-# --------------------
-# axolotl:
-#   enabled: true
-# --------------------
-# is all that is required; the remaining configuration options will use default values.
+# manually.
 
 # ========== CHECK FOR UPDATES =====================================================================
 # If you do not want notification of available updates in the console log, you may disable it here.
@@ -23,86 +16,86 @@ check-for-updates: true
 #
 enable-metrics: true
 
-# ========== PER MOB ATTACK PROFILES ===============================================================
-# An attack profile must be created for each mob-type that you want to stage attacks.
-# Only the enabled node is required. Undefined nodes use default values.
+# ========== DEFAULT ATTACK ATTRIBUTES =============================================================
+# These are the default attack attributes, which apply to all mob-types, unless altered individually
+# below. You can change them to suit your needs.
+# For example, if you want to enable all mob-types, set
+#   enabled: true
+# If you want all normally passive mob-types to be aggressive, set
+#   always-aggressive: true
+# Undefined attributes (for example, if you delete them) revert to the in-code default values. Use
+#   /aggro info defaults
+# display differences between the in-code defaults and configured defaults.
 #
-# mob-type:
-#   enabled: true                      If true, this mob-type should engage in attacks against players
-#   always-aggressive: false           If true, mobs should attack only in retaliation for player attack
-#   speed-multiplier: 1.0              Multiple of vanilla movement speed (examples: 1.0 is regular speed, 0.5 is half speed, 2.0 is double speed)
-#   attack-damage: 1.0                 Damage inflicted on the target on each attack (in half-hearts)
-#   attack-damage-limit: 2             The attacker will leave the target alive with the specified amount of health (in half hearts)
-#   attack-speed: 20                   Frequency of attack, same as vanilla except for zombies (in ticks)
-#   attack-leap-height: 0.0            Height attacker may leap when attacking (in blocks; 0.0 or below means disabled)
-#   acquisition-range: 16              Distance at which the attaker can detect a target
-#   deacquisition-range: 20            Distance at which the victim can escape attack
-#   attacker-health-threshold: 25      Attack should stop when the health of the attacker falls below the threshold (percentage of full health)
-#   age:                               Attacks may be waged by adults and/or babies
-#     adult: true                      If true, adult mobs should attack
-#     baby: false                      If true, baby mobs should attack
-#   include-npcs: false                If true, include NPCs created by NPC managers, such as Citizens, EliteMobs, InfernalMobs, and Shopkeepers
-#   include-tamed-mobs: true           If true, include tamed mobs; legal only for tameable mob-types: cat, donkey, fox, horse, llama, mule, parrot, wolf
-#   include-named-mobs: false          If true, include named mobs
-#   group-aggression-range: 20         If other mobs of the same type are within range of the attacker, they should join the attack (in blocks)
-#   player-movement:                   Mob should attack if the player is
-#     standing: true
-#     sneaking: true
-#     walking: true
-#     sprinting: true
-#     looking: true                    Like locking eyes with an Enderman
-#     sleeping: true
-#     gliding: true
-#   enabled-worlds: []                 Worlds in which attacks by this mob-type are enabled; if empty, it is enabled in all worlds
-#   disabled-worlds:                   Worlds in which attacks by this mob-type are disabled; must be set explicitly; takes precedence over enabled_worlds
-#     - "world_example"                World lists may be empty, like the enabled-worlds example above, or a list of worlds, like this disabled-worlds example
+defaults:
+  enabled: false                   # By default, attacks against players are disabled
+  always-aggressive: false         # If true, mobs should attack only in retaliation for player attack
+  speed-multiplier: 1.0            # Multiple of vanilla movement speed (examples: 1.0 is regular speed, 0.5 is half speed, 2.0 is double speed)
+  attack-damage: 1.0               # Damage inflicted on the target on each attack (in half-hearts)
+  attack-damage-limit: 2           # The attacker will leave the target alive with the specified amount of health (in half hearts)
+  attack-speed: 20                 # Frequency of attack, same as vanilla except for zombies (in ticks)
+  attack-leap-height: 0.0          # Height attacker may leap when attacking (in blocks; 0.0 or below means disabled)
+  acquisition-range: 16            # Distance at which the attaker can detect a target
+  deacquisition-range: 20          # Distance at which the victim can escape attack
+  attacker-health-threshold: 25    # Attack should stop when the health of the attacker falls below the threshold (percentage of full health)
+  age:                             # Attacks may be waged by adults and/or babies
+    adult: true                    # If true, adult mobs should attack
+    baby: false                    # If true, baby mobs should attack
+  include-npcs: false              # If true, include NPCs created by NPC managers, such as Citizens, EliteMobs, InfernalMobs, and Shopkeepers
+  include-tamed-mobs: true         # If true, include tamed mobs; legal only for tameable mob-types: cat, donkey, fox, horse, llama, mule, parrot, wolf
+  include-named-mobs: false        # If true, include named mobs
+  override-targeting: false        # If true, remove vanilla targeting behavior and use only attack-conditions; useful for hostile mob-types
+  group-aggression-range: 20       # If other mobs of the same type are within range of the attacker, they should join the attack (in blocks)
+  player-movement:                 # Mob should attack if the player if
+    standing: true
+    sneaking: true
+    walking: true
+    sprinting: true
+    looking: true                  # Like locking eyes with an Enderman
+    sleeping: true
+    gliding: true
+  enabled-worlds: []               # Worlds in which attacks by this mob-type are enabled; if empty, it is enabled in all worlds
+  disabled-worlds: []              # Worlds in which attacks by this mob-type are disabled; must be set explicitly; takes precedence over enabled_worlds
+                                   # If empty, no worlds are disabled
 
+# ========== PER-MOB-TYPE ATTACK PROFILES ==========================================================
+# These are the per-mob-type attack attributes. All recognized passive and neutral mob-types are
+# listed, along with suggested attack attributes. For sanity, no mob-types are enabled by default.
+# To enable a specific mob-type, set enabled to true; for example:
+# chicken:
+#   enabled: true
+# (note the indentation with spaces; tabs are not allowed in YAML files). Only the enabled attribute
+# is required, but any others may be adjusted by adding appropriate lines with different values.
+# Undefined attributes use the default values set above.
+#
 mobs:
-  chicken:
-    enabled: true
-    always-aggressive: false
-    speed-multiplier: 1.25
-    attack-damage: 1.0
-    attack-damage-limit: 2
-    attack-speed: 20
-    attack-leap-height: 0.0
-    acquisition-range: 16
-    deacquisition-range: 20
-    attacker-health-threshold: 25
-    age:
-      adult: true
-      baby: false
-    include-npcs: false
-    include-named-mobs: false
-    group-aggression-range: 20
-    player-movement:
-      standing: true
-      sneaking: true
-      walking: true
-      sprinting: true
-      looking: true
-      sleeping: true
-      gliding: true
-    enabled-worlds: []
-    disabled-worlds: []
-
-# Passive mob-types. Missing parameters will use defaults.
-# If you want to alter their behaviors, enable them and adjust their attributes as desired.
   axolotl:
     enabled: false
     speed-multiplier: 1.05
     attack-leap-height: 0.3
+  bee:
+    enabled: false
   cat:
     enabled: false
+    always-aggressive: false
     speed-multiplier: 1.5
     attack-leap-height: 0.3
+  cave_spider:
+    enabled: false
+  chicken:
+    enabled: false
+    speed-multiplier: 1.25
   cod:
     enabled: false
   cow:
     enabled: false
+  dolphin:
+    enabled: false
   donkey:
     enabled: false
     speed-multiplier: 1.5
+  enderman:
+    enabled: false
   fox:
     enabled: false
     attack-leap-height: 0.3
@@ -111,6 +104,13 @@ mobs:
   horse:
     enabled: false
     speed-multiplier: 1.5
+  goat:
+    enabled: false
+  iron_golem:
+    enabled: false
+  llama:
+    enabled: false
+    include-tamed-mobs: true   # vanilla behavior
   mooshroom:
     enabled: false
   mule:
@@ -122,9 +122,15 @@ mobs:
   parrot:
     enabled: false
     speed-multiplier: 1.5
+  panda:
+    enabled: false
   pig:
     enabled: false
     speed-multiplier: 1.1
+  piglin:
+    enabled: false
+  polar_bear:
+    enabled: false
   pufferfish:
     enabled: false
     always-aggressive: true    # vanilla behavior
@@ -142,11 +148,16 @@ mobs:
     speed-multiplier: 1.5
   snow_golem:
     enabled: false
+  spider:
+    enabled: false
   squid:
     enabled: false
   strider:
     enabled: false
     speed-multiplier: 1.5
+  trader_llama:
+    enabled: false
+    include-tamed-mobs: true   # vanilla behavior
   tropical_fish:
     enabled: false
   turtle:
@@ -158,40 +169,10 @@ mobs:
   wandering_trader:
     enabled: false
     speed-multiplier: 0.5
-  zombie_horse:
-    enabled: false
-
-# Neutral mob-types. Missing parameters will use defaults.
-# Neutral mobs have vanilla targeting and attack behaviors, so nothing more is needed.
-# If you want to alter their behaviors, enable them and adjust their attributes as desired.
-  bee:
-    enabled: false
-  cave_spider:
-    enabled: false
-  dolphin:
-    enabled: false
-  enderman:
-    enabled: false
-  goat:
-    enabled: false
-  iron_golem:
-    enabled: false
-  llama:
-    enabled: false
-    include-tamed-mobs: true   # vanilla behavior
-  panda:
-    enabled: false
-  piglin:
-    enabled: false
-  polar_bear:
-    enabled: false
-  spider:
-    enabled: false
-  trader_llama:
-    enabled: false
-    include-tamed-mobs: true   # vanilla behavior
   wolf:
     enabled: false
     include-tamed-mobs: true   # vanilla behavior
+  zombie_horse:
+    enabled: false
   zombified_piglin:
     enabled: false
