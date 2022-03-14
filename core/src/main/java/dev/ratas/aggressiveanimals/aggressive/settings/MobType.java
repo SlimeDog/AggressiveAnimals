@@ -90,8 +90,7 @@ public enum MobType {
     zombified_piglin(EntityType.ZOMBIFIED_PIGLIN),
     // New in next version(s):
     frog("FROG"),
-    tadpole("TADPOLE"),
-    __INVALID("_INVALD");
+    tadpole("TADPOLE");
 
     private static final Map<EntityType, MobType> REVERSE_MAP = new EnumMap<>(EntityType.class);
     private static final Map<String, MobType> NAME_MAP = new HashMap<>();
@@ -125,7 +124,7 @@ public enum MobType {
      * @return whether or not the mob represented by this type is tameable
      */
     public boolean isTameable() {
-        if (this == __INVALID) {
+        if (this == defaults) {
             return false;
         }
         return Tameable.class.isAssignableFrom(delegate.getEntityClass()) || this == fox || this == ocelot;
@@ -140,15 +139,10 @@ public enum MobType {
         try {
             type = Enum.valueOf(MobType.class, name);
         } catch (IllegalArgumentException e) {
-            // try again with upper case
-            try {
-                type = Enum.valueOf(MobType.class, name.toUpperCase());
-            } catch (IllegalArgumentException e2) {
-                throw e; // original
-            }
+            throw e;
         }
-        if (type == __INVALID) {
-            // exception for the __INVALID type which does not have a bukkit type
+        if (type == defaults) {
+            // exception for the defaults type which does not have a bukkit type
             // (obviously)
             return type;
         } else if (type.getBukkitType() == null) {
@@ -174,7 +168,7 @@ public enum MobType {
             if (type.getBukkitType() == null) {
                 continue; // ignore
             }
-            if (type == __INVALID) {
+            if (type == defaults) {
                 continue; // ingored
             }
             NAME_MAP.put(type.name(), type);

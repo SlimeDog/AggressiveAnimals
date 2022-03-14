@@ -32,7 +32,7 @@ public class Builder {
     private void loadType() {
         String typeName = section.getName();
         try {
-            type = new Setting<>("", MobType.from(typeName.toLowerCase()), MobType.__INVALID);
+            type = new Setting<>("", MobType.from(typeName.toLowerCase()), MobType.defaults);
         } catch (IllegalArgumentException e) {
             throw new IllegalMobTypeSettingsException("Unknown entity type " + typeName + " (" + e.getMessage() + ")");
         }
@@ -112,9 +112,9 @@ public class Builder {
     }
 
     // private void loadOverrideTargets() {
-    //     String path = "override-targeting";
-    //     boolean def = false;
-    //     overrideTargets = new Setting<>(path, section.getBoolean(path, def), def);
+    // String path = "override-targeting";
+    // boolean def = false;
+    // overrideTargets = new Setting<>(path, section.getBoolean(path, def), def);
     // }
 
     private void loadGroupAgrewssionDistance() {
@@ -172,7 +172,7 @@ public class Builder {
         loadWorldSettings();
         loadPlayerStateSettings();
         loadWorldSettings();
-        if (type.value() != MobType.__INVALID && // let the invalid type be for now
+        if (type.value() != MobType.defaults && // let the defaults type be for now
                 ((!type.value().isTameable() && type.value() != MobType.fox && type.value() != MobType.ocelot)
                         && !miscSettings.includeTamed().value())) {
             throw new IllegalMobTypeSettingsException(
@@ -185,7 +185,7 @@ public class Builder {
     }
 
     public static MobTypeSettings getDefaultSettings() {
-        SDCConfiguration emptySection = new ConfigurationWrapper(new MemoryConfiguration().createSection("__INVALID"));
+        SDCConfiguration emptySection = new ConfigurationWrapper(new MemoryConfiguration().createSection("defaults"));
         return new Builder(emptySection).build();
     }
 

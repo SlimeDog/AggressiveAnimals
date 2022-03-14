@@ -66,7 +66,7 @@ public class InfoSub extends AbstractSubCommand {
         MobTypeSettings settings;
         boolean showingDefaults;
         if (args[0].equalsIgnoreCase(DEFAULTS)) {
-            settings = manager.getMobTypeManager().getDefaultSettings();
+            settings = manager.getMobTypeManager().getConfigDefaultSettings();
             showingDefaults = true;
         } else {
             MobType type = MobType.matchType(args[0]);
@@ -129,8 +129,15 @@ public class InfoSub extends AbstractSubCommand {
             SDCSingleContextMessageFactory<MobType> header = messages.getInfoHeader();
             header.getMessage(header.getContextFactory().getContext(settings.entityType().value())).sendTo(sender);
         }
+        MobTypeSettings defaultSettings = showingDefaults ? manager.getMobTypeManager().getInCodeDefaultSettings()
+                : manager.getMobTypeManager().getConfigDefaultSettings();
         for (Setting<?> setting : paginator.getOnPage()) {
-            boolean defaultVals = setting.isDefault();
+            boolean defaultVals;
+            if (showingDefaults) {
+                defaultVals = setting.isDefault();
+            } else {
+                defaultVals = defaultSettings.hasSameSetting(setting);
+            }
             SDCSingleContextMessageFactory<Setting<?>> cur = defaultVals ? def : nonDef;
             SDCMessage<SDCSingleContext<Setting<?>>> msg = cur.getMessage(cur.getContextFactory().getContext(setting));
             if (!defaultVals || showFull || showingDefaults) {

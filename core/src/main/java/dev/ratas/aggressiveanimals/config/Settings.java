@@ -26,4 +26,8 @@ public class Settings {
         return config.getConfig().getConfigurationSection("mobs");
     }
 
+    public SDCConfiguration getDefaultsSection() {
+        return config.getConfig().getConfigurationSection("defaults");
+    }
+
 }
