@@ -120,6 +120,12 @@ public class InfoSub extends AbstractSubCommand {
             msg.getMessage(msg.getContextFactory().getContext(page)).sendTo(sender);
             return true;
         }
+        if (paginator.getPageStart() == paginator.getPageEnd()) {
+            // TODO - remove when SDC is bumped
+            SDCSingleContextMessageFactory<Integer> msg = messages.getNoSuchPageMessage();
+            msg.getMessage(msg.getContextFactory().getContext(page)).sendTo(sender);
+            return true;
+        }
         AtomicBoolean shownSomething = new AtomicBoolean(false);
         if (perPage == PER_PAGE) { // in game and showing all
             SDCDoubleContextMessageFactory<MobType, Paginator<Setting<?>>> header = messages.getPagedInfoHeader();
