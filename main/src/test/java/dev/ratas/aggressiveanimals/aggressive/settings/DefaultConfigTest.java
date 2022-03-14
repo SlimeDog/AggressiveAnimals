@@ -96,6 +96,16 @@ public class DefaultConfigTest {
         }
     }
 
+    @Test
+    public void test_defaultChickenHasDissimilarSettings() {
+        CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
+        Builder chickenBuilder = new Builder(config.getConfig().getConfigurationSection("mobs.chicken"));
+        Builder pigBuilder = new Builder(config.getConfig().getConfigurationSection("mobs.pig"));
+        MobTypeSettings chicken = chickenBuilder.build();
+        MobTypeSettings pig = pigBuilder.build();
+        Assertions.assertFalse(chicken.hasSameSetting(pig.speedMultiplier()));
+    }
+
     public static final class MockResourceProvider implements SDCResourceProvider {
 
         @Override
