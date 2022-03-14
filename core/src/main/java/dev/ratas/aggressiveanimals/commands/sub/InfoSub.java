@@ -120,12 +120,6 @@ public class InfoSub extends AbstractSubCommand {
             msg.getMessage(msg.getContextFactory().getContext(page)).sendTo(sender);
             return true;
         }
-        if (paginator.getPageStart() == paginator.getPageEnd()) {
-            // TODO - remove when SDC is bumped
-            SDCSingleContextMessageFactory<Integer> msg = messages.getNoSuchPageMessage();
-            msg.getMessage(msg.getContextFactory().getContext(page)).sendTo(sender);
-            return true;
-        }
         AtomicBoolean shownSomething = new AtomicBoolean(false);
         if (perPage == PER_PAGE) { // in game and showing all
             SDCDoubleContextMessageFactory<MobType, Paginator<Setting<?>>> header = messages.getPagedInfoHeader();
@@ -135,15 +129,9 @@ public class InfoSub extends AbstractSubCommand {
             SDCSingleContextMessageFactory<MobType> header = messages.getInfoHeader();
             header.getMessage(header.getContextFactory().getContext(settings.entityType().value())).sendTo(sender);
         }
-        MobTypeSettings defaultSettings = showingDefaults ? manager.getMobTypeManager().getInCodeDefaultSettings()
-                : manager.getMobTypeManager().getConfigDefaultSettings();
         for (Setting<?> setting : paginator.getOnPage()) {
             boolean defaultVals;
-            if (showingDefaults) {
-                defaultVals = setting.isDefault();
-            } else {
-                defaultVals = defaultSettings.hasSameSetting(setting);
-            }
+            defaultVals = setting.isDefault();
             SDCSingleContextMessageFactory<Setting<?>> cur = defaultVals ? def : nonDef;
             SDCMessage<SDCSingleContext<Setting<?>>> msg = cur.getMessage(cur.getContextFactory().getContext(setting));
             if (!defaultVals || showFull || showingDefaults) {
