@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import dev.ratas.aggressiveanimals.aggressive.settings.type.Builder;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
+import dev.ratas.aggressiveanimals.aggressive.settings.type.Setting;
 import dev.ratas.slimedogcore.api.wrappers.SDCResourceProvider;
 import dev.ratas.slimedogcore.impl.config.CustomYamlConfig;
 
@@ -83,6 +84,16 @@ public class DefaultConfigTest {
                 "Pig and chicken settings should be similar (1)");
         Assertions.assertEquals(maxSims - 1, chicken.getSettingSimilarities(pig),
                 "Pig and chicken settings should be similar (2)");
+    }
+
+    @Test
+    public void test_defaultChickenHasAllSimilarSettings() {
+        CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
+        Builder chickenBuilder = new Builder(config.getConfig().getConfigurationSection("mobs.chicken"));
+        MobTypeSettings chicken = chickenBuilder.build();
+        for (Setting<?> setting : chicken.getAllSettings()) {
+            Assertions.assertTrue(chicken.hasSameSetting(setting));
+        }
     }
 
     public static final class MockResourceProvider implements SDCResourceProvider {

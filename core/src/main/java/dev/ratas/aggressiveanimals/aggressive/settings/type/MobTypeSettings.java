@@ -185,6 +185,23 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         return similarities;
     }
 
+    /**
+     * Checks if this mob type settings has the same specific setting. The algorithm
+     * is not effective, but it should only be used during info command (i.e not too
+     * often) so hopefully not an issue.
+     *
+     * @param setting
+     * @return
+     */
+    public boolean hasSameSetting(Setting<?> setting) {
+        for (Setting<?> fromThis : getAllSettings()) {
+            if (setting.path().equals(fromThis.path())) {
+                return setting.value().equals(fromThis.value());
+            }
+        }
+        throw new IllegalArgumentException("Did not find a suitable setting: " + setting);
+    }
+
     public List<Setting<?>> getAllSettings() {
         List<Setting<?>> settings = new ArrayList<>();
         // settings.add(entityType); // ignore for now
