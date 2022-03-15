@@ -260,7 +260,11 @@ public class Builder {
         }
 
         public Setting<?> getSettingFor(Setting<?> other) {
-            return settingMap.get(other.path());
+            return getSettingFor(other.path());
+        }
+
+        public Setting<?> getSettingFor(String path) {
+            return settingMap.get(path);
         }
 
         public boolean isDefault(Setting<?> other) {
