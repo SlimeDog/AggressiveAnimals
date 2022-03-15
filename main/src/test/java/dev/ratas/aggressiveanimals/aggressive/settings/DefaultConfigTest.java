@@ -106,6 +106,19 @@ public class DefaultConfigTest {
         Assertions.assertFalse(chicken.hasSameSetting(pig.speedMultiplier()));
     }
 
+    @Test
+    public void test_defaultsSameInGameAndInConfig() {
+        CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
+        Builder defaultsBuilder = new Builder(config.getConfig().getConfigurationSection("defaults"));
+        MobTypeSettings inConfigDefaults = defaultsBuilder.build();
+        MobTypeSettings inCodeDefaults = Builder.getDefaultSettings();
+        int maxSims = inConfigDefaults.getSettingSimilarities(inConfigDefaults);
+        Assertions.assertEquals(maxSims, inConfigDefaults.getSettingSimilarities(inConfigDefaults),
+                "Defaults in code and in default config should be similar");
+        Assertions.assertTrue(inConfigDefaults.hasSimilarSettings(inCodeDefaults),
+                "Defaults in code and in default config should be similar");
+    }
+
     public static final class MockResourceProvider implements SDCResourceProvider {
 
         @Override

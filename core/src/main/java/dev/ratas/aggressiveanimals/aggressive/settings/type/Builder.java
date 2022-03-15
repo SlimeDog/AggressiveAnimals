@@ -197,18 +197,40 @@ public class Builder {
 
     }
 
-    @SuppressWarnings("unchecked")
     private static <T> Setting<T> fromSection(SDCConfiguration section, String path, T inCodeDef) {
         SDCConfiguration defSect = section.getDefaultSection();
         if (defSect == null) {
-            return new Setting<>(path, (T) section.get(path, inCodeDef), inCodeDef);
+            // no defaults set for the mob type - using in code defaults
+            T val = getValue(section, path, inCodeDef);
+            return new Setting<>(path, val, inCodeDef);
         } else {
             if (defSect.isSet(path)) {
-                return new Setting<>(path, (T) section.get(path), (T) defSect.get(path));
+                // value set in default config, but haven't checked user's config
+                // only passing in code default value for typing - won't change the value
+                T inDefConfig = getValue(defSect, path, inCodeDef);
+                T val = getValue(section, path, inDefConfig);
+                return new Setting<>(path, val, inDefConfig);
             } else {
-                return new Setting<>(path, (T) section.get(path, inCodeDef), inCodeDef);
+                // value not set in default config
+                // using user config or in code config
+                T val = getValue(section, path, inCodeDef);
+                return new Setting<>(path, val, inCodeDef);
             }
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> T getValue(SDCConfiguration section, String path, T def) {
+        if (def instanceof Double) {
+            return (T) (Double) section.getDouble(path, (double) def);
+        } else if (def instanceof Float) {
+            return (T) (Float) (float) section.getDouble(path, (double) (float) def);
+        } else if (def instanceof Integer) {
+            return (T) (Integer) section.getInt(path, (int) def);
+        } else if (def instanceof Long) {
+            return (T) (Long) section.getLong(path, (long) def);
+        }
+        return (T) section.get(path, def);
     }
 
 }
