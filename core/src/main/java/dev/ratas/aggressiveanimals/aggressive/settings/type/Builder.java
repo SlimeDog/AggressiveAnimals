@@ -1,6 +1,8 @@
 package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.configuration.MemoryConfiguration;
@@ -10,6 +12,7 @@ import dev.ratas.slimedogcore.api.config.SDCConfiguration;
 import dev.ratas.slimedogcore.impl.config.ConfigurationWrapper;
 
 public class Builder {
+    private static final DefaultMobTypeSettings IN_CODE_DEFAULT_SETTINGS = generateDefaultSettings();
     private final SDCConfiguration section;
     private Setting<MobType> type;
     private Setting<Boolean> enabled;
@@ -184,9 +187,13 @@ public class Builder {
                 playerStateSettings, worldSettings);
     }
 
-    public static MobTypeSettings getDefaultSettings() {
+    public static DefaultMobTypeSettings getDefaultSettings() {
+        return IN_CODE_DEFAULT_SETTINGS;
+    }
+
+    private static DefaultMobTypeSettings generateDefaultSettings() {
         SDCConfiguration emptySection = new ConfigurationWrapper(new MemoryConfiguration().createSection("defaults"));
-        return new Builder(emptySection).build();
+        return new DefaultMobTypeSettings(new Builder(emptySection).build());
     }
 
     public static class IllegalMobTypeSettingsException extends IllegalStateException {
@@ -231,6 +238,39 @@ public class Builder {
             return (T) (Long) section.getLong(path, (long) def);
         }
         return (T) section.get(path, def);
+    }
+
+    public static final class DefaultMobTypeSettings {
+        private final MobTypeSettings settings;
+        private final Map<String, Setting<?>> settingMap = new HashMap<>();
+
+        private DefaultMobTypeSettings(MobTypeSettings settings) {
+            this.settings = settings;
+            this.populateMap();
+        }
+
+        private void populateMap() {
+            for (Setting<?> s : this.settings.getAllSettings()) {
+                settingMap.put(s.path(), s);
+            }
+        }
+
+        public MobTypeSettings getSettings() {
+            return settings;
+        }
+
+        public Setting<?> getSettingFor(Setting<?> other) {
+            return settingMap.get(other.path());
+        }
+
+        public boolean isDefault(Setting<?> other) {
+            Setting<?> fromThis = getSettingFor(other);
+            if (fromThis == null) {
+                throw new IllegalArgumentException("Unknown settings: " + other);
+            }
+            return fromThis.value().equals(other.value());
+        }
+
     }
 
 }

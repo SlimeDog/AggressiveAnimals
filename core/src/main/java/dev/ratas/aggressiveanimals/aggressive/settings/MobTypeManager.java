@@ -15,7 +15,7 @@ import dev.ratas.slimedogcore.api.config.SDCConfiguration;
 public class MobTypeManager {
     private final SlimeDogPlugin plugin;
     private final Map<MobType, MobTypeSettings> types = new EnumMap<>(MobType.class);
-    private final MobTypeSettings inCodeDefaults;
+    private final Builder.DefaultMobTypeSettings inCodeDefaults;
     private MobTypeSettings inConfigDefaults;
 
     public MobTypeManager(SlimeDogPlugin plugin, Settings settings) {
@@ -47,7 +47,7 @@ public class MobTypeManager {
             inConfigDefaults = builder.build();
         } catch (Builder.IllegalMobTypeSettingsException e) {
             // TODO - show warning?
-            inConfigDefaults = inCodeDefaults;
+            inConfigDefaults = inCodeDefaults.getSettings();
         }
     }
 
@@ -60,7 +60,7 @@ public class MobTypeManager {
      *
      * @return
      */
-    public MobTypeSettings getInCodeDefaultSettings() {
+    public Builder.DefaultMobTypeSettings getInCodeDefaultSettings() {
         return inCodeDefaults;
     }
 

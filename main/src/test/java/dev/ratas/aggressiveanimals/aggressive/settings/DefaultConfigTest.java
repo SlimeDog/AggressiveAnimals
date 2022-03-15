@@ -111,7 +111,7 @@ public class DefaultConfigTest {
         CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
         Builder defaultsBuilder = new Builder(config.getConfig().getConfigurationSection("defaults"));
         MobTypeSettings inConfigDefaults = defaultsBuilder.build();
-        MobTypeSettings inCodeDefaults = Builder.getDefaultSettings();
+        MobTypeSettings inCodeDefaults = Builder.getDefaultSettings().getSettings();
         int maxSims = inConfigDefaults.getSettingSimilarities(inConfigDefaults);
         Assertions.assertEquals(maxSims, inConfigDefaults.getSettingSimilarities(inConfigDefaults),
                 "Defaults in code and in default config should be similar");

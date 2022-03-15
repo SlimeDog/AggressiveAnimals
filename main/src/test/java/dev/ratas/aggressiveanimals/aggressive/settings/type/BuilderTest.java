@@ -72,13 +72,13 @@ public class BuilderTest {
 
     @Test
     public void test_builderGetDefaultSettingsWorks() {
-        MobTypeSettings def = Builder.getDefaultSettings();
+        MobTypeSettings def = Builder.getDefaultSettings().getSettings();
         Assertions.assertNotNull(def);
     }
 
     @Test
     public void test_builderGetDefaultSettingsCorrect() {
-        MobTypeSettings def = Builder.getDefaultSettings();
+        MobTypeSettings def = Builder.getDefaultSettings().getSettings();
         Assertions.assertSame(def.entityType().def(), def.entityType().value());
         Assertions.assertSame(MobType.defaults, def.entityType().value());
         for (Setting<?> set : def.getAllSettings()) {
