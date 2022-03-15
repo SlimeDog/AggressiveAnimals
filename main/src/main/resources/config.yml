@@ -54,9 +54,10 @@ defaults:
     looking: true                  # Like locking eyes with an Enderman
     sleeping: true
     gliding: true
-  enabled-worlds: []               # Worlds in which attacks by this mob-type are enabled; if empty, all worlds are enabled
-  disabled-worlds:                 # Worlds in which attacks by this mob-type are disabled; must be set explicitly; takes precedence over enabled_worlds
-    - "example-disabled-world"     # If empty [] on the line above, no worlds are disabled
+  enabled-worlds: []               # Worlds in which attacks by this mob-type are enabled; if [], all worlds are enabled
+  # - "example-enabled-world"      # To enable specific worlds, delete [] above and add lines like this one, uncommented and replacing the world name
+  disabled-worlds: []              # Worlds in which attacks by this mob-type are disabled; if [], no worlds are disabled; takes precedence over enabled_worlds
+  # - "example-disabled-world"     # To disable worlds, delete [] above and add lines like this one, uncommented and replacing the world name
 
 # ========== PER-MOB-TYPE ATTACK PROFILES ==========================================================
 # These are the per-mob-type attack attributes. All recognized passive and neutral mob-types are
