@@ -63,19 +63,21 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
         }
         // commands
         getCommand("aggressiveanimals").setExecutor(new AggressiveAnimalsCommand(this, messages));
-        new UpdateChecker(this, (response, version) -> {
-            switch (response) {
-                case LATEST:
-                    getLogger().info("You are running the latest version");
-                    break;
-                case FOUND_NEW:
-                    getLogger().info("A new version " + version + " is available for download");
-                    break;
-                case UNAVAILABLE:
-                    getLogger().info("Version update information is not available at this time");
-                    break;
-            }
-        }, SPIGOT_ID).check();
+        if (settings.checkForUpdates()) {
+            new UpdateChecker(this, (response, version) -> {
+                switch (response) {
+                    case LATEST:
+                        getLogger().info("You are running the latest version");
+                        break;
+                    case FOUND_NEW:
+                        getLogger().info("A new version " + version + " is available for download");
+                        break;
+                    case UNAVAILABLE:
+                        getLogger().info("Version update information is not available at this time");
+                        break;
+                }
+            }, SPIGOT_ID).check();
+        }
     }
 
     @Override
