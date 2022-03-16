@@ -9,7 +9,7 @@ reloaded-config: "Configuration and messages were successfully reloaded"
 problem-reloading-config: "There was an issue while reloading the config - check the console log"
 
 # Messages produced by /aggro list
-# 
+#
 list-header: "Configured mobs"
 list-header-paged: "Configured mobs - page %page% (%start%-%end%)"
 list-format-enabled: "&6%mob-type% - &aenabled"
@@ -28,8 +28,8 @@ info-all-defaults-not-shown: "{\"extra\":[{\"text\":\"All settings are defaults;
 
 # Constants and utility messages
 #
-disabled: "disabled"               
+disabled: "disabled"
 enabled: "enabled"
-mob-type-not-defined: "No information defined for mon type: %mob-type%" 
+mob-type-not-defined: "No information defined for mon type: %mob-type%"
 mob-type-not-found: "Mob type not found: %mob-type%"
 no-such-page: "Page does not exist: %page%"
