@@ -396,6 +396,31 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
             throw new IllegalStateException("Method not supported");
         }
 
+        @Override
+        public boolean isInt(String path) {
+            return get(path) instanceof Integer;
+        }
+
+        @Override
+        public boolean isBoolean(String path) {
+            return get(path) instanceof Boolean;
+        }
+
+        @Override
+        public boolean isDouble(String path) {
+            return get(path) instanceof Double;
+        }
+
+        @Override
+        public boolean isLong(String path) {
+            return get(path) instanceof Long;
+        }
+
+        @Override
+        public boolean isList(String path) {
+            return get(path) instanceof List;
+        }
+
     }
 
 }

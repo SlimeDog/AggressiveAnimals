@@ -198,14 +198,29 @@ public class Builder {
             return def;
         }
         if (def instanceof Double) {
+            if (!section.isDouble(path)) {
+                throw new IllegalMobTypeSettingsException("Expected floating point value: " + section.get(path));
+            }
             return (T) (Double) section.getDouble(path);
         } else if (def instanceof Float) {
+            if (!section.isDouble(path)) {
+                throw new IllegalMobTypeSettingsException("Expected floating point value: " + section.get(path));
+            }
             return (T) (Float) (float) section.getDouble(path);
         } else if (def instanceof Integer) {
+            if (!section.isInt(path)) {
+                throw new IllegalMobTypeSettingsException("Expected integer value: " + section.get(path));
+            }
             return (T) (Integer) section.getInt(path);
         } else if (def instanceof Long) {
+            if (!section.isLong(path)) {
+                throw new IllegalMobTypeSettingsException("Expected integer value: " + section.get(path));
+            }
             return (T) (Long) section.getLong(path);
         } else if (def instanceof Boolean) {
+            if (!section.isBoolean(path)) {
+                throw new IllegalMobTypeSettingsException("Expected boolean value: " + section.get(path));
+            }
             return (T) (Boolean) section.getBoolean(path);
         }
         return (T) section.get(path);
