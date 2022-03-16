@@ -1,7 +1,6 @@
 # AggressiveAnimals configuration
 #
-# Note: This configuration file is significantly different from the one provided by Michielcx in the
-# original AggressiveAnimals.
+# This file must contain valid YAML code. A YAML checker may be found at http://www.yamllint.com
 
 # AggressiveAnimals does not rewrite the configuration files if they exist, so changes must be made
 # manually.
