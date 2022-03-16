@@ -194,18 +194,21 @@ public class Builder {
 
     @SuppressWarnings("unchecked")
     private static <T> T getValue(SDCConfiguration section, String path, T def) {
-        if (def instanceof Double) {
-            return (T) (Double) section.getDouble(path, (double) def);
-        } else if (def instanceof Float) {
-            return (T) (Float) (float) section.getDouble(path, (double) (float) def);
-        } else if (def instanceof Integer) {
-            return (T) (Integer) section.getInt(path, (int) def);
-        } else if (def instanceof Long) {
-            return (T) (Long) section.getLong(path, (long) def);
-        } else if (def instanceof Boolean) {
-            return (T) (Boolean) section.getBoolean(path, (boolean) def);
+        if (!section.isSet(path)) {
+            return def;
         }
-        return (T) section.get(path, def);
+        if (def instanceof Double) {
+            return (T) (Double) section.getDouble(path);
+        } else if (def instanceof Float) {
+            return (T) (Float) (float) section.getDouble(path);
+        } else if (def instanceof Integer) {
+            return (T) (Integer) section.getInt(path);
+        } else if (def instanceof Long) {
+            return (T) (Long) section.getLong(path);
+        } else if (def instanceof Boolean) {
+            return (T) (Boolean) section.getBoolean(path);
+        }
+        return (T) section.get(path);
     }
 
 }
