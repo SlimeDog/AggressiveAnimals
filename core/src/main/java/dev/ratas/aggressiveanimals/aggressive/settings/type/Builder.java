@@ -207,12 +207,12 @@ public class Builder {
             return def;
         }
         if (def instanceof Double) {
-            if (!section.isDouble(path)) {
+            if (!section.isDouble(path) && !section.isInt(path) && !section.isLong(path)) {
                 throw new IllealConfiguraitonOptionException("Expected floating point value: " + section.get(path));
             }
             return (T) (Double) section.getDouble(path);
         } else if (def instanceof Float) {
-            if (!section.isDouble(path)) {
+            if (!section.isDouble(path) && !section.isInt(path) && !section.isLong(path)) {
                 throw new IllealConfiguraitonOptionException("Expected floating point value: " + section.get(path));
             }
             return (T) (Float) (float) section.getDouble(path);
