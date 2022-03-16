@@ -20,7 +20,7 @@ import dev.ratas.slimedogcore.impl.SlimeDogCore;
 import dev.ratas.slimedogcore.impl.utils.UpdateChecker;
 
 public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimals {
-    private static final int SPIGOT_ID = -1;
+    private static final int SPIGOT_ID = 76716; // TODO - use correct ID
     private static final int BSTATS_ID = 14423;
     private SDCCustomConfig config;
     private Messages messages;
