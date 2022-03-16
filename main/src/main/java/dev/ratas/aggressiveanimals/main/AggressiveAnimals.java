@@ -47,13 +47,19 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
             return;
         }
         settings = new Settings(this.config);
+        try {
+            aggressivityManager = new AggressivityManager(this, settings, npcHookManager, NMSResolver.getSetter(this));
+        } catch (ConfigException e) {
+            issues.logIssue("INVALID MOB SETTINGS", "Invalid mob settings - disabling", e);
+            disableMe(issues);
+            return;
+        }
     }
 
     @Override
     public void pluginEnabled() {
-        loadDataFromFile();
         npcHookManager = new NPCHookManager();
-        aggressivityManager = new AggressivityManager(this, settings, npcHookManager, NMSResolver.getSetter(this));
+        loadDataFromFile();
         registrationListener = new MobRegistrationListener(this, aggressivityManager);
         getPluginManager().registerEvents(registrationListener);
         getPluginManager().registerEvents(new AggressionListener(this, aggressivityManager));
@@ -97,7 +103,13 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
             disableMe(issues);
             return issues;
         }
-        aggressivityManager.reload(settings);
+        try {
+            aggressivityManager.reload(settings);
+        } catch (ConfigException e) {
+            issues.logIssue("INVALID MOB SETTINGS", "Invalid mob settings - disabling", e);
+            disableMe(issues);
+            return issues;
+        }
         registrationListener.onReload();
         return issues;
     }
@@ -127,7 +139,9 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
 
     @Override
     public void pluginDisabled() {
-        aggressivityManager.unregisterAll(PacificationReason.PLUGIN_DISABLE);
+        if (aggressivityManager != null) {
+            aggressivityManager.unregisterAll(PacificationReason.PLUGIN_DISABLE);
+        }
     }
 
 }
