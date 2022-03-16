@@ -1,17 +1,23 @@
 # Message text may be localized to suit.
 # Undefined messages default to internal values (ie., US English).
+#
+# This file must contain valid YAML code. A YAML checker may be found at http://www.yamllint.com
 
+# Messages produced by enable (server start-up or /aggro reload)
+#
 reloaded-config: "Configuration and messages were successfully reloaded"
 problem-reloading-config: "There was an issue while reloading the config - check the console log"
+
+# Messages produced by /aggro list
+# 
 list-header: "Configured mobs"
 list-header-paged: "Configured mobs - page %page% (%start%-%end%)"
 list-format-enabled: "&6%mob-type% - &aenabled"
 list-format-disabled: "&7%mob-type% - &8disabled"
-enabled: "enabled"
-disabled: "disabled"
-mob-type-not-found: "Mob type not found: %mob-type%"
-mob-type-not-defined: "No information defined for mon type: %mob-type%"
-no-such-page: "Page does not exist: %page%"
+
+# Messages produced by /aggro info
+# JSON messages (info-default-settings-not-shown and info-all-defaults-not-shown) support clickEvents in-game
+#
 info-non-default-setting: "&a%setting-path%: &a%setting-value%"
 info-non-default-setting-in-all: "&a%setting-path%: &a%setting-value%"
 info-header: "Info for %mob-type%"
@@ -19,3 +25,11 @@ info-header-paged: "Info for %mob-type% - page %page% (%start%-%end%)"
 info-default-setting: "&7%setting-path%: &7%default-value%"
 info-default-settings-not-shown: "{\"extra\":[{\"text\":\"Remaining settings are defaults; type \"},{\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/aggro info defaults\"},\"text\":\"/aggro info defaults\"}],\"text\":\"\"}"
 info-all-defaults-not-shown: "{\"extra\":[{\"text\":\"All settings are defaults; type \"},{\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/aggro info defaults\"},\"text\":\"/aggro info defaults\"}],\"text\":\"\"}"
+
+# Constants and utility messages
+#
+disabled: "disabled"               
+enabled: "enabled"
+mob-type-not-defined: "No information defined for mon type: %mob-type%" 
+mob-type-not-found: "Mob type not found: %mob-type%"
+no-such-page: "Page does not exist: %page%"
