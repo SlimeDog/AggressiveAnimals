@@ -16,17 +16,21 @@ import dev.ratas.slimedogcore.impl.config.CustomYamlConfig;
 public class BuilderTest {
     private File testConfigFile;
     private CustomYamlConfig config;
+    private SDCConfiguration defSection;
 
     @BeforeEach
     public void setup() {
         testConfigFile = DefaultConfigTest.getFrom("src/test/resources/config.yml".split("/"));
         config = new CustomYamlConfig(new MockResourceProvider(), testConfigFile);
+        File defConfigFile = DefaultConfigTest.getFrom("src/main/resources/config.yml".split("/"));
+        CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), defConfigFile);
+        defSection = config.getConfig().getConfigurationSection("defaults");
     }
 
     @Test
     public void test_builderBuildsFromEmpty() {
         SDCConfiguration config = this.config.getConfig().getConfigurationSection("mobs.wolf");
-        Builder builder = new Builder(config);
+        Builder builder = new Builder(config, defSection);
         MobTypeSettings mts = builder.build();
         Assertions.assertTrue(mts.entityType().value() == MobType.wolf, "Expected wolf");
         Assertions.assertNotNull(mts, "Expected to build a non-null settings from empty (wolf)");
@@ -36,7 +40,7 @@ public class BuilderTest {
     @Test
     public void test_builderBuildsTameableWithIncludeTameable() {
         SDCConfiguration config = this.config.getConfig().getConfigurationSection("mobs.cat");
-        Builder builder = new Builder(config);
+        Builder builder = new Builder(config, defSection);
         MobTypeSettings mts = builder.build();
         Assertions.assertTrue(mts.entityType().value() == MobType.cat, "Expected cat");
         Assertions.assertNotNull(mts, "Expected to build a non-null settings with including tameables (cat)");
@@ -46,7 +50,7 @@ public class BuilderTest {
     @Test
     public void test_builderBuildsFoxWithIncludeTameable() {
         SDCConfiguration config = this.config.getConfig().getConfigurationSection("mobs.fox");
-        Builder builder = new Builder(config);
+        Builder builder = new Builder(config, defSection);
         MobTypeSettings mts = builder.build();
         Assertions.assertTrue(mts.entityType().value() == MobType.fox, "Expected fox");
         Assertions.assertNotNull(mts, "Expected to build a non-null settings with including tameables (fox)");
@@ -56,7 +60,7 @@ public class BuilderTest {
     @Test
     public void test_builderBuildsOcelotWithIncludeTameable() {
         SDCConfiguration config = this.config.getConfig().getConfigurationSection("mobs.ocelot");
-        Builder builder = new Builder(config);
+        Builder builder = new Builder(config, defSection);
         MobTypeSettings mts = builder.build();
         Assertions.assertTrue(mts.entityType().value() == MobType.ocelot, "Expected ocelot");
         Assertions.assertNotNull(mts, "Expected to build a non-null settings with including tameables (ocelot)");
@@ -66,24 +70,8 @@ public class BuilderTest {
     @Test
     public void test_builderFailsNonTameableWithIncludeTameable() {
         SDCConfiguration config = this.config.getConfig().getConfigurationSection("mobs.pig");
-        Builder builder = new Builder(config);
+        Builder builder = new Builder(config, defSection);
         Assertions.assertThrows(IllegalMobTypeSettingsException.class, () -> builder.build());
-    }
-
-    @Test
-    public void test_builderGetDefaultSettingsWorks() {
-        MobTypeSettings def = Builder.getDefaultSettings().getSettings();
-        Assertions.assertNotNull(def);
-    }
-
-    @Test
-    public void test_builderGetDefaultSettingsCorrect() {
-        MobTypeSettings def = Builder.getDefaultSettings().getSettings();
-        Assertions.assertSame(def.entityType().def(), def.entityType().value());
-        Assertions.assertSame(MobType.defaults, def.entityType().value());
-        for (Setting<?> set : def.getAllSettings()) {
-            Assertions.assertTrue(set.isDefault());
-        }
     }
 
 }

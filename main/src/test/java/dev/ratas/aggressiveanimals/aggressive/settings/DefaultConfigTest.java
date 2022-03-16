@@ -10,15 +10,19 @@ import org.junit.jupiter.api.Test;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.Builder;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.Setting;
+import dev.ratas.slimedogcore.api.config.SDCConfiguration;
 import dev.ratas.slimedogcore.api.wrappers.SDCResourceProvider;
 import dev.ratas.slimedogcore.impl.config.CustomYamlConfig;
 
 public class DefaultConfigTest {
     private File configFile;
+    private SDCConfiguration defSection;
 
     @BeforeEach
     public void setup() {
         configFile = getFrom("src/main/resources/config.yml".split("/"));
+        CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
+        defSection = config.getConfig().getConfigurationSection("defaults");
     }
 
     @Test
@@ -51,7 +55,8 @@ public class DefaultConfigTest {
     @Test
     public void test_defaultChickenSectionParses() {
         CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
-        Builder builder = new Builder(config.getConfig().getConfigurationSection("mobs.chicken"));
+        SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.chicken");
+        Builder builder = new Builder(section, defSection);
         MobTypeSettings settings = builder.build();
         Assertions.assertNotNull(settings, "Should build non-null settings");
     }
@@ -59,7 +64,8 @@ public class DefaultConfigTest {
     @Test
     public void test_defaultChickenSectionEnabled() {
         CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
-        Builder builder = new Builder(config.getConfig().getConfigurationSection("mobs.chicken"));
+        SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.chicken");
+        Builder builder = new Builder(section, defSection);
         MobTypeSettings settings = builder.build();
         Assertions.assertFalse(settings.enabled().value(), "Default chicken section should not be enabled");
     }
@@ -67,7 +73,8 @@ public class DefaultConfigTest {
     @Test
     public void test_MobTypeSettings_hasSimilarSettings_worksForSame() {
         CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
-        Builder chickenBuilder = new Builder(config.getConfig().getConfigurationSection("mobs.chicken"));
+        SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.chicken");
+        Builder chickenBuilder = new Builder(section, defSection);
         MobTypeSettings chicken = chickenBuilder.build();
         Assertions.assertTrue(chicken.hasSimilarSettings(chicken), "Settings should be similar to self");
     }
@@ -75,9 +82,11 @@ public class DefaultConfigTest {
     @Test
     public void test_defaultChickenSectionValuesMatchDefaultsForPig() {
         CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
-        Builder chickenBuilder = new Builder(config.getConfig().getConfigurationSection("mobs.chicken"));
+        SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.chicken");
+        Builder chickenBuilder = new Builder(section, defSection);
         MobTypeSettings chicken = chickenBuilder.build();
-        Builder pigBuilder = new Builder(config.getConfig().getConfigurationSection("mobs.pig"));
+        section = config.getConfig().getConfigurationSection("mobs.pig");
+        Builder pigBuilder = new Builder(section, defSection);
         MobTypeSettings pig = pigBuilder.build();
         int maxSims = chicken.getSettingSimilarities(chicken);
         Assertions.assertEquals(maxSims - 1, pig.getSettingSimilarities(chicken),
@@ -89,7 +98,8 @@ public class DefaultConfigTest {
     @Test
     public void test_defaultChickenHasAllSimilarSettings() {
         CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
-        Builder chickenBuilder = new Builder(config.getConfig().getConfigurationSection("mobs.chicken"));
+        SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.chicken");
+        Builder chickenBuilder = new Builder(section, defSection);
         MobTypeSettings chicken = chickenBuilder.build();
         for (Setting<?> setting : chicken.getAllSettings()) {
             Assertions.assertTrue(chicken.hasSameSetting(setting));
@@ -99,24 +109,13 @@ public class DefaultConfigTest {
     @Test
     public void test_defaultChickenHasDissimilarSettings() {
         CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
-        Builder chickenBuilder = new Builder(config.getConfig().getConfigurationSection("mobs.chicken"));
-        Builder pigBuilder = new Builder(config.getConfig().getConfigurationSection("mobs.pig"));
+        SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.chicken");
+        Builder chickenBuilder = new Builder(section, defSection);
+        section = config.getConfig().getConfigurationSection("mobs.pig");
+        Builder pigBuilder = new Builder(section, defSection);
         MobTypeSettings chicken = chickenBuilder.build();
         MobTypeSettings pig = pigBuilder.build();
         Assertions.assertFalse(chicken.hasSameSetting(pig.speedMultiplier()));
-    }
-
-    @Test
-    public void test_defaultsSameInGameAndInConfig() {
-        CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
-        Builder defaultsBuilder = new Builder(config.getConfig().getConfigurationSection("defaults"));
-        MobTypeSettings inConfigDefaults = defaultsBuilder.build();
-        MobTypeSettings inCodeDefaults = Builder.getDefaultSettings().getSettings();
-        int maxSims = inConfigDefaults.getSettingSimilarities(inConfigDefaults);
-        Assertions.assertEquals(maxSims, inConfigDefaults.getSettingSimilarities(inConfigDefaults),
-                "Defaults in code and in default config should be similar");
-        Assertions.assertTrue(inConfigDefaults.hasSimilarSettings(inCodeDefaults),
-                "Defaults in code and in default config should be similar");
     }
 
     public static final class MockResourceProvider implements SDCResourceProvider {

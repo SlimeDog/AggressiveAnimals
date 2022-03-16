@@ -1,7 +1,10 @@
 package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -14,6 +17,7 @@ import dev.ratas.aggressiveanimals.aggressive.managed.TrackedMob;
 import dev.ratas.aggressiveanimals.aggressive.reasons.ChangeReason;
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
+import dev.ratas.slimedogcore.api.config.SDCConfiguration;
 
 public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enabled, Setting<Double> speedMultiplier,
         MobAttackSettings attackSettings, MobAcquisitionSettings acquisitionSettings,
@@ -219,7 +223,7 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         settings.add(ageSettings.attackAsBaby());
         settings.add(miscSettings.includeNpcs());
         settings.add(miscSettings.includeNamedMobs());
-        if (entityType.value().isTameable()) {
+        if (entityType.value().isTameable() || entityType.value() == MobType.defaults) {
             settings.add(miscSettings.includeTamed());
         }
         // settings.add(overrideTargets);
@@ -234,6 +238,164 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         settings.add(worldSettings.enabledWorlds());
         settings.add(worldSettings.disabledWorlds());
         return settings;
+    }
+
+    public static final class DefaultMobTypeSettings implements SDCConfiguration {
+        private final MobTypeSettings settings;
+        private final Map<String, Setting<?>> settingMap = new HashMap<>();
+
+        public DefaultMobTypeSettings(MobTypeSettings settings) {
+            this.settings = settings;
+            this.populateMap();
+        }
+
+        private void populateMap() {
+            for (Setting<?> s : this.settings.getAllSettings()) {
+                settingMap.put(s.path(), s);
+            }
+        }
+
+        public MobTypeSettings getSettings() {
+            return settings;
+        }
+
+        public Setting<?> getSettingFor(Setting<?> other) {
+            return getSettingFor(other.path());
+        }
+
+        public Setting<?> getSettingFor(String path) {
+            return settingMap.get(path);
+        }
+
+        public boolean isDefault(Setting<?> other) {
+            Setting<?> fromThis = getSettingFor(other);
+            if (fromThis == null) {
+                throw new IllegalArgumentException("Unknown settings: " + other);
+            }
+            return fromThis.value().equals(other.value());
+        }
+
+        @Override
+        public Collection<String> getKeys(boolean deep) {
+            return settingMap.keySet();
+        }
+
+        @Override
+        public Map<String, Object> getValues(boolean deep) {
+            throw new IllegalStateException("Method not supported");
+        }
+
+        @Override
+        public boolean contains(String path) {
+            return settingMap.containsKey(path);
+        }
+
+        @Override
+        public boolean contains(String path, boolean ignoreDefault) {
+            return contains(path);
+        }
+
+        @Override
+        public boolean isSet(String path) {
+            return contains(path);
+        }
+
+        @Override
+        public String getCurrentPath() {
+            throw new IllegalStateException("Method not supported");
+        }
+
+        @Override
+        public String getName() {
+            throw new IllegalStateException("Method not supported");
+        }
+
+        @Override
+        public Object get(String path) {
+            return settingMap.get(path).value();
+        }
+
+        @Override
+        public Object get(String path, Object def) {
+            return get(path);
+        }
+
+        @Override
+        public String getString(String path) {
+            return (String) get(path);
+        }
+
+        @Override
+        public String getString(String path, String def) {
+            return getString(path);
+        }
+
+        @Override
+        public int getInt(String path) {
+            return (int) get(path);
+        }
+
+        @Override
+        public int getInt(String path, int def) {
+            return getInt(path);
+        }
+
+        @Override
+        public boolean getBoolean(String path) {
+            return (boolean) get(path);
+        }
+
+        @Override
+        public boolean getBoolean(String path, boolean def) {
+            return getBoolean(path);
+        }
+
+        @Override
+        public double getDouble(String path) {
+            return (double) get(path);
+        }
+
+        @Override
+        public double getDouble(String path, double def) {
+            return getDouble(path);
+        }
+
+        @Override
+        public long getLong(String path) {
+            return (long) get(path);
+        }
+
+        @Override
+        public long getLong(String path, long def) {
+            return getLong(path);
+        }
+
+        @Override
+        public List<?> getList(String path) {
+            return (List<?>) get(path);
+        }
+
+        @Override
+        public List<?> getList(String path, List<?> def) {
+            return getList(path);
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public List<String> getStringList(String path) {
+            return (List<String>) get(path);
+        }
+
+        @Override
+        public SDCConfiguration getConfigurationSection(String path) {
+            throw new IllegalStateException("Method not supported");
+        }
+
+        @Override
+        public SDCConfiguration getDefaultSection() {
+            throw new IllegalStateException("Method not supported");
+        }
+
     }
 
 }

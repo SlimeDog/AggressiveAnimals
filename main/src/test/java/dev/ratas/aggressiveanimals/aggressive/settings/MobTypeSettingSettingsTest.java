@@ -19,16 +19,21 @@ import dev.ratas.slimedogcore.impl.config.CustomYamlConfig;
 public class MobTypeSettingSettingsTest {
     private File configFile;
     private CustomYamlConfig config;
+    private SDCConfiguration defSection;
 
     @BeforeEach
     public void setup() {
         configFile = DefaultConfigTest.getFrom("src/test/resources/config.yml".split("/"));
         config = new CustomYamlConfig(new MockResourceProvider(), configFile);
+        File defConfigFile = DefaultConfigTest.getFrom("src/main/resources/config.yml".split("/"));
+        CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), defConfigFile);
+        defSection = config.getConfig().getConfigurationSection("defaults");
     }
 
     @Test
     public void test_mobTypeSettingsHasAllSettings() {
-        Builder builder = new Builder(config.getConfig().getConfigurationSection("mobs.chicken"));
+        SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.chicken");
+        Builder builder = new Builder(section, defSection);
         MobTypeSettings settings = builder.build();
         List<Setting<?>> allSettings = settings.getAllSettings();
         Assertions.assertEquals(24, allSettings.size());
@@ -36,7 +41,8 @@ public class MobTypeSettingSettingsTest {
 
     @Test
     public void test_mobTypeSettingsHasNoDuplicateSettings() {
-        Builder builder = new Builder(config.getConfig().getConfigurationSection("mobs.chicken"));
+        SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.chicken");
+        Builder builder = new Builder(section, defSection);
         MobTypeSettings settings = builder.build();
         List<Setting<?>> allSettings = settings.getAllSettings();
         for (int i = 0; i < allSettings.size() - 1; i++) {
@@ -51,7 +57,8 @@ public class MobTypeSettingSettingsTest {
 
     @Test
     public void test_mobTypeSettingsTameableHasAllSettings() {
-        Builder builder = new Builder(config.getConfig().getConfigurationSection("mobs.ocelot"));
+        SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.ocelot");
+        Builder builder = new Builder(section, defSection);
         MobTypeSettings settings = builder.build();
         List<Setting<?>> allSettings = settings.getAllSettings();
         Assertions.assertEquals(25, allSettings.size()); // has tamability one
@@ -59,7 +66,8 @@ public class MobTypeSettingSettingsTest {
 
     @Test
     public void test_mobTypeSettingsTameableHasNoDuplicateSettings() {
-        Builder builder = new Builder(config.getConfig().getConfigurationSection("mobs.ocelot"));
+        SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.ocelot");
+        Builder builder = new Builder(section, defSection);
         MobTypeSettings settings = builder.build();
         List<Setting<?>> allSettings = settings.getAllSettings();
         for (int i = 0; i < allSettings.size() - 1; i++) {
@@ -86,7 +94,7 @@ public class MobTypeSettingSettingsTest {
                                 + key);
                 continue;
             }
-            Builder builder = new Builder(section.getConfigurationSection(key));
+            Builder builder = new Builder(section.getConfigurationSection(key), defSection);
             // can thrhow Builder.IllegalMobTypeSettingsException e)
             builder.build();
         }
@@ -110,7 +118,7 @@ public class MobTypeSettingSettingsTest {
                     && MobType.matchType(key).getBukkitType() == null) {
                 continue;
             }
-            Builder builder = new Builder(section.getConfigurationSection(key));
+            Builder builder = new Builder(section.getConfigurationSection(key), defSection);
             MobTypeSettings settings = builder.build();
             Assertions.assertTrue(allMobTypes.contains(settings.entityType().value()));
             allMobTypes.remove(settings.entityType().value());

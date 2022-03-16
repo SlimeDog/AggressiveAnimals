@@ -66,7 +66,7 @@ public class InfoSub extends AbstractSubCommand {
         MobTypeSettings settings;
         boolean showingDefaults;
         if (args[0].equalsIgnoreCase(DEFAULTS)) {
-            settings = manager.getMobTypeManager().getConfigDefaultSettings();
+            settings = manager.getMobTypeManager().getConfigDefaultSettings().getSettings();
             showingDefaults = true;
         } else {
             MobType type = MobType.matchType(args[0]);

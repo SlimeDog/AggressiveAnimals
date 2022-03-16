@@ -15,12 +15,14 @@ import dev.ratas.slimedogcore.api.config.SDCConfiguration;
 public class MobTypeManager {
     private final SlimeDogPlugin plugin;
     private final Map<MobType, MobTypeSettings> types = new EnumMap<>(MobType.class);
-    private final Builder.DefaultMobTypeSettings inCodeDefaults;
-    private MobTypeSettings inConfigDefaults;
+    private final MobTypeSettings.DefaultMobTypeSettings inCodeDefaults;
+    private MobTypeSettings.DefaultMobTypeSettings inConfigDefaults;
 
     public MobTypeManager(SlimeDogPlugin plugin, Settings settings) {
         this.plugin = plugin;
-        inCodeDefaults = Builder.getDefaultSettings();
+        SDCConfiguration defSection = settings.getDefaultsSection().getDefaultSection();
+        inCodeDefaults = new MobTypeSettings.DefaultMobTypeSettings(
+                new Builder(defSection, defSection).build());
         loadMobs(settings);
     }
 
@@ -31,7 +33,7 @@ public class MobTypeManager {
             return;
         }
         for (String key : section.getKeys(false)) {
-            Builder builder = new Builder(section.getConfigurationSection(key));
+            Builder builder = new Builder(section.getConfigurationSection(key), settings.getDefaultsSection());
             MobTypeSettings typeSettings;
             try {
                 typeSettings = builder.build();
@@ -42,12 +44,12 @@ public class MobTypeManager {
             }
             types.put(typeSettings.entityType().value(), typeSettings);
         }
-        Builder builder = new Builder(settings.getDefaultsSection());
+        Builder builder = new Builder(settings.getDefaultsSection(), inCodeDefaults);
         try {
-            inConfigDefaults = builder.build();
+            inConfigDefaults = new MobTypeSettings.DefaultMobTypeSettings(builder.build());
         } catch (Builder.IllegalMobTypeSettingsException e) {
             // TODO - show warning?
-            inConfigDefaults = inCodeDefaults.getSettings();
+            inConfigDefaults = new MobTypeSettings.DefaultMobTypeSettings(inCodeDefaults.getSettings());
         }
     }
 
@@ -60,7 +62,7 @@ public class MobTypeManager {
      *
      * @return
      */
-    public Builder.DefaultMobTypeSettings getInCodeDefaultSettings() {
+    public MobTypeSettings.DefaultMobTypeSettings getInCodeDefaultSettings() {
         return inCodeDefaults;
     }
 
@@ -69,7 +71,7 @@ public class MobTypeManager {
      *
      * @return
      */
-    public MobTypeSettings getConfigDefaultSettings() {
+    public MobTypeSettings.DefaultMobTypeSettings getConfigDefaultSettings() {
         return inConfigDefaults;
     }
 
