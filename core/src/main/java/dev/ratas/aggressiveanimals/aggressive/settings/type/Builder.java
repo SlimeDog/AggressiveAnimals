@@ -1,6 +1,6 @@
 package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
-import java.util.Set;
+import java.util.List;
 
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.slimedogcore.api.config.SDCConfiguration;
@@ -127,9 +127,9 @@ public class Builder {
 
     private void loadWorldSettings() {
         String path = "enabled-worlds";
-        Setting<Set<String>> enabled = fromSection(section, path, defSection);
+        Setting<List<String>> enabled = fromSection(section, path, defSection);
         path = "disabled-worlds";
-        Setting<Set<String>> disabled = fromSection(section, path, defSection);
+        Setting<List<String>> disabled = fromSection(section, path, defSection);
         worldSettings = new MobWorldSettings(enabled, disabled);
     }
 

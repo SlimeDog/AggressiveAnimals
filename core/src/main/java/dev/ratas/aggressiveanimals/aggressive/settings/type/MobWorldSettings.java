@@ -1,10 +1,10 @@
 package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
-import java.util.Set;
+import java.util.List;
 
 import org.bukkit.World;
 
-public record MobWorldSettings(Setting<Set<String>> enabledWorlds, Setting<Set<String>> disabledWorlds) {
+public record MobWorldSettings(Setting<List<String>> enabledWorlds, Setting<List<String>> disabledWorlds) {
 
     public boolean isEnabledInWorld(World world) {
         return isEnabledInWorld(world.getName());
