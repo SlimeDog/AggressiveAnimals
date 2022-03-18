@@ -173,9 +173,9 @@ public class Builder {
 
     }
 
-    public static class IllealConfiguraitonOptionException extends ConfigException {
+    public static class IllegalConfigurationOptionException extends ConfigException {
 
-        protected IllealConfiguraitonOptionException(String msg) {
+        protected IllegalConfigurationOptionException(String msg) {
             super(msg);
         }
 
@@ -208,27 +208,27 @@ public class Builder {
         }
         if (def instanceof Double) {
             if (!section.isDouble(path) && !section.isInt(path) && !section.isLong(path)) {
-                throw new IllealConfiguraitonOptionException("Expected floating point value: " + section.get(path));
+                throw new IllegalConfigurationOptionException("Expected floating point value: " + section.get(path));
             }
             return (T) (Double) section.getDouble(path);
         } else if (def instanceof Float) {
             if (!section.isDouble(path) && !section.isInt(path) && !section.isLong(path)) {
-                throw new IllealConfiguraitonOptionException("Expected floating point value: " + section.get(path));
+                throw new IllegalConfigurationOptionException("Expected floating point value: " + section.get(path));
             }
             return (T) (Float) (float) section.getDouble(path);
         } else if (def instanceof Integer) {
             if (!section.isInt(path)) {
-                throw new IllealConfiguraitonOptionException("Expected integer value: " + section.get(path));
+                throw new IllegalConfigurationOptionException("Expected integer value: " + section.get(path));
             }
             return (T) (Integer) section.getInt(path);
         } else if (def instanceof Long) {
             if (!section.isLong(path)) {
-                throw new IllealConfiguraitonOptionException("Expected integer value: " + section.get(path));
+                throw new IllegalConfigurationOptionException("Expected integer value: " + section.get(path));
             }
             return (T) (Long) section.getLong(path);
         } else if (def instanceof Boolean) {
             if (!section.isBoolean(path)) {
-                throw new IllealConfiguraitonOptionException("Expected boolean value: " + section.get(path));
+                throw new IllegalConfigurationOptionException("Expected boolean value: " + section.get(path));
             }
             return (T) (Boolean) section.getBoolean(path);
         }
