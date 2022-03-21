@@ -74,4 +74,22 @@ public class BuilderTest {
         Assertions.assertThrows(IllegalMobTypeSettingsException.class, () -> builder.build());
     }
 
+    @Test
+    public void test_builderSettingsCorrectType() {
+        Builder builder = new Builder(defSection, defSection);
+        MobTypeSettings mts = builder.build();
+        for (Setting<?> setting : mts.getAllSettings()) {
+            Assertions.assertSame(setting.value().getClass(), setting.def().getClass());
+        }
+    }
+
+    @Test
+    public void test_defBuilderSettingsCorrectType() {
+        System.out.println("B4 BUILDER");
+        Builder builder = new Builder(defSection, defSection);
+        MobTypeSettings mts = builder.build();
+        System.out.println("AFTER BUILD");
+        mts.checkAllTypes();
+    }
+
 }
