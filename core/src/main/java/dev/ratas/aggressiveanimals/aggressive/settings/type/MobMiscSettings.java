@@ -9,7 +9,7 @@ import org.bukkit.entity.Tameable;
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 
 public record MobMiscSettings(Setting<Boolean> includeNpcs, Setting<Boolean> includeNamedMobs,
-        Setting<Boolean> includeTamed) {
+        Setting<Boolean> includeTamed) implements CheckingSettingBoundle {
 
     public boolean shouldBeAggressive(NPCHookManager npcHooks, Mob mob, Player target) {
         if (!includeNpcs.value() && npcHooks.isNPC(target)) {
@@ -42,6 +42,13 @@ public record MobMiscSettings(Setting<Boolean> includeNpcs, Setting<Boolean> inc
         }
         Tameable tameable = (Tameable) mob;
         return !tameable.isTamed();
+    }
+
+    @Override
+    public void checkAllTypes() throws IllegalStateException {
+        checkType(includeNpcs, Boolean.class);
+        checkType(includeNamedMobs, Boolean.class);
+        checkType(includeTamed, Boolean.class);
     }
 
 }

@@ -4,7 +4,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-public record MobAcquisitionSettings(Setting<Double> acquisitionRange, Setting<Double> deacquisitionRange) {
+public record MobAcquisitionSettings(Setting<Double> acquisitionRange, Setting<Double> deacquisitionRange)
+        implements CheckingSettingBoundle {
 
     public boolean isInRange(Entity mob, Player target) {
         double max2 = deacquisitionRange.value() * deacquisitionRange.value();
@@ -14,6 +15,12 @@ public record MobAcquisitionSettings(Setting<Double> acquisitionRange, Setting<D
             return false;
         }
         return mobLoc.distanceSquared(targetLoc) <= max2;
+    }
+
+    @Override
+    public void checkAllTypes() throws IllegalStateException {
+        checkType(acquisitionRange, Double.class);
+        checkType(deacquisitionRange, Double.class);
     }
 
 }

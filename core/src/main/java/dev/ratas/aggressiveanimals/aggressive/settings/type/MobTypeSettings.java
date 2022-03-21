@@ -24,7 +24,7 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         Setting<Double> attackerHealthThreshold, MobAgeSettings ageSettings, MobMiscSettings miscSettings,
         Setting<Boolean> alwaysAggressive, // Setting<Boolean> overrideTargets, // may be (re)implemented later
         Setting<Double> groupAgressionDistance,
-        PlayerStateSettings playerStateSettings, MobWorldSettings worldSettings) {
+        PlayerStateSettings playerStateSettings, MobWorldSettings worldSettings) implements CheckingSettingBoundle {
 
     public boolean shouldAttack(Mob mob, Player target, NPCHookManager npcHooks) {
         if (mob.getType() != entityType.value().getBukkitType()) {
@@ -238,6 +238,24 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         settings.add(worldSettings.enabledWorlds());
         settings.add(worldSettings.disabledWorlds());
         return settings;
+    }
+
+    @Override
+    public void checkAllTypes() throws IllegalStateException {
+        checkType(entityType, MobType.class);
+        checkType(enabled, Boolean.class);
+        checkType(speedMultiplier, Double.class);
+        attackSettings.checkAllTypes();
+        acquisitionSettings.checkAllTypes();
+        checkType(attackerHealthThreshold, Double.class);
+        ageSettings.checkAllTypes();
+        miscSettings.checkAllTypes();
+        checkType(alwaysAggressive, Boolean.class);
+        // checkType(Setting<Boolean> overrideTargets, Boolean.class), // may be
+        // (re)implemented late, Double.class)r
+        checkType(groupAgressionDistance, Double.class);
+        playerStateSettings.checkAllTypes();
+        worldSettings.checkAllTypes();
     }
 
     public static final class DefaultMobTypeSettings implements SDCConfiguration {

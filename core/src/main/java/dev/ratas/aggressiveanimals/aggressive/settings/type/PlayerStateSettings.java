@@ -7,10 +7,21 @@ import org.bukkit.util.Vector;
 
 public record PlayerStateSettings(Setting<Boolean> attackStanding, Setting<Boolean> attackSneaking,
         Setting<Boolean> attackWalking, Setting<Boolean> attackSprinting, Setting<Boolean> attackLooking,
-        Setting<Boolean> attackSleeping, Setting<Boolean> attackGliding) {
+        Setting<Boolean> attackSleeping, Setting<Boolean> attackGliding) implements CheckingSettingBoundle {
 
     private static final double MAX_DISTANCE = 20; // TODO - read from data?
     private static final double MIN_ALLOWED_DOT_PRODUCT = 0.99D;
+
+    @Override
+    public void checkAllTypes() throws IllegalStateException {
+        checkType(attackStanding, Boolean.class);
+        checkType(attackSneaking, Boolean.class);
+        checkType(attackWalking, Boolean.class);
+        checkType(attackSprinting, Boolean.class);
+        checkType(attackLooking, Boolean.class);
+        checkType(attackSleeping, Boolean.class);
+        checkType(attackGliding, Boolean.class);
+    }
 
     public boolean shouldAttack(Entity mob, Player target) {
         if (isStanding(target) && attackStanding.value()) {

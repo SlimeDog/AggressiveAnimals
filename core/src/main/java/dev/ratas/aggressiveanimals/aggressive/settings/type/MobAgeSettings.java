@@ -3,7 +3,8 @@ package dev.ratas.aggressiveanimals.aggressive.settings.type;
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Entity;
 
-public record MobAgeSettings(Setting<Boolean> attackAsAdult, Setting<Boolean> attackAsBaby) {
+public record MobAgeSettings(Setting<Boolean> attackAsAdult, Setting<Boolean> attackAsBaby)
+        implements CheckingSettingBoundle {
 
     public boolean shouldAttack(Entity entity) {
         if (!(entity instanceof Ageable)) {
@@ -17,6 +18,12 @@ public record MobAgeSettings(Setting<Boolean> attackAsAdult, Setting<Boolean> at
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void checkAllTypes() throws IllegalStateException {
+        checkType(attackAsAdult, Boolean.class);
+        checkType(attackAsBaby, Boolean.class);
     }
 
 }
