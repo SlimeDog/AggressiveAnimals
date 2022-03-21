@@ -60,7 +60,7 @@ public class Builder {
         path = "attack-speed";
         Setting<Double> speed = fromSection(section, path, defSection);
         path = "attack-leap-height";
-        Setting<Float> attackLeapHeight = fromSection(section, path, defSection);
+        Setting<Double> attackLeapHeight = fromSection(section, path, defSection);
         attackSettings = new MobAttackSettings(damage, attackDamageLimit, speed, attackLeapHeight);
     }
 
@@ -211,11 +211,6 @@ public class Builder {
                 throw new IllegalConfigurationOptionException("Expected floating point value: " + section.get(path));
             }
             return (T) (Double) section.getDouble(path);
-        } else if (def instanceof Float) {
-            if (!section.isDouble(path) && !section.isInt(path) && !section.isLong(path)) {
-                throw new IllegalConfigurationOptionException("Expected floating point value: " + section.get(path));
-            }
-            return (T) (Float) (float) section.getDouble(path);
         } else if (def instanceof Integer) {
             if (!section.isInt(path)) {
                 throw new IllegalConfigurationOptionException("Expected integer value: " + section.get(path));

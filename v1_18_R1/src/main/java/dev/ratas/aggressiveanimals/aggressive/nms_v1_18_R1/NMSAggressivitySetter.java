@@ -119,7 +119,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         addon.goals.add(cur);
         mob.targetSelector.addGoal(2, cur = new NearestAttackableTargetGoal<Player>(mob, Player.class, true));
         addon.goals.add(cur);
-        float leapHeight = settings.attackSettings().attackLeapHeight().value();
+        float leapHeight = (float) (double) settings.attackSettings().attackLeapHeight().value();
         if (leapHeight > 0) {
             mob.targetSelector.addGoal(9, cur = new LeapAtTargetGoal(mob, leapHeight));
             addon.goals.add(cur);
