@@ -3,12 +3,14 @@ package dev.ratas.aggressiveanimals.aggressive.settings.type;
 import java.util.List;
 
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
+import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings.DefaultMobTypeSettings;
 import dev.ratas.slimedogcore.api.config.SDCConfiguration;
 import dev.ratas.slimedogcore.api.config.exceptions.ConfigException;
 
 public class Builder {
     private final SDCConfiguration section;
     private final SDCConfiguration defSection;
+    private final DefaultMobTypeSettings optionalDefaults;
     private Setting<MobType> type;
     private Setting<Boolean> enabled;
     private Setting<Double> speedMultiplier;
@@ -24,8 +26,14 @@ public class Builder {
     private Setting<Boolean> alwaysAggressive;
 
     public Builder(SDCConfiguration section, SDCConfiguration defSettings) {
+        this(section, defSettings,
+                defSettings instanceof DefaultMobTypeSettings ? (DefaultMobTypeSettings) defSettings : null);
+    }
+
+    public Builder(SDCConfiguration section, SDCConfiguration defSettings, DefaultMobTypeSettings optionDefaults) {
         this.section = section;
         this.defSection = defSettings;
+        this.optionalDefaults = optionDefaults;
     }
 
     private void loadType() {
@@ -187,7 +195,7 @@ public class Builder {
 
     }
 
-    private static <T> Setting<T> fromSection(SDCConfiguration section, String path, SDCConfiguration defSection) {
+    private <T> Setting<T> fromSection(SDCConfiguration section, String path, SDCConfiguration defSection) {
         T defVal;
         if (defSection == null) {
             defVal = null; // assumably only for main-defaults
@@ -208,7 +216,10 @@ public class Builder {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T> T getValue(SDCConfiguration section, String path, T def) {
+    private <T> T getValue(SDCConfiguration section, String path, T def) {
+        if (optionalDefaults != null) {
+            def = (T) optionalDefaults.getSettingFor(path).value();
+        }
         if (!section.isSet(path)) {
             return def;
         }
