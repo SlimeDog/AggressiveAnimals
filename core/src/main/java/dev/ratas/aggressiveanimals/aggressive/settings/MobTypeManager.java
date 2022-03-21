@@ -32,8 +32,15 @@ public class MobTypeManager {
             plugin.getLogger().info("No section for 'mobs' found so no per-mob configuration was loaded");
             return;
         }
+        Builder builder = new Builder(settings.getDefaultsSection(), inCodeDefaults);
+        try {
+            inConfigDefaults = new MobTypeSettings.DefaultMobTypeSettings(builder.build());
+        } catch (Builder.IllegalMobTypeSettingsException e) {
+            // TODO - show warning?
+            inConfigDefaults = new MobTypeSettings.DefaultMobTypeSettings(inCodeDefaults.getSettings());
+        }
         for (String key : section.getKeys(false)) {
-            Builder builder = new Builder(section.getConfigurationSection(key), settings.getDefaultsSection());
+            builder = new Builder(section.getConfigurationSection(key), inConfigDefaults);
             MobTypeSettings typeSettings;
             try {
                 typeSettings = builder.build();
@@ -43,13 +50,6 @@ public class MobTypeManager {
                 continue;
             }
             types.put(typeSettings.entityType().value(), typeSettings);
-        }
-        Builder builder = new Builder(settings.getDefaultsSection(), inCodeDefaults);
-        try {
-            inConfigDefaults = new MobTypeSettings.DefaultMobTypeSettings(builder.build());
-        } catch (Builder.IllegalMobTypeSettingsException e) {
-            // TODO - show warning?
-            inConfigDefaults = new MobTypeSettings.DefaultMobTypeSettings(inCodeDefaults.getSettings());
         }
     }
 
