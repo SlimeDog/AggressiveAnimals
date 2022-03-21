@@ -159,10 +159,16 @@ public class Builder {
             throw new IllegalMobTypeSettingsException(
                     "Cannot include tameable of " + type.value().name() + " since the mobtype is not tameable");
         }
-        return new MobTypeSettings(type, enabled, speedMultiplier, attackSettings, acquisitionSettings,
+        MobTypeSettings mts = new MobTypeSettings(type, enabled, speedMultiplier, attackSettings, acquisitionSettings,
                 attackerHealthThreshold, ageSettings, miscSettings, alwaysAggressive, // overrideTargets,
-                groupAgressionDistance,
-                playerStateSettings, worldSettings);
+                groupAgressionDistance, playerStateSettings, worldSettings);
+
+        try {
+            mts.checkAllTypes();
+        } catch (IllegalStateException e) {
+            throw new IllegalMobTypeSettingsException(e.getMessage());
+        }
+        return mts;
     }
 
     public static class IllegalMobTypeSettingsException extends IllegalStateException {
