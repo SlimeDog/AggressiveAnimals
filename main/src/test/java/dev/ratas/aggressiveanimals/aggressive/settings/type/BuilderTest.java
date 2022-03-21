@@ -85,10 +85,8 @@ public class BuilderTest {
 
     @Test
     public void test_defBuilderSettingsCorrectType() {
-        System.out.println("B4 BUILDER");
         Builder builder = new Builder(defSection, defSection);
         MobTypeSettings mts = builder.build();
-        System.out.println("AFTER BUILD");
         mts.checkAllTypes();
     }
 
