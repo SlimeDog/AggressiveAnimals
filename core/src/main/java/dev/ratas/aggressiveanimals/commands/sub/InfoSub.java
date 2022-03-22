@@ -130,11 +130,10 @@ public class InfoSub extends AbstractSubCommand {
             header.getMessage(header.getContextFactory().getContext(settings.entityType().value())).sendTo(sender);
         }
         for (Setting<?> setting : paginator.getOnPage()) {
-            boolean defaultVals;
-            defaultVals = setting.isDefault();
+            boolean defaultVals = setting.isDefault();
             SDCSingleContextMessageFactory<Setting<?>> cur = defaultVals ? def : nonDef;
             SDCMessage<SDCSingleContext<Setting<?>>> msg = cur.getMessage(cur.getContextFactory().getContext(setting));
-            if (!defaultVals || showFull || showingDefaults) {
+            if (!defaultVals || showFull || showingDefaults || setting.path().equalsIgnoreCase("enabled")) {
                 msg.sendTo(sender);
                 shownSomething.set(true);
             } else {
