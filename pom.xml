@@ -16,6 +16,6 @@
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
-    <project-version>0.1.18-SNAPSHOT</project-version>
+    <project-version>0.1.19-SNAPSHOT</project-version>
   </properties>
 </project>
