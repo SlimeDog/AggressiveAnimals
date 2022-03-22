@@ -69,6 +69,10 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
         }
         // commands
         getCommand("aggressiveanimals").setExecutor(new AggressiveAnimalsCommand(this, messages));
+        attemptUpdateCheck();
+    }
+
+    private void attemptUpdateCheck() {
         if (settings.checkForUpdates()) {
             new UpdateChecker(this, (response, version) -> {
                 switch (response) {
@@ -111,6 +115,7 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
             return issues;
         }
         registrationListener.onReload();
+        attemptUpdateCheck();
         return issues;
     }
 
