@@ -97,21 +97,21 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
             config.reloadConfig();
         } catch (ConfigException e) {
             issues.logIssue("INVALID CONFIGURATION", "Invalid configuration - disabling", e);
-            disableMe(issues);
+            disableMe(issues, true);
             return issues;
         }
         try {
             messages.reloadConfig();
         } catch (ConfigException e) {
             issues.logIssue("INVALID CONFIGURATION", "Invalid configuration - disabling", e);
-            disableMe(issues);
+            disableMe(issues, true);
             return issues;
         }
         try {
             aggressivityManager.reload(settings);
         } catch (ConfigException e) {
             issues.logIssue("INVALID MOB SETTINGS", "Invalid mob settings - disabling", e);
-            disableMe(issues);
+            disableMe(issues, true);
             return issues;
         }
         registrationListener.onReload();
@@ -138,8 +138,17 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
     }
 
     private void disableMe(ConfigLoadIssueResolver issues) {
+        disableMe(issues, false);
+    }
+
+    private void disableMe(ConfigLoadIssueResolver issues, boolean nextTick) {
         getLogger().severe(issues.asString());
-        getServer().getPluginManager().disablePlugin(this);
+        Runnable disabler = () -> getServer().getPluginManager().disablePlugin(this);
+        if (nextTick) {
+            getScheduler().runTask(disabler);
+        } else {
+            disabler.run();
+        }
     }
 
     @Override
