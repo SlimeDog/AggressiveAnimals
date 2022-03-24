@@ -32,7 +32,7 @@ If applicable, add screenshots to help explain the problem
  - OS [Linux, MacOS, Windows] version: 
 - Java version [java -version]:
  - Server version [/version]: 
- - MobColors version [/version AggressiveAnimals]: 
+ - AggressiveAnimals version [/version AggressiveAnimals]: 
 
 **Additional context**
  Link to your configuration:
