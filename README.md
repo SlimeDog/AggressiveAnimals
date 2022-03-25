@@ -3,7 +3,7 @@ Those cute little animals can kill you
 
 ### Overview
 
-AggressiveAnimals is based on Michielcx's original [resource](https://www.spigotmc.org/resources/aggressive-animals-➤-mobs-take-revenge-1-8-1-15.76716/), which was abandoned after release 2.6 for Spigot 1.17 (2021-07-10). Credit for the idea belongs to him.
+AggressiveAnimals is based on Michielcx's [original resource](https://www.spigotmc.org/resources/76716/), which was abandoned after release 2.6 for Minecraft 1.17 (2021-07-10). Credit for the idea belongs to him.
 
 Unfortunately, the original source code was not made public, so this resource was created from scratch. The configuration has been modified considerably, so users of the original will need to update, although the defaults will work adequately in most cases.
 
