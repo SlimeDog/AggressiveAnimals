@@ -90,7 +90,9 @@ public enum MobType {
     zombified_piglin(EntityType.ZOMBIFIED_PIGLIN),
     // New in next version(s):
     frog("FROG"),
-    tadpole("TADPOLE");
+    tadpole("TADPOLE"),
+    allay("ALLAY"),
+    ;
 
     private static final Map<EntityType, MobType> REVERSE_MAP = new EnumMap<>(EntityType.class);
     private static final Map<String, MobType> NAME_MAP = new HashMap<>();
