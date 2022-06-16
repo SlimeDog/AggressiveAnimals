@@ -15,12 +15,14 @@ public final class NMSResolver {
             return new dev.ratas.aggressiveanimals.aggressive.nms_v1_18_R1.NMSAggressivitySetter(plugin);
         } else if (version == Version.v1_18_R2) {
             return new dev.ratas.aggressiveanimals.aggressive.nms_v1_18_R2.NMSAggressivitySetter(plugin);
+        } else if (version == Version.v1_19_R1) {
+            return new dev.ratas.aggressiveanimals.aggressive.nms_v1_19_R1.NMSAggressivitySetter(plugin);
         }
         throw new IllegalArgumentException("Plugin version not supported: " + version);
     }
 
     private static enum Version {
-        v1_18_R1, v1_18_R2;
+        v1_18_R1, v1_18_R2, v1_19_R1;
 
         private static Version fromString(String v) {
             try {
