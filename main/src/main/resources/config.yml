@@ -69,6 +69,8 @@ defaults:
 # Undefined attributes use the default values set above.
 #
 mobs:
+  allay:
+    enabled: false
   axolotl:
     enabled: false
     speed-multiplier: 1.05
@@ -99,13 +101,17 @@ mobs:
   fox:
     enabled: false
     attack-leap-height: 0.3
+  frog:
+    enabled: false
+    speed-multiplier: 1.5
+    attack-leap-height: 0.3
   glow_squid:
+    enabled: false
+  goat:
     enabled: false
   horse:
     enabled: false
     speed-multiplier: 1.5
-  goat:
-    enabled: false
   iron_golem:
     enabled: false
   llama:
@@ -155,6 +161,9 @@ mobs:
   strider:
     enabled: false
     speed-multiplier: 1.5
+  tadpole:
+    enabled: false
+    attack-leap-height: 0.3
   trader_llama:
     enabled: false
     include-tamed-mobs: true   # vanilla behavior
