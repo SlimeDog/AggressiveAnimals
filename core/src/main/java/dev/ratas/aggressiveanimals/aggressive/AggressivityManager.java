@@ -64,6 +64,9 @@ public class AggressivityManager {
         if (tracked == null) {
             plugin.getLogger().warning("Unable to unregister mob " + mob.getType() + "(" + mob.getEntityId()
                     + ") (unregister reason " + reason + ") because the mob was not registered");
+            Location loc = mob.getLocation();
+            plugin.getLogger().warning("Mob is in world '" + loc.getWorld().getName() + "' at "
+                    + String.format("(%.2f, %.2f, %.2f)", loc.getX(), loc.getY(), loc.getZ()));
             return;
         }
         setPassive(tracked, reason);
