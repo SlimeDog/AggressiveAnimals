@@ -1,6 +1,8 @@
 ## AggressiveAnimals
 Those cute little animals can kill you
 
+<a href="https://www.spigotmc.org/resources/100934/">![download-on-spigot](https://user-images.githubusercontent.com/17748923/187102011-b72e0f1d-ba74-4cb2-a69e-46f48cb364b5.png)</a>
+
 ### Overview
 
 AggressiveAnimals is based on Michielcx's [original resource](https://www.spigotmc.org/resources/76716/), which was abandoned after release 2.6 for Minecraft 1.17 (2021-07-10). Credit for the idea belongs to him.
