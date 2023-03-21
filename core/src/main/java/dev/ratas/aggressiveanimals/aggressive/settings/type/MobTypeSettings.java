@@ -439,6 +439,11 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
             return get(path) instanceof List;
         }
 
+        @Override
+        public boolean isConfigurationSection(String path) {
+            return getConfigurationSection(path) != null;
+        }
+
     }
 
 }

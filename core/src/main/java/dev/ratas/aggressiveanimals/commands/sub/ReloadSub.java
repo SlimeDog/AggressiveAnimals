@@ -6,6 +6,7 @@ import java.util.List;
 import dev.ratas.aggressiveanimals.IAggressiveAnimals;
 import dev.ratas.aggressiveanimals.config.ConfigLoadIssueResolver;
 import dev.ratas.aggressiveanimals.config.messaging.Messages;
+import dev.ratas.slimedogcore.api.commands.SDCCommandOptionSet;
 import dev.ratas.slimedogcore.api.messaging.SDCMessage;
 import dev.ratas.slimedogcore.api.messaging.context.SDCVoidContext;
 import dev.ratas.slimedogcore.api.messaging.recipient.SDCRecipient;
@@ -30,7 +31,7 @@ public class ReloadSub extends AbstractSubCommand {
     }
 
     @Override
-    public boolean onCommand(SDCRecipient sender, String[] args, List<String> opts) {
+    public boolean onOptionedCommand(SDCRecipient sender, String[] args, SDCCommandOptionSet opts) {
         ConfigLoadIssueResolver issues = plugin.reload();
         SDCMessage<SDCVoidContext> msg = (!issues.hasIssues() ? messages.getReloadMessage()
                 : messages.getReloadFailedMessage()).getMessage();

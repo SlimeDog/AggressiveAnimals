@@ -13,6 +13,7 @@ import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.Setting;
 import dev.ratas.aggressiveanimals.config.messaging.Messages;
+import dev.ratas.slimedogcore.api.commands.SDCCommandOptionSet;
 import dev.ratas.slimedogcore.api.messaging.SDCMessage;
 import dev.ratas.slimedogcore.api.messaging.context.SDCSingleContext;
 import dev.ratas.slimedogcore.api.messaging.factory.SDCDoubleContextMessageFactory;
@@ -59,7 +60,7 @@ public class InfoSub extends AbstractSubCommand {
     }
 
     @Override
-    public boolean onCommand(SDCRecipient sender, String[] args, List<String> opts) {
+    public boolean onOptionedCommand(SDCRecipient sender, String[] args, SDCCommandOptionSet opts) {
         if (args.length < 1) {
             return false;
         }
