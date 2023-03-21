@@ -2,6 +2,11 @@
 #
 # This file must contain valid YAML code. A YAML checker may be found at http://www.yamllint.com
 
+# Supported MC versions:
+# https://github.com/SlimeDog/AggressiveAnimals/wiki
+# Default configuration:
+# https://github.com/SlimeDog/AggressiveAnimals/blob/master/main/src/main/resources/config.yml
+#
 # AggressiveAnimals does not rewrite the configuration files if they exist, so changes must be made
 # manually.
 
@@ -82,6 +87,8 @@ mobs:
     always-aggressive: false
     speed-multiplier: 1.5
     attack-leap-height: 0.3
+  camel:
+    enabled: false
   cave_spider:
     enabled: false
   chicken:
@@ -150,6 +157,9 @@ mobs:
     enabled: false
     speed-multiplier: 1.1
   skeleton_horse:
+    enabled: false
+    speed-multiplier: 1.5
+  sniffer:
     enabled: false
     speed-multiplier: 1.5
   snow_golem:
