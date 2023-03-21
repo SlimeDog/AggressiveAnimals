@@ -55,7 +55,7 @@ public class AggressionListener implements Listener {
         if (damagingPlayer == null) {
             return;
         }
-        if (damagingPlayer.getGameMode() != GameMode.SURVIVAL) {
+        if (damagingPlayer.getGameMode() != GameMode.SURVIVAL && damagingPlayer.getGameMode() != GameMode.ADVENTURE) {
             return;
         }
         if (!aggressivityManager.shouldBeAggressiveOnAttack(target, damagingPlayer)) {
