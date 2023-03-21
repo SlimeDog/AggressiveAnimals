@@ -69,9 +69,8 @@ defaults:
 # To enable a specific mob-type, set enabled to true; for example:
 # chicken:
 #   enabled: true
-# (note the indentation with spaces; tabs are not allowed in YAML files). Only the enabled attribute
-# is required, but any others may be adjusted by adding appropriate lines with different values.
-# Undefined attributes use the default values set above.
+# Only the enabled attribute is required, but any others may be adjusted by adding appropriate lines
+# with different values. Undefined attributes use the default values set above.
 #
 mobs:
   allay:
