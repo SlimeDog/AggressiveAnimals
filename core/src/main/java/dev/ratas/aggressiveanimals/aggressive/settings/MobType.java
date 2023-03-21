@@ -92,6 +92,8 @@ public enum MobType {
     frog("FROG"),
     tadpole("TADPOLE"),
     allay("ALLAY"),
+    camel("CAMEL"),
+    sniffer("SNIFFER"),
     ;
 
     private static final Map<EntityType, MobType> REVERSE_MAP = new EnumMap<>(EntityType.class);
