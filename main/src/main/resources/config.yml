@@ -82,13 +82,14 @@ mobs:
     attack-leap-height: 0.3
   bee:
     enabled: false
+  camel:
+    enabled: false
+    speed-multiplier: 1.5
   cat:
     enabled: false
     always-aggressive: false
     speed-multiplier: 1.5
     attack-leap-height: 0.3
-  camel:
-    enabled: false
   cave_spider:
     enabled: false
   chicken:
