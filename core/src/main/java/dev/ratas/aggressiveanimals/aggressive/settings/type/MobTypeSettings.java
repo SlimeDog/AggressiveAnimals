@@ -55,7 +55,7 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
             if (!playerStateSettings.shouldAttack(mob, target)) {
                 return false;
             }
-            if (target.getGameMode() != GameMode.SURVIVAL) {
+            if (target.getGameMode() != GameMode.SURVIVAL && target.getGameMode() != GameMode.ADVENTURE) {
                 return false;
             }
         }
@@ -92,7 +92,7 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         if (!acquisitionSettings.isInRange(mob, player)) {
             return ChangeReason.OUT_OF_RANGE;
         }
-        if (player.getGameMode() != GameMode.SURVIVAL) {
+        if (player.getGameMode() != GameMode.SURVIVAL && player.getGameMode() != GameMode.ADVENTURE) {
             return ChangeReason.WRONG_GAMEMODE;
         }
         return null;
@@ -437,6 +437,11 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         @Override
         public boolean isList(String path) {
             return get(path) instanceof List;
+        }
+
+        @Override
+        public boolean isConfigurationSection(String path) {
+            return getConfigurationSection(path) != null;
         }
 
     }

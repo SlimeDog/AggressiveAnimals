@@ -69,9 +69,8 @@ defaults:
 # To enable a specific mob-type, set enabled to true; for example:
 # chicken:
 #   enabled: true
-# (note the indentation with spaces; tabs are not allowed in YAML files). Only the enabled attribute
-# is required, but any others may be adjusted by adding appropriate lines with different values.
-# Undefined attributes use the default values set above.
+# Only the enabled attribute is required, but any others may be adjusted by adding appropriate lines
+# with different values. Undefined attributes use the default values set above.
 #
 mobs:
   allay:
@@ -82,13 +81,14 @@ mobs:
     attack-leap-height: 0.3
   bee:
     enabled: false
+  camel:
+    enabled: false
+    speed-multiplier: 1.5
   cat:
     enabled: false
     always-aggressive: false
     speed-multiplier: 1.5
     attack-leap-height: 0.3
-  camel:
-    enabled: false
   cave_spider:
     enabled: false
   chicken:
