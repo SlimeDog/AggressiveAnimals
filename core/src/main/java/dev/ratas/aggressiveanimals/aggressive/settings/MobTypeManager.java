@@ -46,7 +46,7 @@ public class MobTypeManager {
                 typeSettings = builder.build();
             } catch (Builder.IllegalMobTypeSettingsException e) {
                 plugin.getLogger().warning("Unable to load settings for mob type " + key
-                        + ": unknown entity type; please check the configuration\n" + e.getMessage());
+                        + ": unknown entity type; please check the configuration");
                 continue;
             }
             types.put(typeSettings.entityType().value(), typeSettings);
