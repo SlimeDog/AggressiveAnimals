@@ -5,7 +5,7 @@ main: ${project.groupId}.${project.artifactId}.${project.name}
 description: ${project.description}
 softdepend: [Citizens, EliteMobs, InfernalMobs, Shopkeepers]
 authors:
-  - drives_a_ford
+  - mart-r
   - SlimeDog
 commands:
   aggressiveanimals:
