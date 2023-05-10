@@ -1,4 +1,6 @@
 # Message text may be localized to suit.
+# Both legacy and MiniMessage format codes are supported.
+# See https://github.com/SlimeDog/SlimeDogCore/wiki/Formatting-Codes.
 # Undefined messages default to internal values (ie., US English).
 #
 # This file must contain valid YAML code. A YAML checker may be found at http://www.yamllint.com
