@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-      <groupId>dev.ratas.aggressiveanimals</groupId>
-      <artifactId>parent</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+        <groupId>dev.ratas.aggressiveanimals</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>dev.ratas.aggressiveanimals</groupId>
@@ -78,6 +80,12 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>dev.ratas.aggressiveanimals</groupId>
+            <artifactId>v1_20_R1</artifactId>
+            <version>${project-version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>${used.spigot.version}</version>
@@ -107,12 +115,13 @@
             <artifactId>junit-vintage-engine</artifactId>
             <version>5.9.3</version>
             <scope>test</scope>
-        </dependency><dependency>
+        </dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.12.0</version>
             <scope>test</scope>
-          </dependency>
+        </dependency>
     </dependencies>
     <reporting>
         <plugins>
@@ -185,7 +194,8 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.4.1</version> <!-- Locally compiled version that supports ASM8+ which is needed for record types -->
+                <version>3.4.1</version> <!-- Locally compiled version that supports ASM8+ which is needed
+                for record types -->
                 <configuration>
                     <relocations>
                         <relocation>
@@ -208,7 +218,8 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <minimizeJar>true</minimizeJar>
                             <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"></transformer>
+                                <transformer
+                                    implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"></transformer>
                             </transformers>
                         </configuration>
                     </execution>
