@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>dev.ratas.aggressiveanimals</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>v1_20_R1</artifactId>
+  <version>${project-version}</version>
+
+  <name>v1_20_R1</name>
+
+  <repositories>
+    <repository>
+      <id>spigot-repo</id>
+      <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    </repository>
+    <repository>
+      <id>nms-repo</id>
+      <url>https://repo.codemc.io/repository/nms/</url>
+    </repository>
+  </repositories>
+
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <used.spigot.version>1.20-R0.1-SNAPSHOT</used.spigot.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>dev.ratas.aggressiveanimals</groupId>
+      <artifactId>core</artifactId>
+      <version>${project-version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.spigotmc</groupId>
+      <artifactId>spigot</artifactId>
+      <version>${used.spigot.version}</version>
+      <classifier>remapped-mojang</classifier>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <version>5.9.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <version>5.9.3</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>net.md-5</groupId>
+        <artifactId>specialsource-maven-plugin</artifactId>
+        <version>1.2.5</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>remap</goal>
+            </goals>
+            <id>remap-obf</id>
+            <configuration>
+              <srgIn>org.spigotmc:minecraft-server:${used.spigot.version}:txt:maps-mojang</srgIn>
+              <reverse>true</reverse>
+              <remappedDependencies>org.spigotmc:spigot:${used.spigot.version}:jar:remapped-mojang</remappedDependencies>
+              <remappedArtifactAttached>true</remappedArtifactAttached>
+              <remappedClassifierName>remapped-obf</remappedClassifierName>
+            </configuration>
+          </execution>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>remap</goal>
+            </goals>
+            <id>remap-spigot</id>
+            <configuration>
+              <inputFile>${project.build.directory}/${project.artifactId}-${project.version}-remapped-obf.jar</inputFile>
+              <srgIn>org.spigotmc:minecraft-server:${used.spigot.version}:csrg:maps-spigot</srgIn>
+              <remappedDependencies>org.spigotmc:spigot:${used.spigot.version}:jar:remapped-obf</remappedDependencies>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
