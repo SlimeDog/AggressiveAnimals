@@ -22,6 +22,10 @@ public class Settings {
         return config.getConfig().getBoolean("check-for-updates", false);
     }
 
+    public String getUpdateSource() {
+        return config.getConfig().getString("update-source", "Hangar");
+    }
+
     public SDCConfiguration getMobSection() {
         return config.getConfig().getConfigurationSection("mobs");
     }

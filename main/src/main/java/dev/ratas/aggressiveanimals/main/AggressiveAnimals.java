@@ -1,5 +1,7 @@
 package dev.ratas.aggressiveanimals.main;
 
+import java.util.function.BiConsumer;
+
 import org.bstats.bukkit.Metrics;
 import org.bukkit.configuration.InvalidConfigurationException;
 
@@ -21,6 +23,8 @@ import dev.ratas.slimedogcore.impl.utils.UpdateChecker;
 
 public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimals {
     private static final int SPIGOT_ID = 100934;
+    private static final String HANGAR_AUTHOR = "SlimeDog";
+    private static final String HANGAR_SLUG = "AggressiveAnimals";
     private static final int BSTATS_ID = 14423;
     private SDCCustomConfig config;
     private Messages messages;
@@ -74,7 +78,7 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
 
     private void attemptUpdateCheck() {
         if (settings.checkForUpdates()) {
-            new UpdateChecker(this, (response, version) -> {
+            BiConsumer<UpdateChecker.VersionResponse, String> consumer = (response, version) -> {
                 switch (response) {
                     case LATEST:
                         getLogger().info("You are running the latest version");
@@ -86,7 +90,15 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
                         getLogger().info("Version update information is not available at this time");
                         break;
                 }
-            }, SPIGOT_ID).check();
+            };
+            String updateSource = settings.getUpdateSource();
+            UpdateChecker checker;
+            if (updateSource.equalsIgnoreCase("hangar")) {
+                checker = UpdateChecker.forHangar(this, consumer, HANGAR_AUTHOR, HANGAR_SLUG);
+            } else {
+                checker = UpdateChecker.forSpigot(this, consumer, SPIGOT_ID);
+            }
+            checker.check();
         }
     }
 
