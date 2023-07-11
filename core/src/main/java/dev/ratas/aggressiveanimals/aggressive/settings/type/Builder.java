@@ -100,7 +100,9 @@ public class Builder {
         Setting<Boolean> includeNamedMobs = fromSection(section, path, defSection);
         path = "include-tamed-mobs";
         Setting<Boolean> includeTamed = fromSection(section, path, defSection);
-        miscSettings = new MobMiscSettings(includeNpcs, includeNamedMobs, includeTamed);
+        path = "protect-team-members";
+        Setting<Boolean> protectTeammates = fromSection(section, path, defSection);
+        miscSettings = new MobMiscSettings(includeNpcs, includeNamedMobs, includeTamed, protectTeammates);
     }
 
     // private void loadOverrideTargets() {

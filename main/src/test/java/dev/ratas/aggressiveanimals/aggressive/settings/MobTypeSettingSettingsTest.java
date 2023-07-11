@@ -36,7 +36,7 @@ public class MobTypeSettingSettingsTest {
         Builder builder = new Builder(section, defSection);
         MobTypeSettings settings = builder.build();
         List<Setting<?>> allSettings = settings.getAllSettings();
-        Assertions.assertEquals(24, allSettings.size());
+        Assertions.assertEquals(25, allSettings.size());
     }
 
     @Test
@@ -61,7 +61,7 @@ public class MobTypeSettingSettingsTest {
         Builder builder = new Builder(section, defSection);
         MobTypeSettings settings = builder.build();
         List<Setting<?>> allSettings = settings.getAllSettings();
-        Assertions.assertEquals(25, allSettings.size()); // has tamability one
+        Assertions.assertEquals(26, allSettings.size()); // has tamability one
     }
 
     @Test

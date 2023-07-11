@@ -223,6 +223,7 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         settings.add(ageSettings.attackAsBaby());
         settings.add(miscSettings.includeNpcs());
         settings.add(miscSettings.includeNamedMobs());
+        settings.add(miscSettings.protectTeamMembers());
         if (entityType.value().isTameable() || entityType.value() == MobType.defaults) {
             settings.add(miscSettings.includeTamed());
         }
