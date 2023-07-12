@@ -1,5 +1,9 @@
 package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Set;
+
 import org.bukkit.entity.Fox;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Ocelot;
@@ -9,12 +13,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 
 public record MobMiscSettings(Setting<Boolean> includeNpcs, Setting<Boolean> includeNamedMobs,
-        Setting<Boolean> includeTamed, Setting<Boolean> protectTeamMembers) implements CheckingSettingBoundle {
+        Setting<Boolean> includeTamed, Setting<Boolean> protectTeamMembers,
+        Setting<Boolean> attackOnlyInWater) implements CheckingSettingBoundle {
 
     private static final LazyPluginGetter PLUGIN_GETTER = new LazyPluginGetter();
+    private static final Set<MobType> AQUATIC_ENTITIES = Collections
+            .unmodifiableSet(EnumSet.of(MobType.axolotl, MobType.dolphin,
+                    MobType.frog, MobType.glow_squid, MobType.pufferfish, MobType.salmon, MobType.squid,
+                    MobType.tadpole, MobType.tropical_fish, MobType.turtle));
 
     public boolean shouldBeAggressive(NPCHookManager npcHooks, Mob mob, Player target) {
         if (!includeNpcs.value() && npcHooks.isNPC(target)) {
@@ -29,10 +39,30 @@ public record MobMiscSettings(Setting<Boolean> includeNpcs, Setting<Boolean> inc
         if (!canAttackRegardingTeam(mob, target)) {
             return false;
         }
+        if (!canAttackRegardingWater(mob, target)) {
+            return false;
+        }
         return true;
     }
 
-    public boolean canAttackRegardingTeam(Mob mob, Player target) {
+    private boolean canAttackRegardingWater(Mob mob, Player target) {
+        if (!isAquaticMob(mob)) {
+            return true;
+        }
+        if (!attackOnlyInWater.value()) {
+            return true;
+        }
+        if (target == null) {
+            return true;
+        }
+        return target.isInWater();
+    }
+
+    private boolean isAquaticMob(Mob mob) {
+        return AQUATIC_ENTITIES.contains(MobType.fromBukkit(mob.getType()));
+    }
+
+    private boolean canAttackRegardingTeam(Mob mob, Player target) {
         if (!protectTeamMembers.value()) {
             // don't need to worry about protecting team member
             return true;
@@ -40,7 +70,7 @@ public record MobMiscSettings(Setting<Boolean> includeNpcs, Setting<Boolean> inc
         return !isSameTeam(mob, target);
     }
 
-    public boolean isSameTeam(Mob mob, Player target) {
+    private boolean isSameTeam(Mob mob, Player target) {
         // Get main scoreboard?
         // Scoreboard sb = target.getScoreboard();
         if (target == null) {

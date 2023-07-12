@@ -102,7 +102,10 @@ public class Builder {
         Setting<Boolean> includeTamed = fromSection(section, path, defSection);
         path = "protect-team-members";
         Setting<Boolean> protectTeammates = fromSection(section, path, defSection);
-        miscSettings = new MobMiscSettings(includeNpcs, includeNamedMobs, includeTamed, protectTeammates);
+        path = "attack-only-in-water";
+        Setting<Boolean> attackOnlyInWater = fromSection(section, path, defSection);
+        miscSettings = new MobMiscSettings(includeNpcs, includeNamedMobs, includeTamed, protectTeammates,
+                attackOnlyInWater);
     }
 
     // private void loadOverrideTargets() {
