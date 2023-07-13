@@ -186,6 +186,7 @@ mobs:
   turtle:
     enabled: false
     speed-multiplier: 1.25
+    attack-only-in-water: false
   villager:
     enabled: false
     speed-multiplier: 0.5
