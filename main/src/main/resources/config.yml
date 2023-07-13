@@ -51,6 +51,8 @@ defaults:
   include-tamed-mobs: true         # If true, include tamed mobs; legal only for tameable mob-types: cat, donkey, fox, horse, llama, mule, parrot, wolf
   include-named-mobs: false        # If true, include named mobs
   override-targeting: false        # If true, remove vanilla targeting behavior and use only attack-conditions; useful for hostile mob-types
+  protect-team-members: true       # If true, members of the same team will not be attacked
+  attack-only-in-water: true       # If true, aquatic mobs attack only if the targeted player is in the water with them
   group-aggression-range: 20.0     # If other mobs of the same type are within range of the attacker, they should join the attack (in blocks)
   player-movement:                 # Mob should attack if the player if
     standing: true
@@ -184,6 +186,7 @@ mobs:
   turtle:
     enabled: false
     speed-multiplier: 1.25
+    attack-only-in-water: false
   villager:
     enabled: false
     speed-multiplier: 0.5
