@@ -165,7 +165,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>10.12.0</version>
+                            <version>10.12.1</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -194,7 +194,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.4.1</version> <!-- Locally compiled version that supports ASM8+ which is needed
+                <version>3.5.0</version> <!-- Locally compiled version that supports ASM8+ which is needed
                 for record types -->
                 <configuration>
                     <relocations>
