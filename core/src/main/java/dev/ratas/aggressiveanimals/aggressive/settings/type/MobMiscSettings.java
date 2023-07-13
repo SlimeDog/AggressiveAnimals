@@ -22,7 +22,7 @@ public record MobMiscSettings(Setting<Boolean> includeNpcs, Setting<Boolean> inc
 
     private static final LazyPluginGetter PLUGIN_GETTER = new LazyPluginGetter();
     private static final Set<MobType> AQUATIC_ENTITIES = Collections
-            .unmodifiableSet(EnumSet.of(MobType.axolotl, MobType.dolphin,
+            .unmodifiableSet(EnumSet.of(MobType.axolotl, MobType.cod, MobType.dolphin,
                     MobType.frog, MobType.glow_squid, MobType.pufferfish, MobType.salmon, MobType.squid,
                     MobType.tadpole, MobType.tropical_fish, MobType.turtle));
 
