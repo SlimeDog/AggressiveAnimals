@@ -1,9 +1,5 @@
 package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Set;
-
 import org.bukkit.entity.Fox;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Ocelot;
@@ -21,10 +17,6 @@ public record MobMiscSettings(Setting<Boolean> includeNpcs, Setting<Boolean> inc
         Setting<Boolean> attackOnlyInWater) implements CheckingSettingBoundle {
 
     private static final LazyPluginGetter PLUGIN_GETTER = new LazyPluginGetter();
-    private static final Set<MobType> AQUATIC_ENTITIES = Collections
-            .unmodifiableSet(EnumSet.of(MobType.axolotl, MobType.cod, MobType.dolphin,
-                    MobType.frog, MobType.glow_squid, MobType.pufferfish, MobType.salmon, MobType.squid,
-                    MobType.tadpole, MobType.tropical_fish, MobType.turtle));
 
     public boolean shouldBeAggressive(NPCHookManager npcHooks, Mob mob, Player target) {
         if (!includeNpcs.value() && npcHooks.isNPC(target)) {
@@ -46,7 +38,7 @@ public record MobMiscSettings(Setting<Boolean> includeNpcs, Setting<Boolean> inc
     }
 
     private boolean canAttackRegardingWater(Mob mob, Player target) {
-        if (!isAquaticMob(mob)) {
+        if (!MobType.fromBukkit(mob.getType()).isAquaticMob()) {
             return true;
         }
         if (!attackOnlyInWater.value()) {
@@ -56,10 +48,6 @@ public record MobMiscSettings(Setting<Boolean> includeNpcs, Setting<Boolean> inc
             return true;
         }
         return target.isInWater();
-    }
-
-    private boolean isAquaticMob(Mob mob) {
-        return AQUATIC_ENTITIES.contains(MobType.fromBukkit(mob.getType()));
     }
 
     private boolean canAttackRegardingTeam(Mob mob, Player target) {

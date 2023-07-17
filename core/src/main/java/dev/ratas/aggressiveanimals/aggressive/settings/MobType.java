@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -99,6 +100,10 @@ public enum MobType {
     private static final Map<EntityType, MobType> REVERSE_MAP = new EnumMap<>(EntityType.class);
     private static final Map<String, MobType> NAME_MAP = new HashMap<>();
     private static final List<String> NAMES = new ArrayList<>();
+    private static final Set<MobType> AQUATIC_ENTITIES = Collections
+            .unmodifiableSet(EnumSet.of(MobType.axolotl, MobType.cod, MobType.dolphin,
+                    MobType.frog, MobType.glow_squid, MobType.pufferfish, MobType.salmon, MobType.squid,
+                    MobType.tadpole, MobType.tropical_fish, MobType.turtle));
     static {
         MobType.fillMaps();
     }
@@ -132,6 +137,10 @@ public enum MobType {
             return false;
         }
         return Tameable.class.isAssignableFrom(delegate.getEntityClass()) || this == fox || this == ocelot;
+    }
+
+    public boolean isAquaticMob() {
+        return AQUATIC_ENTITIES.contains(this);
     }
 
     public EntityType getBukkitType() {

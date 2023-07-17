@@ -36,6 +36,24 @@ public class MobTypeSettingSettingsTest {
         Builder builder = new Builder(section, defSection);
         MobTypeSettings settings = builder.build();
         List<Setting<?>> allSettings = settings.getAllSettings();
+        Assertions.assertEquals(25, allSettings.size());
+    }
+
+    @Test
+    public void test_mobTypeSettingsHasAllSettings_aquatic() {
+        SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.axolotl");
+        Builder builder = new Builder(section, defSection);
+        MobTypeSettings settings = builder.build();
+        List<Setting<?>> allSettings = settings.getAllSettings();
+        boolean found = false;
+        for (Setting<?> set : allSettings) {
+            String path = set.path();
+            if (path.equals("attack-only-in-water")) {
+                found = true;
+                break;
+            }
+        }
+        Assertions.assertTrue(found);
         Assertions.assertEquals(26, allSettings.size());
     }
 
@@ -61,7 +79,7 @@ public class MobTypeSettingSettingsTest {
         Builder builder = new Builder(section, defSection);
         MobTypeSettings settings = builder.build();
         List<Setting<?>> allSettings = settings.getAllSettings();
-        Assertions.assertEquals(27, allSettings.size()); // has tamability one
+        Assertions.assertEquals(26, allSettings.size()); // has tamability one
     }
 
     @Test
