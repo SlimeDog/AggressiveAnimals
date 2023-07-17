@@ -15,8 +15,8 @@ import dev.ratas.slimedogcore.api.wrappers.SDCResourceProvider;
 import dev.ratas.slimedogcore.impl.config.CustomYamlConfig;
 
 public class DefaultConfigTest {
-    private File configFile;
-    private SDCConfiguration defSection;
+    protected File configFile;
+    protected SDCConfiguration defSection;
 
     @BeforeEach
     public void setup() {

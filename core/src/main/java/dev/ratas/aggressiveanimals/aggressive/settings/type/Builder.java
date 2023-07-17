@@ -168,7 +168,7 @@ public class Builder {
         loadWorldSettings();
         if (type.value() != MobType.defaults && // let the defaults type be for now
                 ((!type.value().isTameable() && type.value() != MobType.fox && type.value() != MobType.ocelot)
-                        && !miscSettings.includeTamed().value())) {
+                        && (!miscSettings.includeTamed().isDefault() && !miscSettings.includeTamed().value()))) {
             throw new IllegalMobTypeSettingsException(
                     "Cannot include tameable of " + type.value().name() + " since the mobtype is not tameable");
         }
