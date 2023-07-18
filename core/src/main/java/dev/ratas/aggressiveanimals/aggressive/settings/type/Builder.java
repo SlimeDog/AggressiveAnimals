@@ -166,9 +166,7 @@ public class Builder {
         loadWorldSettings();
         loadPlayerStateSettings();
         loadWorldSettings();
-        if (type.value() != MobType.defaults && // let the defaults type be for now
-                ((!type.value().isTameable() && type.value() != MobType.fox && type.value() != MobType.ocelot)
-                        && (!miscSettings.includeTamed().isDefault() && !miscSettings.includeTamed().value()))) {
+        if (!isValidRegardingTamability()) {
             throw new IllegalMobTypeSettingsException(
                     "Cannot include tameable of " + type.value().name() + " since the mobtype is not tameable");
         }
@@ -182,6 +180,23 @@ public class Builder {
             throw new IllegalMobTypeSettingsException(e.getMessage());
         }
         return mts;
+    }
+
+    private boolean isValidRegardingTamability() {
+        if (type.value() == MobType.defaults) {
+            return true;
+        }
+        if (type.value().isTameable()) {
+            return true;
+        }
+        MobType mobType = type.value();
+        if (mobType == MobType.fox || mobType == MobType.ocelot) {
+            return true;
+        }
+        if (miscSettings.includeTamed().isDefault()) {
+            return true;
+        }
+        return false;
     }
 
     public static class IllegalMobTypeSettingsException extends IllegalStateException {
