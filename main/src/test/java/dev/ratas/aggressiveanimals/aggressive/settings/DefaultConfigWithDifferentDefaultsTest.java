@@ -45,7 +45,7 @@ public class DefaultConfigWithDifferentDefaultsTest extends DefaultConfigTest {
     public void test_untameableIsFine() {
         // make sure that an untameable mob is fine with the
         SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.chicken");
-        Builder chickenBuilder = new Builder(section, defSection);
+        Builder chickenBuilder = new Builder(section, defSection, LOGGER);
         chickenBuilder.build();
     }
 

@@ -1,6 +1,7 @@
 package dev.ratas.aggressiveanimals.aggressive.settings.type;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import dev.ratas.aggressiveanimals.aggressive.settings.MobType;
 import dev.ratas.aggressiveanimals.aggressive.settings.type.MobTypeSettings.DefaultMobTypeSettings;
@@ -11,6 +12,7 @@ public class Builder {
     private final SDCConfiguration section;
     private final SDCConfiguration defSection;
     private final DefaultMobTypeSettings optionalDefaults;
+    private final Logger logger;
     private Setting<MobType> type;
     private Setting<Boolean> enabled;
     private Setting<Double> speedMultiplier;
@@ -25,15 +27,17 @@ public class Builder {
     private MobWorldSettings worldSettings;
     private Setting<Boolean> alwaysAggressive;
 
-    public Builder(SDCConfiguration section, SDCConfiguration defSettings) {
+    public Builder(SDCConfiguration section, SDCConfiguration defSettings, Logger logger) {
         this(section, defSettings,
-                defSettings instanceof DefaultMobTypeSettings ? (DefaultMobTypeSettings) defSettings : null);
+                defSettings instanceof DefaultMobTypeSettings ? (DefaultMobTypeSettings) defSettings : null, logger);
     }
 
-    public Builder(SDCConfiguration section, SDCConfiguration defSettings, DefaultMobTypeSettings optionDefaults) {
+    public Builder(SDCConfiguration section, SDCConfiguration defSettings, DefaultMobTypeSettings optionDefaults,
+            Logger logger) {
         this.section = section;
         this.defSection = defSettings;
         this.optionalDefaults = optionDefaults;
+        this.logger = logger;
     }
 
     private void loadType() {
@@ -159,7 +163,7 @@ public class Builder {
         loadMobAgeSettings();
         loadMiscSettings();
         if (!isValidRegardingWaterAttack()) {
-            throw new IllegalMobTypeSettingsException("Cannot set water-attack for mob type " + type.value().name()
+            logger.warning("Cannot set water-attack for mob type " + type.value().name()
                     + " because it is not an aquatic mob");
         }
         loadAlwaysAggressive();
@@ -171,7 +175,7 @@ public class Builder {
         loadPlayerStateSettings();
         loadWorldSettings();
         if (!isValidRegardingTamability()) {
-            throw new IllegalMobTypeSettingsException(
+            logger.warning(
                     "Cannot include tameable of " + type.value().name() + " since the mobtype is not tameable");
         }
         MobTypeSettings mts = new MobTypeSettings(type, enabled, speedMultiplier, attackSettings, acquisitionSettings,

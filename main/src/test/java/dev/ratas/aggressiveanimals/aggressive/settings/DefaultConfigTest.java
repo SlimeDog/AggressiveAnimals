@@ -2,6 +2,7 @@ package dev.ratas.aggressiveanimals.aggressive.settings;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.logging.Logger;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +16,7 @@ import dev.ratas.slimedogcore.api.wrappers.SDCResourceProvider;
 import dev.ratas.slimedogcore.impl.config.CustomYamlConfig;
 
 public class DefaultConfigTest {
+    protected static final Logger LOGGER = Logger.getLogger("DefaultConfigTest");
     protected File configFile;
     protected SDCConfiguration defSection;
 
@@ -56,7 +58,7 @@ public class DefaultConfigTest {
     public void test_defaultChickenSectionParses() {
         CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
         SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.chicken");
-        Builder builder = new Builder(section, defSection);
+        Builder builder = new Builder(section, defSection, LOGGER);
         MobTypeSettings settings = builder.build();
         Assertions.assertNotNull(settings, "Should build non-null settings");
     }
@@ -65,7 +67,7 @@ public class DefaultConfigTest {
     public void test_defaultChickenSectionEnabled() {
         CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
         SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.chicken");
-        Builder builder = new Builder(section, defSection);
+        Builder builder = new Builder(section, defSection, LOGGER);
         MobTypeSettings settings = builder.build();
         Assertions.assertFalse(settings.enabled().value(), "Default chicken section should not be enabled");
     }
@@ -74,7 +76,7 @@ public class DefaultConfigTest {
     public void test_MobTypeSettings_hasSimilarSettings_worksForSame() {
         CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
         SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.chicken");
-        Builder chickenBuilder = new Builder(section, defSection);
+        Builder chickenBuilder = new Builder(section, defSection, LOGGER);
         MobTypeSettings chicken = chickenBuilder.build();
         Assertions.assertTrue(chicken.hasSimilarSettings(chicken), "Settings should be similar to self");
     }
@@ -83,10 +85,10 @@ public class DefaultConfigTest {
     public void test_defaultChickenSectionValuesMatchDefaultsForPig() {
         CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
         SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.chicken");
-        Builder chickenBuilder = new Builder(section, defSection);
+        Builder chickenBuilder = new Builder(section, defSection, LOGGER);
         MobTypeSettings chicken = chickenBuilder.build();
         section = config.getConfig().getConfigurationSection("mobs.pig");
-        Builder pigBuilder = new Builder(section, defSection);
+        Builder pigBuilder = new Builder(section, defSection, LOGGER);
         MobTypeSettings pig = pigBuilder.build();
         int maxSims = chicken.getSettingSimilarities(chicken);
         Assertions.assertEquals(maxSims - 1, pig.getSettingSimilarities(chicken),
@@ -99,7 +101,7 @@ public class DefaultConfigTest {
     public void test_defaultChickenHasAllSimilarSettings() {
         CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
         SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.chicken");
-        Builder chickenBuilder = new Builder(section, defSection);
+        Builder chickenBuilder = new Builder(section, defSection, LOGGER);
         MobTypeSettings chicken = chickenBuilder.build();
         for (Setting<?> setting : chicken.getAllSettings()) {
             Assertions.assertTrue(chicken.hasSameSetting(setting));
@@ -110,9 +112,9 @@ public class DefaultConfigTest {
     public void test_defaultChickenHasDissimilarSettings() {
         CustomYamlConfig config = new CustomYamlConfig(new MockResourceProvider(), configFile);
         SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.chicken");
-        Builder chickenBuilder = new Builder(section, defSection);
+        Builder chickenBuilder = new Builder(section, defSection, LOGGER);
         section = config.getConfig().getConfigurationSection("mobs.pig");
-        Builder pigBuilder = new Builder(section, defSection);
+        Builder pigBuilder = new Builder(section, defSection, LOGGER);
         MobTypeSettings chicken = chickenBuilder.build();
         MobTypeSettings pig = pigBuilder.build();
         Assertions.assertFalse(chicken.hasSameSetting(pig.speedMultiplier()));

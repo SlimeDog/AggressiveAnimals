@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ import dev.ratas.slimedogcore.api.config.SDCConfiguration;
 import dev.ratas.slimedogcore.impl.config.CustomYamlConfig;
 
 public class MobTypeSettingSettingsTest {
+    private static final Logger LOGGER = Logger.getLogger("MobTypeSettingSettingsTest");
     private File configFile;
     private CustomYamlConfig config;
     private SDCConfiguration defSection;
@@ -33,7 +35,7 @@ public class MobTypeSettingSettingsTest {
     @Test
     public void test_mobTypeSettingsHasAllSettings() {
         SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.chicken");
-        Builder builder = new Builder(section, defSection);
+        Builder builder = new Builder(section, defSection, LOGGER);
         MobTypeSettings settings = builder.build();
         List<Setting<?>> allSettings = settings.getAllSettings();
         Assertions.assertEquals(25, allSettings.size());
@@ -42,7 +44,7 @@ public class MobTypeSettingSettingsTest {
     @Test
     public void test_mobTypeSettingsHasAllSettings_aquatic() {
         SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.axolotl");
-        Builder builder = new Builder(section, defSection);
+        Builder builder = new Builder(section, defSection, LOGGER);
         MobTypeSettings settings = builder.build();
         List<Setting<?>> allSettings = settings.getAllSettings();
         boolean found = false;
@@ -60,7 +62,7 @@ public class MobTypeSettingSettingsTest {
     @Test
     public void test_mobTypeSettingsHasNoDuplicateSettings() {
         SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.chicken");
-        Builder builder = new Builder(section, defSection);
+        Builder builder = new Builder(section, defSection, LOGGER);
         MobTypeSettings settings = builder.build();
         List<Setting<?>> allSettings = settings.getAllSettings();
         for (int i = 0; i < allSettings.size() - 1; i++) {
@@ -76,7 +78,7 @@ public class MobTypeSettingSettingsTest {
     @Test
     public void test_mobTypeSettingsTameableHasAllSettings() {
         SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.ocelot");
-        Builder builder = new Builder(section, defSection);
+        Builder builder = new Builder(section, defSection, LOGGER);
         MobTypeSettings settings = builder.build();
         List<Setting<?>> allSettings = settings.getAllSettings();
         Assertions.assertEquals(26, allSettings.size()); // has tamability one
@@ -85,7 +87,7 @@ public class MobTypeSettingSettingsTest {
     @Test
     public void test_mobTypeSettingsTameableHasNoDuplicateSettings() {
         SDCConfiguration section = config.getConfig().getConfigurationSection("mobs.ocelot");
-        Builder builder = new Builder(section, defSection);
+        Builder builder = new Builder(section, defSection, LOGGER);
         MobTypeSettings settings = builder.build();
         List<Setting<?>> allSettings = settings.getAllSettings();
         for (int i = 0; i < allSettings.size() - 1; i++) {
@@ -112,7 +114,7 @@ public class MobTypeSettingSettingsTest {
                                 + key);
                 continue;
             }
-            Builder builder = new Builder(section.getConfigurationSection(key), defSection);
+            Builder builder = new Builder(section.getConfigurationSection(key), defSection, LOGGER);
             // can thrhow Builder.IllegalMobTypeSettingsException e)
             builder.build();
         }
@@ -136,7 +138,7 @@ public class MobTypeSettingSettingsTest {
                     && MobType.matchType(key).getBukkitType() == null) {
                 continue;
             }
-            Builder builder = new Builder(section.getConfigurationSection(key), defSection);
+            Builder builder = new Builder(section.getConfigurationSection(key), defSection, LOGGER);
             MobTypeSettings settings = builder.build();
             Assertions.assertTrue(allMobTypes.contains(settings.entityType().value()));
             allMobTypes.remove(settings.entityType().value());

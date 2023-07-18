@@ -5,7 +5,8 @@ mobs:
     include-tamed-mobs: true # should NOT produce error
   pig:
     enabled: true
-    include-tamed-mobs: false # should produce error
+    include-tamed-mobs: false # should show warning
+    attack-only-in-water: false # should show arning
   chicken: {}
   fox:
     enabled: true
