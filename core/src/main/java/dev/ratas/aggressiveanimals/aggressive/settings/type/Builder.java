@@ -158,6 +158,10 @@ public class Builder {
         loatAttackerHealthThreshold();
         loadMobAgeSettings();
         loadMiscSettings();
+        if (!isValidRegardingWaterAttack()) {
+            throw new IllegalMobTypeSettingsException("Cannot set water-attack for mob type " + type.value().name()
+                    + " because it is not an aquatic mob");
+        }
         loadAlwaysAggressive();
         // loadOverrideTargets();
         loadGroupAgrewssionDistance();
@@ -180,6 +184,19 @@ public class Builder {
             throw new IllegalMobTypeSettingsException(e.getMessage());
         }
         return mts;
+    }
+
+    private boolean isValidRegardingWaterAttack() {
+        if (type.value() == MobType.defaults) {
+            return true;
+        }
+        if (type.value().isAquaticMob()) {
+            return true;
+        }
+        if (miscSettings.attackOnlyInWater().isDefault()) {
+            return true;
+        }
+        return false;
     }
 
     private boolean isValidRegardingTamability() {
