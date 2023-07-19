@@ -22,7 +22,7 @@ public class MobTypeManager {
         this.plugin = plugin;
         SDCConfiguration defSection = settings.getDefaultsSection().getDefaultSection();
         inCodeDefaults = new MobTypeSettings.DefaultMobTypeSettings(
-                new Builder(defSection, defSection).build());
+                new Builder(defSection, defSection, plugin.getLogger()).build());
         loadMobs(settings);
     }
 
@@ -32,7 +32,7 @@ public class MobTypeManager {
             plugin.getLogger().info("No section for 'mobs' found so no per-mob configuration was loaded");
             return;
         }
-        Builder builder = new Builder(settings.getDefaultsSection(), inCodeDefaults);
+        Builder builder = new Builder(settings.getDefaultsSection(), inCodeDefaults, plugin.getLogger());
         try {
             inConfigDefaults = new MobTypeSettings.DefaultMobTypeSettings(builder.build());
         } catch (Builder.IllegalMobTypeSettingsException e) {
@@ -40,13 +40,13 @@ public class MobTypeManager {
             inConfigDefaults = new MobTypeSettings.DefaultMobTypeSettings(inCodeDefaults.getSettings());
         }
         for (String key : section.getKeys(false)) {
-            builder = new Builder(section.getConfigurationSection(key), inConfigDefaults);
+            builder = new Builder(section.getConfigurationSection(key), inConfigDefaults, plugin.getLogger());
             MobTypeSettings typeSettings;
             try {
                 typeSettings = builder.build();
             } catch (Builder.IllegalMobTypeSettingsException e) {
                 plugin.getLogger().warning("Unable to load settings for mob type " + key
-                        + ": unknown entity type; please check the configuration");
+                        + ": unknown entity type; please check the configuration: " + e.getMessage());
                 continue;
             }
             types.put(typeSettings.entityType().value(), typeSettings);
