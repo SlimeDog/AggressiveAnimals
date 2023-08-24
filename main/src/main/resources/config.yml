@@ -116,6 +116,8 @@ mobs:
     enabled: false
     speed-multiplier: 1.5
     attack-leap-height: 0.3
+  giant:
+    enabled: false
   glow_squid:
     enabled: false
   goat:
