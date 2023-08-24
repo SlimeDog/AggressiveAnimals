@@ -58,7 +58,7 @@ public record PlayerStateSettings(Setting<Boolean> attackStanding, Setting<Boole
         if (player.isGliding()) {
             return false;
         }
-        return player.getVelocity().lengthSquared() == 0; // only if NOT moving
+        return true;
     }
 
     private boolean isWalking(Player player) {
