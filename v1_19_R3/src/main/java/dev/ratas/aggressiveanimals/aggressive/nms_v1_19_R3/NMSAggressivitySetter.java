@@ -138,7 +138,14 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             return;
         }
         for (Map.Entry<Attribute, Double> entry : saved.prevValues.entrySet()) {
-            mob.getAttribute(entry.getKey()).setBaseValue(entry.getValue());
+            AttributeInstance attrInst = mob.getAttribute(entry.getKey());
+            if (attrInst == null) {
+                plugin.getLogger()
+                        .warning("Could not reset the attribute '" + entry.getKey() + "'' to the default value '"
+                                + entry.getValue() + "' because the attribute instance was null!");
+                continue;
+            }
+            attrInst.setBaseValue(entry.getValue());
         }
         saved.prevValues.clear();
     }
