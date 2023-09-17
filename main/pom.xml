@@ -51,25 +51,7 @@
         </dependency>
         <dependency>
             <groupId>dev.ratas.aggressiveanimals</groupId>
-            <artifactId>v1_18_R1</artifactId>
-            <version>${project-version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>dev.ratas.aggressiveanimals</groupId>
             <artifactId>v1_18_R2</artifactId>
-            <version>${project-version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>dev.ratas.aggressiveanimals</groupId>
-            <artifactId>v1_19_R1</artifactId>
-            <version>${project-version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>dev.ratas.aggressiveanimals</groupId>
-            <artifactId>v1_19_R2</artifactId>
             <version>${project-version}</version>
             <scope>compile</scope>
         </dependency>
