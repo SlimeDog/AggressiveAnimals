@@ -68,6 +68,12 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>dev.ratas.aggressiveanimals</groupId>
+            <artifactId>v1_20_R2</artifactId>
+            <version>${project-version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>${used.spigot.version}</version>
