@@ -1,4 +1,4 @@
-package dev.ratas.aggressiveanimals.aggressive.nms_v1_19_R2;
+package dev.ratas.aggressiveanimals.aggressive.nms_v1_20_R2;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -141,7 +141,10 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             AttributeInstance attrInst = mob.getAttribute(entry.getKey());
             if (attrInst == null) {
                 plugin.getLogger()
-                        .warning("Could not reset the attribute '" + entry.getKey() + "'' to the default value '"
+                        .warning("Could not reset the attribute '" + entry.getKey() +
+                                "' for mob " + wrapper.getTrackedMob().getSettings().entityType() +
+                                " and attribute '" + entry.getKey().getDescriptionId() +
+                                "' to the default value '"
                                 + entry.getValue() + "' because the attribute instance was null!");
                 continue;
             }
@@ -190,7 +193,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
                         .forName(String.format("%s.%s.%s.%s", PACKAGE_BASE, VERSION, MIDDLE_PACKAGE,
                                 CRAFT_LIVING_ENTITY_CLASS_NAME));
                 getHandleMethod = craftLivingEntityClass.getMethod("getHandle");
-                attributeMapField = LivingEntity.class.getDeclaredField("bQ"); // mojang-mapped as "attributes"
+                attributeMapField = LivingEntity.class.getDeclaredField("bO"); // mojang-mapped as "attributes"
                 attributesField = AttributeMap.class.getDeclaredField("b"); // mojang-mapped as "attributes"
                 attributeMapField.setAccessible(true);
                 attributesField.setAccessible(true);

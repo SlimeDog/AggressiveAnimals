@@ -7,10 +7,10 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>v1_19_R1</artifactId>
+  <artifactId>v1_20_R2</artifactId>
   <version>${project-version}</version>
 
-  <name>v1_19_R1</name>
+  <name>v1_20_R2</name>
 
   <repositories>
     <repository>
@@ -28,7 +28,7 @@
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <used.spigot.version>1.19-R0.1-SNAPSHOT</used.spigot.version>
+    <used.spigot.version>1.20.2-R0.1-SNAPSHOT</used.spigot.version>
   </properties>
 
   <dependencies>

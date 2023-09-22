@@ -141,7 +141,10 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             AttributeInstance attrInst = mob.getAttribute(entry.getKey());
             if (attrInst == null) {
                 plugin.getLogger()
-                        .warning("Could not reset the attribute '" + entry.getKey() + "'' to the default value '"
+                        .warning("Could not reset the attribute '" + entry.getKey() +
+                                "' for mob " + wrapper.getTrackedMob().getSettings().entityType() +
+                                " and attribute '" + entry.getKey().getDescriptionId() +
+                                "' to the default value '"
                                 + entry.getValue() + "' because the attribute instance was null!");
                 continue;
             }
