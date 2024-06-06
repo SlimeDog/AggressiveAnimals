@@ -1,3 +1,26 @@
+<table border=1><tr><td>
+<h2>🛑 End Of Life for SlimeDog/AggressiveAnimals</h2>
+
+SlimeDog/AggressiveAnimals has reached end-of-life
+
+Completed tasks:
+- Updated SlimeDog/AggressiveAnimals to support Paper and Spigot 1.20.6 and 1.21.0
+- Posted update to SpigotMC
+- Updated `Version Support` page of SlimeDog/AggressiveAnimals wiki on Github
+- Posted end-of-life notices
+  - `Overview` and `Documentation` pages of SlimeDog/AggressiveAnimals on SpigotMC
+  - `README` for SlimeDog/AggressiveAnimals repository on Github
+  - `Home` page of SlimeDog/AggressiveAnimals wiki on Github
+- Archived SlimeDog/AggressiveAnimals Github repository
+- Removed SlimeDog/AggressiveAnimals from bStats
+- Removed SlimeDog/AggressiveAnimals from Hangar
+- Removed SlimeDog/AggressiveAnimals from Modrinth
+
+Support for future Minecraft versions:
+- SlimeDog/AggressiveAnimals will likely not work on future Minecraft versions without updates
+- Anyone may fork AggressiveAnimals to support future Minecraft versions, or for any other purpose permitted under the GPL3 license
+</td></tr></table>
+
 # AggressiveAnimals &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="https://hangar.papermc.io/SlimeDog/AggressiveAnimals">![download-on-hangar](https://user-images.githubusercontent.com/17748923/187102194-00e910e6-ee8e-42cb-bfe1-d2f9e657ef4b.png)</a> <a href="https://modrinth.com/plugin/aggressiveanimals">![download-on-modrinth](https://user-images.githubusercontent.com/17748923/218833785-00aa845a-64d3-41c1-aa59-bc68316be5d2.png)</a> <a href="https://www.spigotmc.org/resources/100934/">![download-on-spigot](https://user-images.githubusercontent.com/17748923/187102011-b72e0f1d-ba74-4cb2-a69e-46f48cb364b5.png)</a>
 
 Those cute little animals can kill you
