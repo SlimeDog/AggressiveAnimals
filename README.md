@@ -8,7 +8,7 @@ Completed tasks:
 - Posted update to SpigotMC
 - Updated `Version Support` page of SlimeDog/AggressiveAnimals wiki on Github
 - Posted end-of-life notices
-  - `Overview` and `Documentation` pages of SlimeDog/AggressiveAnimals on SpigotMC
+  - `Overview` page of SlimeDog/AggressiveAnimals on SpigotMC
   - `README` for SlimeDog/AggressiveAnimals repository on Github
   - `Home` page of SlimeDog/AggressiveAnimals wiki on Github
 - Archived SlimeDog/AggressiveAnimals Github repository
