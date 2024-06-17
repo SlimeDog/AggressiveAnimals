@@ -12,7 +12,6 @@ Completed tasks:
   - `README` for SlimeDog/AggressiveAnimals repository on Github
   - `Home` page of SlimeDog/AggressiveAnimals wiki on Github
 - Archived SlimeDog/AggressiveAnimals Github repository
-- Removed SlimeDog/AggressiveAnimals from bStats
 - Removed SlimeDog/AggressiveAnimals from Hangar
 - Removed SlimeDog/AggressiveAnimals from Modrinth
 
