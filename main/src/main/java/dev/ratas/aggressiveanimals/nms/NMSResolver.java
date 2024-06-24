@@ -10,7 +10,7 @@ public final class NMSResolver {
     }
 
     public static AggressivitySetter getSetter(IAggressiveAnimals plugin) {
-        String rawVersion = plugin.getPluginInformation().getCraftBukkitPackage();
+        String rawVersion = plugin.getPluginInformation().getCraftBukkitFullPackage();
         Version version = Version.fromString(rawVersion);
         if (version == Version.v1_18_R2) {
             return new dev.ratas.aggressiveanimals.aggressive.nms_v1_18_R2.NMSAggressivitySetter(plugin);
@@ -22,6 +22,12 @@ public final class NMSResolver {
             return new dev.ratas.aggressiveanimals.aggressive.nms_v1_20_R2.NMSAggressivitySetter(plugin);
         } else if (version == Version.v1_20_R3) {
             return new dev.ratas.aggressiveanimals.aggressive.nms_v1_20_R3.NMSAggressivitySetter(plugin);
+        }
+        // last resort - try Paper implementation
+        try {
+            return new dev.ratas.aggressiveanimals.aggressive.nms_paper.NMSAggressivitySetter(plugin);
+        } catch (Exception e) {
+            // TODO
         }
         throw new IllegalArgumentException("Plugin version not supported: " + rawVersion);
     }

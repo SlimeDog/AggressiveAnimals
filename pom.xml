@@ -14,6 +14,7 @@
     <module>v1_20_R1</module>
     <module>v1_20_R2</module>
     <module>v1_20_R3</module>
+    <module>paper_impl</module>
     <module>main</module>
   </modules>
   <properties>

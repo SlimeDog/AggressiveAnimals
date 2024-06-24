@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>dev.ratas.aggressiveanimals</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>paper_impl</artifactId>
+  <version>${project-version}</version>
+
+  <name>Paper Implementation</name>
+
+  <repositories>
+    <repository>
+        <id>papermc</id>
+        <url>https://papermc.io/repo/repository/maven-public/</url>
+    </repository>
+    <repository>
+      <id>nms-repo</id>
+      <url>https://repo.codemc.io/repository/nms/</url>
+    </repository>
+  </repositories>
+
+  <properties>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>dev.ratas.aggressiveanimals</groupId>
+      <artifactId>core</artifactId>
+      <version>${project-version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>io.papermc.paper</groupId>
+        <artifactId>paper-api</artifactId>
+        <version>1.20.6-R0.1-SNAPSHOT</version>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>io.papermc.paper</groupId>
+        <artifactId>paper</artifactId>
+        <version>1.20.6-R0.1-SNAPSHOT</version> <!-- Use the version corresponding to your Minecraft version -->
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <version>5.10.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <version>5.10.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>

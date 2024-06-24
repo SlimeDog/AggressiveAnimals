@@ -80,6 +80,12 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>dev.ratas.aggressiveanimals</groupId>
+            <artifactId>paper_impl</artifactId>
+            <version>${project-version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>${used.spigot.version}</version>
