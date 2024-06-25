@@ -191,8 +191,8 @@ public class NMSAggressivitySetter implements AggressivitySetter {
                         .forName(String.format("%s.%s.%s", CB_PACKAGE, MIDDLE_PACKAGE,
                                 CRAFT_LIVING_ENTITY_CLASS_NAME));
                 getHandleMethod = craftLivingEntityClass.getMethod("getHandle");
-                attributeMapField = LivingEntity.class.getDeclaredField("bN"); // mojang-mapped as "attributes"
-                attributesField = AttributeMap.class.getDeclaredField("b"); // mojang-mapped as "attributes"
+                attributeMapField = LivingEntity.class.getDeclaredField("attributes");
+                attributesField = AttributeMap.class.getDeclaredField("attributes");
                 attributeMapField.setAccessible(true);
                 attributesField.setAccessible(true);
             } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | NoSuchFieldException e) {
