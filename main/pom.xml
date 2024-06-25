@@ -81,6 +81,12 @@
         </dependency>
         <dependency>
             <groupId>dev.ratas.aggressiveanimals</groupId>
+            <artifactId>v1_20_R4</artifactId>
+            <version>${project-version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.ratas.aggressiveanimals</groupId>
             <artifactId>paper_impl</artifactId>
             <version>${project-version}</version>
             <scope>compile</scope>

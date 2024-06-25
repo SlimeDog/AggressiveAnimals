@@ -22,20 +22,25 @@ public final class NMSResolver {
             return new dev.ratas.aggressiveanimals.aggressive.nms_v1_20_R2.NMSAggressivitySetter(plugin);
         } else if (version == Version.v1_20_R3) {
             return new dev.ratas.aggressiveanimals.aggressive.nms_v1_20_R3.NMSAggressivitySetter(plugin);
+        } else if (version == Version.v1_20_R4) {
+            return new dev.ratas.aggressiveanimals.aggressive.nms_v1_20_R4.NMSAggressivitySetter(plugin);
         }
         // last resort - try Paper implementation
         try {
             return new dev.ratas.aggressiveanimals.aggressive.nms_paper.NMSAggressivitySetter(plugin);
-        } catch (Exception e) {
-            // TODO
+        } catch (NoClassDefFoundError e) {
+            // Will not work
         }
         throw new IllegalArgumentException("Plugin version not supported: " + rawVersion);
     }
 
     private static enum Version {
-        v1_18_R2, v1_19_R3, v1_20_R1, v1_20_R2, v1_20_R3;
+        v1_18_R2, v1_19_R3, v1_20_R1, v1_20_R2, v1_20_R3, v1_20_R4;
 
         private static Version fromString(String v) {
+            System.out.println("RAW VERSION: " + v);
+            v = v.substring(v.lastIndexOf(".") + 1);
+            System.out.println("PREPROCESSED: " + v);
             try {
                 return Version.valueOf(v);
             } catch (IllegalArgumentException e) {
