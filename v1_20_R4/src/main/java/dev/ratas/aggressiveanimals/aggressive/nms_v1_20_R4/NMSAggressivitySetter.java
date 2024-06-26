@@ -128,7 +128,7 @@ public class NMSAggressivitySetter implements AggressivitySetter {
         if (settings.largerWhenAggressive().value()) {
             AttributeInstance scaleAttribute = mob.getAttribute(Attributes.SCALE);
             if (scaleAttribute != null) {
-                scaleAttribute.setBaseValue(1.25);
+                scaleAttribute.setBaseValue(SIZE_WHEN_AGGRO);
             }
         }
     }
