@@ -23,7 +23,7 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         MobAttackSettings attackSettings, MobAcquisitionSettings acquisitionSettings,
         Setting<Double> attackerHealthThreshold, MobAgeSettings ageSettings, MobMiscSettings miscSettings,
         Setting<Boolean> alwaysAggressive, // Setting<Boolean> overrideTargets, // may be (re)implemented later
-        Setting<Double> groupAgressionDistance,
+        Setting<Double> groupAgressionDistance, Setting<Boolean> largerWhenAggressive,
         PlayerStateSettings playerStateSettings, MobWorldSettings worldSettings) implements CheckingSettingBoundle {
 
     public boolean shouldAttack(Mob mob, Player target, NPCHookManager npcHooks) {
@@ -232,6 +232,7 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         }
         // settings.add(overrideTargets);
         settings.add(groupAgressionDistance);
+        settings.add(largerWhenAggressive);
         settings.add(playerStateSettings.attackStanding());
         settings.add(playerStateSettings.attackSneaking());
         settings.add(playerStateSettings.attackWalking());

@@ -37,6 +37,7 @@ defaults:
   enabled: false                   # By default, attacks against players are disabled
   always-aggressive: false         # If false, mobs should attack only in retaliation for player attack
   speed-multiplier: 1.0            # Multiple of vanilla movement speed (examples: 1.0 is regular speed, 0.5 is half speed, 2.0 is double speed)
+  larger-when-aggressive: false    # Whether to make the aggressive animal 25% bigger in scale (if possible - in MC 1.20.5+)
   attack-damage: 1.0               # Damage inflicted on the target on each attack (in half-hearts)
   attack-damage-limit: 2.0         # The attacker will leave the target alive with the specified amount of health (in half hearts)
   attack-speed: 20.0               # Frequency of attack, same as vanilla except for zombies (in ticks)
