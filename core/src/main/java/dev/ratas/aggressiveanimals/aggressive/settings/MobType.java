@@ -95,6 +95,7 @@ public enum MobType {
     allay("ALLAY"),
     camel("CAMEL"),
     sniffer("SNIFFER"),
+    armadillo("ARMADILLO"),
     giant(EntityType.GIANT),
     ;
 
