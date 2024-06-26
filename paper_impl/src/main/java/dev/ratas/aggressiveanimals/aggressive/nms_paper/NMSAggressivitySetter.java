@@ -125,6 +125,12 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             mob.targetSelector.addGoal(9, cur = new LeapAtTargetGoal(mob, leapHeight));
             addon.goals.add(cur);
         }
+        if (settings.largerWhenAggressive().value()) {
+            AttributeInstance scaleAttribute = mob.getAttribute(Attributes.SCALE);
+            if (scaleAttribute != null) {
+                scaleAttribute.setBaseValue(1.25);
+            }
+        }
     }
 
     @Override
@@ -162,6 +168,12 @@ public class NMSAggressivitySetter implements AggressivitySetter {
             mob.targetSelector.removeGoal(goal);
         }
         addon.goals.clear();
+        if (wrapper.getSettings().largerWhenAggressive().value()) {
+            AttributeInstance scaleAttribute = mob.getAttribute(Attributes.SCALE);
+            if (scaleAttribute != null) {
+                scaleAttribute.setBaseValue(1.0);
+            }
+        }
     }
 
     private class MobAttributes {
