@@ -24,6 +24,8 @@ public final class NMSResolver {
             return new dev.ratas.aggressiveanimals.aggressive.nms_v1_20_R3.NMSAggressivitySetter(plugin);
         } else if (version == Version.v1_20_R4) {
             return new dev.ratas.aggressiveanimals.aggressive.nms_v1_20_R4.NMSAggressivitySetter(plugin);
+        } else if (version == Version.v1_21_R1) {
+            return new dev.ratas.aggressiveanimals.aggressive.nms_v1_21_R1.NMSAggressivitySetter(plugin);
         }
         // last resort - try Paper implementation
         try {
@@ -35,7 +37,7 @@ public final class NMSResolver {
     }
 
     private static enum Version {
-        v1_18_R2, v1_19_R3, v1_20_R1, v1_20_R2, v1_20_R3, v1_20_R4;
+        v1_18_R2, v1_19_R3, v1_20_R1, v1_20_R2, v1_20_R3, v1_20_R4, v1_21_R1;
 
         private static Version fromString(String v) {
             v = v.substring(v.lastIndexOf(".") + 1);
