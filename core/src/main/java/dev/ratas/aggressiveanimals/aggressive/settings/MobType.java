@@ -96,6 +96,10 @@ public enum MobType {
     camel("CAMEL"),
     sniffer("SNIFFER"),
     armadillo("ARMADILLO"),
+    // NOTE: Armadillo's won't currently work correctly since they may
+    //       attack in a rolled up state (where they normally shouldn't).
+    //       This is why their functionality is undocumented and generally
+    //       not supported.
     giant(EntityType.GIANT),
     ;
 
