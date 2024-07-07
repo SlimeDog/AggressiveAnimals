@@ -35,34 +35,33 @@ enable-metrics: true
 #
 defaults:
   enabled: false                   # By default, attacks against players are disabled
-  always-aggressive: false         # If false, mobs should attack only in retaliation for player attack
-  speed-multiplier: 1.0            # Multiple of vanilla movement speed (examples: 1.0 is regular speed, 0.5 is half speed, 2.0 is double speed)
-  larger-when-aggressive: false    # Whether to make the aggressive animal 50% bigger in scale (if possible - in MC 1.20.5+)
-  attack-damage: 1.0               # Damage inflicted on the target on each attack (in half-hearts)
-  attack-damage-limit: 2.0         # The attacker will leave the target alive with the specified amount of health (in half hearts)
-  attack-speed: 20.0               # Frequency of attack, same as vanilla except for zombies (in ticks)
-  attack-leap-height: 0.0          # Height attacker may leap when attacking (in blocks; 0.0 or below means disabled)
   acquisition-range: 16.0          # Distance at which the attacker can detect a target
-  deacquisition-range: 20.0        # Distance at which the victim can escape attack
-  attacker-health-threshold: 25.0  # Attack should stop when the health of the attacker falls below the threshold (percentage of full health)
   age:                             # Attacks may be waged by adults and/or babies
     adult: true                    # If true, adult mobs should attack
     baby: false                    # If true, baby mobs should attack
+  always-aggressive: false         # If false, mobs should attack only in retaliation for player attack
+  attack-damage: 1.0               # Damage inflicted on the target on each attack (in half-hearts)
+  attack-damage-limit: 2.0         # The attacker will leave the target alive with the specified amount of health (in half hearts)
+  attacker-health-threshold: 25.0  # Attack should stop when the health of the attacker falls below the threshold (percentage of full health)
+  attack-leap-height: 0.0          # Height attacker may leap when attacking (in blocks; 0.0 or below means disabled)
+  attack-only-in-water: true       # If true, aquatic mobs attack only if the targeted player is in the water with them
+  attack-speed: 20.0               # Frequency of attack, same as vanilla except for zombies (in ticks)
+  deacquisition-range: 20.0        # Distance at which the victim can escape attack
+  group-aggression-range: 20.0     # If other mobs of the same type are within range of the attacker, they should join the attack (in blocks)
+  include-named-mobs: false        # If true, include named mobs
   include-npcs: false              # If true, include NPCs created by NPC managers, such as Citizens, EliteMobs, InfernalMobs, and Shopkeepers
   include-tamed-mobs: true         # If true, include tamed mobs; legal only for tameable mob-types: cat, donkey, fox, horse, llama, mule, parrot, wolf
-  include-named-mobs: false        # If true, include named mobs
-  override-targeting: false        # If true, remove vanilla targeting behavior and use only attack-conditions; useful for hostile mob-types
-  protect-team-members: true       # If true, members of the same team will not be attacked
-  attack-only-in-water: true       # If true, aquatic mobs attack only if the targeted player is in the water with them
-  group-aggression-range: 20.0     # If other mobs of the same type are within range of the attacker, they should join the attack (in blocks)
+  larger-when-aggressive: false    # Whether to make the aggressive animal 50% bigger in scale (if possible - in MC 1.20.5+)
   player-movement:                 # Mob should attack if the player if
-    standing: true
-    sneaking: true
-    walking: true
-    sprinting: true
+    gliding: true
     looking: true                  # Like locking eyes with an Enderman
     sleeping: true
-    gliding: true
+    sneaking: true
+    sprinting: true
+    standing: true
+    walking: true
+  protect-team-members: true       # If true, members of the same team will not be attacked
+  speed-multiplier: 1.0            # Multiple of vanilla movement speed (examples: 1.0 is regular speed, 0.5 is half speed, 2.0 is double speed)
   enabled-worlds: []               # Worlds in which attacks by this mob-type are enabled; if [], all worlds are enabled
   # - "example-enabled-world"      # To enable specific worlds, delete [] above and add lines like this one, uncommented and replacing the world name
   disabled-worlds: []              # Worlds in which attacks by this mob-type are disabled; if [], no worlds are disabled; takes precedence over enabled_worlds
