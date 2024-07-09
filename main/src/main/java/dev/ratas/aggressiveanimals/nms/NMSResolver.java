@@ -10,7 +10,7 @@ public final class NMSResolver {
     }
 
     public static AggressivitySetter getSetter(IAggressiveAnimals plugin) {
-        String rawVersion = plugin.getPluginInformation().getCraftBukkitPackage();
+        String rawVersion = plugin.getPluginInformation().getCraftBukkitFullPackage();
         Version version = Version.fromString(rawVersion);
         if (version == Version.v1_18_R2) {
             return new dev.ratas.aggressiveanimals.aggressive.nms_v1_18_R2.NMSAggressivitySetter(plugin);
@@ -22,14 +22,25 @@ public final class NMSResolver {
             return new dev.ratas.aggressiveanimals.aggressive.nms_v1_20_R2.NMSAggressivitySetter(plugin);
         } else if (version == Version.v1_20_R3) {
             return new dev.ratas.aggressiveanimals.aggressive.nms_v1_20_R3.NMSAggressivitySetter(plugin);
+        } else if (version == Version.v1_20_R4) {
+            return new dev.ratas.aggressiveanimals.aggressive.nms_v1_20_R4.NMSAggressivitySetter(plugin);
+        } else if (version == Version.v1_21_R1) {
+            return new dev.ratas.aggressiveanimals.aggressive.nms_v1_21_R1.NMSAggressivitySetter(plugin);
+        }
+        // last resort - try Paper implementation
+        try {
+            return new dev.ratas.aggressiveanimals.aggressive.nms_paper.NMSAggressivitySetter(plugin);
+        } catch (NoClassDefFoundError e) {
+            // Will not work
         }
         throw new IllegalArgumentException("Plugin version not supported: " + rawVersion);
     }
 
     private static enum Version {
-        v1_18_R2, v1_19_R3, v1_20_R1, v1_20_R2, v1_20_R3;
+        v1_18_R2, v1_19_R3, v1_20_R1, v1_20_R2, v1_20_R3, v1_20_R4, v1_21_R1;
 
         private static Version fromString(String v) {
+            v = v.substring(v.lastIndexOf(".") + 1);
             try {
                 return Version.valueOf(v);
             } catch (IllegalArgumentException e) {

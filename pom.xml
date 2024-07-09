@@ -14,11 +14,14 @@
     <module>v1_20_R1</module>
     <module>v1_20_R2</module>
     <module>v1_20_R3</module>
+    <module>v1_20_R4</module>
+    <module>v1_21_R1</module>
+    <module>paper_impl</module>
     <module>main</module>
   </modules>
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
-    <project-version>1.8.0</project-version>
+    <project-version>1.9.0</project-version>
   </properties>
 </project>

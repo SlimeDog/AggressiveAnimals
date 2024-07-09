@@ -23,7 +23,7 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         MobAttackSettings attackSettings, MobAcquisitionSettings acquisitionSettings,
         Setting<Double> attackerHealthThreshold, MobAgeSettings ageSettings, MobMiscSettings miscSettings,
         Setting<Boolean> alwaysAggressive, // Setting<Boolean> overrideTargets, // may be (re)implemented later
-        Setting<Double> groupAgressionDistance,
+        Setting<Double> groupAgressionDistance, Setting<Boolean> largerWhenAggressive,
         PlayerStateSettings playerStateSettings, MobWorldSettings worldSettings) implements CheckingSettingBoundle {
 
     public boolean shouldAttack(Mob mob, Player target, NPCHookManager npcHooks) {
@@ -210,35 +210,35 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         List<Setting<?>> settings = new ArrayList<>();
         // settings.add(entityType); // ignore for now
         settings.add(enabled);
-        settings.add(alwaysAggressive);
-        settings.add(speedMultiplier);
-        settings.add(attackSettings.damage());
-        settings.add(attackSettings.attackDamageLimit());
-        settings.add(attackSettings.speed());
-        settings.add(attackSettings.attackLeapHeight());
         settings.add(acquisitionSettings.acquisitionRange());
-        settings.add(acquisitionSettings.deacquisitionRange());
-        settings.add(attackerHealthThreshold);
         settings.add(ageSettings.attackAsAdult());
         settings.add(ageSettings.attackAsBaby());
-        settings.add(miscSettings.includeNpcs());
-        settings.add(miscSettings.includeNamedMobs());
-        settings.add(miscSettings.protectTeamMembers());
+        settings.add(alwaysAggressive);
+        settings.add(attackSettings.damage());
+        settings.add(attackSettings.attackDamageLimit());
+        settings.add(attackerHealthThreshold);
+        settings.add(attackSettings.attackLeapHeight());
         if (entityType.value().isAquaticMob() || entityType.value() == MobType.defaults) {
             settings.add(miscSettings.attackOnlyInWater());
         }
+        settings.add(attackSettings.speed());
+        settings.add(acquisitionSettings.deacquisitionRange());
+        settings.add(groupAgressionDistance);
+        settings.add(miscSettings.includeNamedMobs());
+        settings.add(miscSettings.includeNpcs());
         if (entityType.value().isTameable() || entityType.value() == MobType.defaults) {
             settings.add(miscSettings.includeTamed());
         }
-        // settings.add(overrideTargets);
-        settings.add(groupAgressionDistance);
-        settings.add(playerStateSettings.attackStanding());
-        settings.add(playerStateSettings.attackSneaking());
-        settings.add(playerStateSettings.attackWalking());
-        settings.add(playerStateSettings.attackSprinting());
+        settings.add(largerWhenAggressive);
+        settings.add(playerStateSettings.attackGliding());
         settings.add(playerStateSettings.attackLooking());
         settings.add(playerStateSettings.attackSleeping());
-        settings.add(playerStateSettings.attackGliding());
+        settings.add(playerStateSettings.attackSneaking());
+        settings.add(playerStateSettings.attackSprinting());
+        settings.add(playerStateSettings.attackStanding());
+        settings.add(playerStateSettings.attackWalking());
+        settings.add(miscSettings.protectTeamMembers());
+        settings.add(speedMultiplier);
         settings.add(worldSettings.enabledWorlds());
         settings.add(worldSettings.disabledWorlds());
         return settings;

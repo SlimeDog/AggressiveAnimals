@@ -26,6 +26,7 @@ public class Builder {
     private PlayerStateSettings playerStateSettings;
     private MobWorldSettings worldSettings;
     private Setting<Boolean> alwaysAggressive;
+    private Setting<Boolean> largerWhenAggressive;
 
     public Builder(SDCConfiguration section, SDCConfiguration defSettings, Logger logger) {
         this(section, defSettings,
@@ -118,9 +119,14 @@ public class Builder {
     // overrideTargets = fromSection(section, path, def);
     // }
 
-    private void loadGroupAgrewssionDistance() {
+    private void loadGroupAgressionDistance() {
         String path = "group-aggression-range";
         groupAgressionDistance = fromSection(section, path, defSection);
+    }
+
+    private void loadLargerWhenAggressive() {
+        String path = "larger-when-aggressive";
+        largerWhenAggressive = fromSection(section, path, defSection);
     }
 
     public void loadPlayerStateSettings() {
@@ -168,7 +174,8 @@ public class Builder {
         }
         loadAlwaysAggressive();
         // loadOverrideTargets();
-        loadGroupAgrewssionDistance();
+        loadGroupAgressionDistance();
+        loadLargerWhenAggressive();
         loadPlayerStateSettings();
         loadPlayerStateSettings();
         loadWorldSettings();
@@ -180,7 +187,7 @@ public class Builder {
         }
         MobTypeSettings mts = new MobTypeSettings(type, enabled, speedMultiplier, attackSettings, acquisitionSettings,
                 attackerHealthThreshold, ageSettings, miscSettings, alwaysAggressive, // overrideTargets,
-                groupAgressionDistance, playerStateSettings, worldSettings);
+                groupAgressionDistance, largerWhenAggressive, playerStateSettings, worldSettings);
 
         try {
             mts.checkAllTypes();
