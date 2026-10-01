@@ -15,7 +15,7 @@ import dev.ratas.aggressiveanimals.config.messaging.Messages;
 import dev.ratas.aggressiveanimals.hooks.npc.NPCHookManager;
 import dev.ratas.aggressiveanimals.listeners.AggressionListener;
 import dev.ratas.aggressiveanimals.listeners.MobRegistrationListener;
-import dev.ratas.aggressiveanimals.nms.NMSResolver;
+import dev.ratas.aggressiveanimals.aggressive.paper.PaperAggressivitySetter;
 import dev.ratas.slimedogcore.api.config.SDCCustomConfig;
 import dev.ratas.slimedogcore.api.config.exceptions.ConfigException;
 import dev.ratas.slimedogcore.impl.SlimeDogCore;
@@ -52,7 +52,7 @@ public class AggressiveAnimals extends SlimeDogCore implements IAggressiveAnimal
         }
         settings = new Settings(this.config);
         try {
-            aggressivityManager = new AggressivityManager(this, settings, npcHookManager, NMSResolver.getSetter(this));
+            aggressivityManager = new AggressivityManager(this, settings, npcHookManager, new PaperAggressivitySetter(this));
         } catch (ConfigException e) {
             issues.logIssue("INVALID MOB SETTINGS", "Invalid mob settings - disabling", e);
             disableMe(issues);
