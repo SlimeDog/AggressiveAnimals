@@ -41,7 +41,7 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         if (!miscSettings.shouldBeAggressive(npcHooks, mob, target)) {
             return false;
         }
-        double curRelHealth = mob.getHealth() / mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        double curRelHealth = mob.getHealth() / mob.getAttribute(Attribute.MAX_HEALTH).getValue();
         if (curRelHealth < attackerHealthThreshold.value() / 100) { // percentage to relative value
             return false;
         }
@@ -84,7 +84,7 @@ public record MobTypeSettings(Setting<MobType> entityType, Setting<Boolean> enab
         if (!(target instanceof Player)) {
             return ChangeReason.NO_TARGET; // nothing to stop attacking?
         }
-        double curRelHealth = mob.getHealth() / mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        double curRelHealth = mob.getHealth() / mob.getAttribute(Attribute.MAX_HEALTH).getValue();
         if (curRelHealth < attackerHealthThreshold.value() / 100) { // percentage to relative value
             return ChangeReason.MOB_TOO_DAMAGED;
         }

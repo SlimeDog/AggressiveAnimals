@@ -50,8 +50,8 @@ defaults:
   group-aggression-range: 20.0     # If other mobs of the same type are within range of the attacker, they should join the attack (in blocks)
   include-named-mobs: false        # If true, include named mobs
   include-npcs: false              # If true, include NPCs created by NPC managers, such as Citizens, EliteMobs, InfernalMobs, and Shopkeepers
-  include-tamed-mobs: true         # If true, include tamed mobs; legal only for tameable mob-types: cat, donkey, fox, horse, llama, mule, parrot, wolf
-  larger-when-aggressive: false    # Whether to make the aggressive animal 50% bigger in scale (if possible - in MC 1.20.5+)
+  include-tamed-mobs: true         # If true, include tamed mobs; legal only for tameable mob-types: camel, camel_husk, cat, donkey, fox, horse, llama, mule, nautilus, ocelot, parrot, skeleton_horse, trader_llama, wolf, zombie_horse
+  larger-when-aggressive: false    # Whether to make the aggressive animal 50% bigger in scale
   player-movement:                 # Mob should attack if the player if
     gliding: true
     looking: true                  # Like locking eyes with an Enderman
@@ -76,8 +76,13 @@ defaults:
 # Only the enabled attribute is required, but any others may be adjusted by adding appropriate lines
 # with different values. Undefined attributes use the default values set above.
 #
+# Mob-types that do not exist in the running server version (for example, happy_ghast on a 1.21.3
+# server) are ignored, with a notice in the console log at startup.
+#
 mobs:
   allay:
+    enabled: false
+  armadillo:
     enabled: false
   axolotl:
     enabled: false
@@ -86,6 +91,9 @@ mobs:
   bee:
     enabled: false
   camel:
+    enabled: false
+    speed-multiplier: 1.5
+  camel_husk:                      # MC 1.21.11+
     enabled: false
     speed-multiplier: 1.5
   cat:
@@ -122,6 +130,11 @@ mobs:
     enabled: false
   goat:
     enabled: false
+  happy_ghast:                     # MC 1.21.6+
+    enabled: false
+    age:
+      adult: true
+      baby: true                   # Baby happy ghasts are ghastlings
   horse:
     enabled: false
     speed-multiplier: 1.5
@@ -135,6 +148,8 @@ mobs:
   mule:
     enabled: false
     speed-multiplier: 1.5
+  nautilus:                        # MC 1.21.11+
+    enabled: false
   ocelot:
     enabled: false
     attack-leap-height: 0.3
@@ -177,6 +192,8 @@ mobs:
   strider:
     enabled: false
     speed-multiplier: 1.5
+  sulfur_cube:                     # MC 26.2+
+    enabled: false
   tadpole:
     enabled: false
     attack-leap-height: 0.3

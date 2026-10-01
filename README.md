@@ -2,6 +2,10 @@
 
 Those cute little animals can kill you
 
+### Server compatibility
+
+AggressiveAnimals 2.0.0 and later require Paper 1.21.3 or newer. Spigot is not supported starting with AggressiveAnimals 2.0.0. The last release that supports Spigot is AggressiveAnimals 1.9.0, for Spigot 1.18.2 through 1.21.1.
+
 ### Overview
 
 AggressiveAnimals is based on Michielcx's [original resource](https://www.spigotmc.org/resources/76716/), which was abandoned after release 2.6 for Minecraft 1.17 (2021-07-10). Credit for the idea belongs to him.

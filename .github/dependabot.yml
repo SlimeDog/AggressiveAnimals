@@ -9,3 +9,7 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    ignore:
+      # Compile target is the oldest supported Paper version (1.21.3); see
+      # paper.api.version in the root pom.xml
+      - dependency-name: "io.papermc.paper:paper-api"

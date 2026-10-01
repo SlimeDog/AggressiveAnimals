@@ -45,6 +45,11 @@ public class MobTypeManager {
             try {
                 typeSettings = builder.build();
             } catch (Builder.IllegalMobTypeSettingsException e) {
+                if (MobType.isKnownButUnavailable(key)) {
+                    plugin.getLogger().info("Mob type " + key
+                            + " does not exist in this server version; its settings are ignored");
+                    continue;
+                }
                 plugin.getLogger().warning("Unable to load settings for mob type " + key
                         + ": unknown entity type; please check the configuration: " + e.getMessage());
                 continue;

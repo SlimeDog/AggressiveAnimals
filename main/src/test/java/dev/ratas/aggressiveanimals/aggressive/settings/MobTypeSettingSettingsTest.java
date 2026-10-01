@@ -107,8 +107,7 @@ public class MobTypeSettingSettingsTest {
         SDCConfiguration section = config.getConfig().getConfigurationSection("mobs");
         Assertions.assertNotNull(section);
         for (String key : section.getKeys(false)) {
-            if ((key.equals("frog") || key.equals("tadpole")) && MobType.matchType(key) != null
-                    && MobType.matchType(key).getBukkitType() == null) {
+            if (MobType.isKnownButUnavailable(key)) { // newer mob than the test's server API
                 System.out.println(
                         "The following mob section is ignored since it is not supported in the current version of MC: "
                                 + key);
@@ -134,8 +133,7 @@ public class MobTypeSettingSettingsTest {
         SDCConfiguration section = config.getConfig().getConfigurationSection("mobs");
         Assertions.assertNotNull(section);
         for (String key : section.getKeys(false)) {
-            if ((key.equals("frog") || key.equals("tadpole")) && MobType.matchType(key) != null
-                    && MobType.matchType(key).getBukkitType() == null) {
+            if (MobType.isKnownButUnavailable(key)) { // newer mob than the test's server API
                 continue;
             }
             Builder builder = new Builder(section.getConfigurationSection(key), defSection, LOGGER);

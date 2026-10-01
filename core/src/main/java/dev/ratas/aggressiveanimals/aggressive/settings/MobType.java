@@ -48,7 +48,7 @@ public enum MobType {
     llama(EntityType.LLAMA),
     // magma_cube(EntityType.MAGMA_CUBE),
     mule(EntityType.MULE),
-    mooshroom(EntityType.MUSHROOM_COW),
+    mooshroom(EntityType.MOOSHROOM),
     ocelot(EntityType.OCELOT),
     panda(EntityType.PANDA),
     parrot(EntityType.PARROT),
@@ -68,7 +68,7 @@ public enum MobType {
     // skeleton(EntityType.SKELETON),
     skeleton_horse(EntityType.SKELETON_HORSE),
     // slime(EntityType.SLIME),
-    snow_golem(EntityType.SNOWMAN),
+    snow_golem(EntityType.SNOW_GOLEM),
     spider(EntityType.SPIDER),
     squid(EntityType.SQUID),
     // stray(EntityType.STRAY),
@@ -96,6 +96,12 @@ public enum MobType {
     camel("CAMEL"),
     sniffer("SNIFFER"),
     armadillo("ARMADILLO"),
+    // Added after the compile target (Paper 1.21.3); resolved by name at runtime and
+    // reported as unavailable on servers that predate them
+    happy_ghast("HAPPY_GHAST"), // MC 1.21.6; babies are ghastlings
+    camel_husk("CAMEL_HUSK"), // MC 1.21.11
+    nautilus("NAUTILUS"), // MC 1.21.11
+    sulfur_cube("SULFUR_CUBE"), // MC 26.2
     // NOTE: Armadillo's won't currently work correctly since they may
     //       attack in a rolled up state (where they normally shouldn't).
     //       This is why their functionality is undocumented and generally
@@ -108,8 +114,11 @@ public enum MobType {
     private static final List<String> NAMES = new ArrayList<>();
     private static final Set<MobType> AQUATIC_ENTITIES = Collections
             .unmodifiableSet(EnumSet.of(MobType.axolotl, MobType.cod, MobType.dolphin,
-                    MobType.frog, MobType.glow_squid, MobType.pufferfish, MobType.salmon, MobType.squid,
+                    MobType.frog, MobType.glow_squid, MobType.nautilus, MobType.pufferfish, MobType.salmon, MobType.squid,
                     MobType.tadpole, MobType.tropical_fish, MobType.turtle));
+    /** Mobs that move by hopping like slimes rather than by following paths. */
+    private static final Set<MobType> HOPPING_ENTITIES = Collections
+            .unmodifiableSet(EnumSet.of(MobType.sulfur_cube));
     static {
         MobType.fillMaps();
     }
@@ -147,6 +156,26 @@ public enum MobType {
 
     public boolean isAquaticMob() {
         return AQUATIC_ENTITIES.contains(this);
+    }
+
+    public boolean isHoppingMob() {
+        return HOPPING_ENTITIES.contains(this);
+    }
+
+    /**
+     * Checks whether the name is a mob type this plugin supports that does not
+     * exist on the running server version (i.e. a newer mob on an older server).
+     *
+     * @param name the mob type name
+     * @return true if known to the plugin but unavailable on this server
+     */
+    public static boolean isKnownButUnavailable(String name) {
+        try {
+            MobType type = MobType.valueOf(name.toLowerCase());
+            return type != defaults && type.getBukkitType() == null;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 
     public EntityType getBukkitType() {
