@@ -43,6 +43,13 @@
           <artifactId>paper-api</artifactId>
           <version>${paper.api.version}</version>
           <scope>provided</scope>
+          <!-- paper-api may pull in junit 4.10 via json-simple; Surefire 3.6+ rejects it -->
+          <exclusions>
+            <exclusion>
+              <groupId>junit</groupId>
+              <artifactId>junit</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
@@ -58,21 +65,16 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <!-- Aggregator: API + engine at matching versions; all tests are Jupiter -->
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-params</artifactId>
-            <version>5.10.3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <version>5.10.3</version>
+            <artifactId>junit-jupiter</artifactId>
+            <version>6.1.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.14.0</version>
+            <version>3.18.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -128,22 +130,22 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.3.1</version>
+                <version>3.6.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <version>3.16.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.4.2</version>
+                <version>3.5.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.6.2</version>
                 <configuration>
                     <filters>
                         <filter>

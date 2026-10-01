@@ -30,6 +30,13 @@
       <artifactId>paper-api</artifactId>
       <version>${paper.api.version}</version>
       <scope>provided</scope>
+      <!-- paper-api may pull in junit 4.10 via json-simple; Surefire 3.6+ rejects it -->
+      <exclusions>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.github.SlimeDog</groupId>
@@ -40,20 +47,8 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.14.0</version>
+      <version>3.18.0</version>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-params</artifactId>
-      <version>5.10.3</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <version>5.10.3</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 
