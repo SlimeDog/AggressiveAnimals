@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
@@ -34,7 +35,7 @@ public class AggressivityManager {
     private final NPCHookManager npcHooks;
     private final MobTypeManager mobTypeManager;
     private final AggressivitySetter setter;
-    private final TrackedMobRegistry registry;
+    private final GlobalRegistry registry;
     private final AggressivityMaintainer aggressivityMaintainer;
     private final GroupAggressivity groupAggressivity;
 
@@ -116,6 +117,42 @@ public class AggressivityManager {
                 + mob.getBukkitEntity().getEntityId() + " because " + reason);
         registry.unregister(mob);
         setter.stopTracking(mob);
+        mob.forgetTarget();
+    }
+
+    /**
+     * Pacify and drop every mob tracked in a world that is unloading, and drop
+     * the world's registry entry so the world can be garbage collected.
+     *
+     * @param world the unloading world
+     */
+    public void unloadWorld(World world) {
+        Collection<TrackedMob> mobs = registry.removeWorld(world);
+        for (TrackedMob mob : mobs) {
+            setPassive(mob, PacificationReason.UNLOAD_WORLD); // also clears the target mapping
+        }
+        plugin.getDebugLogger().log("World '" + world.getName() + "' unloaded; stopped tracking " + mobs.size()
+                + " mobs");
+    }
+
+    /**
+     * Make every tracked mob drop a player as its target (e.g. when the player
+     * quits), so no tracked mob keeps a reference to the departed player.
+     *
+     * @param player the player
+     */
+    public void forgetPlayer(Player player) {
+        for (TrackedMob mob : registry.getAllTrackedMobs()) {
+            if (mob.getTarget() != player) {
+                continue;
+            }
+            if (mob.getBukkitEntity().isValid()) {
+                mob.markAttacking(null, false);
+            } else {
+                mob.forgetTarget(); // entity already unloaded; don't touch it
+            }
+        }
+        MobWithTarget.removeTarget(player);
     }
 
     public void stopAttacking(TrackedMob mob, ChangeReason reason) {
