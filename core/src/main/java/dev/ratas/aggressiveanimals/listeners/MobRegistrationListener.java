@@ -10,6 +10,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.event.world.EntitiesLoadEvent;
 import org.bukkit.event.world.WorldInitEvent;
+import org.bukkit.event.world.WorldUnloadEvent;
 
 import dev.ratas.aggressiveanimals.aggressive.AggressivityManager;
 import dev.ratas.aggressiveanimals.aggressive.reasons.AggressivityReason;
@@ -102,6 +103,12 @@ public class MobRegistrationListener implements Listener {
     @EventHandler
     public void worldInit(WorldInitEvent event) {
         registerAllInWorld(event.getWorld());
+    }
+
+    // MONITOR so that the unload is final (another plugin may cancel it)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void worldUnload(WorldUnloadEvent event) {
+        aggressivityManager.unloadWorld(event.getWorld());
     }
 
     public void onReload() {

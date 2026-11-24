@@ -35,7 +35,8 @@ public abstract class MobWithTarget {
         if (player == null) {
             Player prevTarget = target;
             if (prevTarget != null) {
-                TARGET_MAPPER.remove(prevTarget);
+                // only drop the mapping if it still points at this mob
+                TARGET_MAPPER.remove(prevTarget, this);
             }
             tagEntityNotAttacking();
             target = null;
@@ -50,6 +51,18 @@ public abstract class MobWithTarget {
         setTarget(target);
         if (triggerNeighbours) {
             groupAggro.checkMob(getTrackedMob());
+        }
+    }
+
+    /**
+     * Forget the current target without touching the Bukkit entity. Used when
+     * the entity is no longer loaded, so that the static target map does not
+     * keep the entity (and its world) or the player reachable.
+     */
+    public void forgetTarget() {
+        if (target != null) {
+            TARGET_MAPPER.remove(target, this);
+            target = null;
         }
     }
 
